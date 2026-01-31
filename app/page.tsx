@@ -19,7 +19,6 @@ interface Game {
   rating: number
   trending?: boolean
   isNew?: boolean
-  size?: 'small' | 'medium' | 'large' | 'wide'
 }
 
 export default function Home() {
@@ -28,6 +27,7 @@ export default function Home() {
   const [loading, setLoading] = useState(true)
   const [selectedCategory, setSelectedCategory] = useState('all')
   const [searchQuery, setSearchQuery] = useState('')
+  const [isSearchActive, setIsSearchActive] = useState(false)
 
   useEffect(() => {
     const fetchGames = async () => {
@@ -83,32 +83,26 @@ export default function Home() {
     setSearchQuery(query)
   }
 
-  // Create bento grid layout with different card sizes
-  const getBentoLayout = (games: Game[]): Game[] => {
-    const layout: Game[] = []
-    const sizes: ('small' | 'medium' | 'large' | 'wide')[] = ['large', 'medium', 'small', 'wide', 'medium', 'small', 'large', 'small', 'medium', 'wide', 'small', 'medium']
-    
-    games.forEach((game, index) => {
-      layout.push({
-        ...game,
-        size: sizes[index % sizes.length]
-      })
-    })
-    
-    return layout
+  const handleSearchToggle = () => {
+    setIsSearchActive(!isSearchActive)
   }
-
-  const bentoGames = getBentoLayout(filteredGames)
 
   return (
     <div className="min-h-screen bg-background text-textPrimary">
-      <NavigationSidebar />
-      
-      {/* Search Island - Floating */}
-      <SearchIsland 
-        onSearch={handleSearch}
-        placeholder="Search 293+ educational games..."
+      <NavigationSidebar 
+        onSearchToggle={handleSearchToggle}
+        isSearchActive={isSearchActive}
       />
+      
+      {/* Search Island - Only show when search is active */}
+      <AnimatePresence>
+        {isSearchActive && (
+          <SearchIsland 
+            onSearch={handleSearch}
+            placeholder="Search 293+ educational games..."
+          />
+        )}
+      </AnimatePresence>
       
       {/* Main Content with Sidebar Offset */}
       <div className="lg:ml-20">
@@ -169,26 +163,23 @@ export default function Home() {
               </p>
             </motion.div>
 
-            {/* Bento Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 auto-rows-[200px] gap-6">
+            {/* Uniform Grid - All cards same size */}
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
               {loading ? (
                 // Show skeleton loaders
-                Array.from({ length: 12 }).map((_, index) => {
-                  const sizes: ('small' | 'medium' | 'large' | 'wide')[] = ['large', 'medium', 'small', 'wide']
-                  return (
-                    <GameSkeleton
-                      key={`skeleton-${index}`}
-                      size={sizes[index % 4]}
-                    />
-                  )
-                })
+                Array.from({ length: 20 }).map((_, index) => (
+                  <GameSkeleton
+                    key={`skeleton-${index}`}
+                    size="medium"
+                  />
+                ))
               ) : (
-                // Show actual games - removed AnimatePresence to fix warning
-                bentoGames.map((game, index) => (
+                // Show actual games - all same size
+                filteredGames.map((game, index) => (
                   <BentoGameCard
                     key={game.url}
                     game={game}
-                    size={game.size || 'medium'}
+                    size="medium"
                     index={index}
                   />
                 ))

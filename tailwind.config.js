@@ -8,20 +8,20 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        background: '#020617',
-        surface: '#0f172a',
-        surfaceHover: '#1e293b',
+        background: '#000000',
+        surface: '#0a0a0a',
+        surfaceHover: '#1a1a1a',
         accent: '#22d3ee',
         accentHover: '#06b6d4',
         primary: '#a78bfa',
         secondary: '#f472b6',
-        textPrimary: '#f8fafc',
-        textSecondary: '#cbd5e1',
-        textMuted: '#64748b',
+        textPrimary: '#ffffff',
+        textSecondary: '#a1a1aa',
+        textMuted: '#525252',
         gradient: {
-          start: '#020617',
-          middle: '#1e1b4b',
-          end: '#0f172a',
+          start: '#000000',
+          middle: '#0f0f0f',
+          end: '#1a1a1a',
         },
         neon: {
           blue: '#22d3ee',
@@ -38,17 +38,19 @@ module.exports = {
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
         'obsidian-gradient':
-          'radial-gradient(ellipse at top, #1e1b4b 0%, #020617 50%, #0f172a 100%)',
+          'radial-gradient(ellipse at top, #0a0a0a 0%, #000000 50%, #0f0f0f 100%)',
         'neon-glow':
-          'radial-gradient(ellipse at center, rgba(34, 211, 238, 0.15) 0%, transparent 70%)',
+          'radial-gradient(ellipse at center, rgba(34, 211, 238, 0.1) 0%, transparent 70%)',
+        'dark-gradient':
+          'linear-gradient(to bottom right, #000000, #0a0a0a, #1a1a1a)',
       },
       boxShadow: {
-        'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
-        'glass-hover': '0 8px 40px 0 rgba(34, 211, 238, 0.25)',
-        'neon': '0 0 20px rgba(34, 211, 238, 0.5)',
-        'neon-lg': '0 0 40px rgba(34, 211, 238, 0.7)',
-        'card': '0 4px 20px rgba(0, 0, 0, 0.3)',
-        'card-hover': '0 8px 30px rgba(34, 211, 238, 0.2)',
+        'glass': '0 8px 32px 0 rgba(0, 0, 0, 0.5)',
+        'glass-hover': '0 8px 40px 0 rgba(34, 211, 238, 0.2)',
+        'neon': '0 0 20px rgba(34, 211, 238, 0.4)',
+        'neon-lg': '0 0 40px rgba(34, 211, 238, 0.6)',
+        'card': '0 4px 20px rgba(0, 0, 0, 0.4)',
+        'card-hover': '0 8px 30px rgba(34, 211, 238, 0.15)',
       },
       animation: {
         'float': 'float 3s ease-in-out infinite',
@@ -63,20 +65,20 @@ module.exports = {
           '50%': { transform: 'translateY(-10px)' },
         },
         'pulse-glow': {
-          '0%, 100%': { opacity: '0.5' },
-          '50%': { opacity: '0.8' },
+          '0%, 100%': { opacity: '0.3' },
+          '50%': { opacity: '0.6' },
         },
         gradient: {
           '0%, 100%': { backgroundPosition: '0% 50%' },
           '50%': { backgroundPosition: '100% 50%' },
         },
         'slide-up': {
-          '0%': { transform: 'translateY(20px)', opacity: '0' },
-          '100%': { transform: 'translateY(0)', opacity: '1' },
+          '0%': { transform: 'translateY(20px)', opacity: 0 },
+          '100%': { transform: 'translateY(0)', opacity: 1 },
         },
         'fade-in': {
-          '0%': { opacity: '0' },
-          '100%': { opacity: '1' },
+          '0%': { opacity: 0 },
+          '100%': { opacity: 1 },
         },
       },
       backdropBlur: {

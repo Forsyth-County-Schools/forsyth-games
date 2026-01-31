@@ -6,16 +6,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-  --background: #020617;
-  --surface: #0f172a;
-  --surfaceHover: #1e293b;
+  --background: #000000;
+  --surface: #0a0a0a;
+  --surfaceHover: #1a1a1a;
   --accent: #22d3ee;
   --accentHover: #06b6d4;
   --primary: #a78bfa;
   --secondary: #f472b6;
-  --textPrimary: #f8fafc;
-  --textSecondary: #cbd5e1;
-  --textMuted: #64748b;
+  --textPrimary: #ffffff;
+  --textSecondary: #a1a1aa;
+  --textMuted: #525252;
   --neon-blue: #22d3ee;
   --neon-lime: #84cc16;
   --neon-purple: #a855f7;
@@ -74,24 +74,24 @@ input:focus {
 
 /* Glassmorphism base styles */
 .glass {
-  background: rgba(15, 23, 42, 0.4);
+  background: rgba(10, 10, 10, 0.4);
   backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .glass-hover {
-  background: rgba(30, 41, 59, 0.4);
+  background: rgba(26, 26, 26, 0.4);
   backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 /* Neon glow effects */
 .neon-glow {
-  box-shadow: 0 0 20px rgba(34, 211, 238, 0.5);
+  box-shadow: 0 0 20px rgba(34, 211, 238, 0.4);
 }
 
 .neon-glow-lg {
-  box-shadow: 0 0 40px rgba(34, 211, 238, 0.7);
+  box-shadow: 0 0 40px rgba(34, 211, 238, 0.6);
 }
 
 .neon-text {
@@ -135,10 +135,10 @@ input:focus {
 
 @keyframes pulse-glow {
   0%, 100% {
-    opacity: 0.5;
+    opacity: 0.3;
   }
   50% {
-    opacity: 0.8;
+    opacity: 0.6;
   }
 }
 

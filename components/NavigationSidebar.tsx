@@ -11,7 +11,12 @@ interface NavigationItem {
   href: string
 }
 
-export default function NavigationSidebar() {
+interface NavigationSidebarProps {
+  onSearchToggle: () => void
+  isSearchActive: boolean
+}
+
+export default function NavigationSidebar({ onSearchToggle, isSearchActive }: NavigationSidebarProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [activeItem, setActiveItem] = useState('home')
 
@@ -23,20 +28,24 @@ export default function NavigationSidebar() {
   ]
 
   const handleNavClick = (itemId: string, href: string) => {
-    setActiveItem(itemId)
-    setIsMobileMenuOpen(false)
-    
-    // Smooth scroll to section
-    const element = document.querySelector(href)
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' })
+    if (itemId === 'search') {
+      onSearchToggle()
+    } else {
+      setActiveItem(itemId)
+      setIsMobileMenuOpen(false)
+      
+      // Smooth scroll to section
+      const element = document.querySelector(href)
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' })
+      }
     }
   }
 
   return (
     <>
       {/* Desktop Sidebar */}
-      <nav className="hidden lg:block fixed left-0 top-0 h-full w-20 bg-surface/40 backdrop-blur-xl border-r border-white/10 z-40">
+      <nav className="hidden lg:block fixed left-0 top-0 h-full w-20 bg-surface/60 backdrop-blur-xl border-r border-white/10 z-40">
         <div className="flex flex-col items-center py-8 h-full">
           {/* Logo */}
           <motion.div
@@ -54,7 +63,11 @@ export default function NavigationSidebar() {
                 key={item.id}
                 onClick={() => handleNavClick(item.id, item.href)}
                 className={`group relative p-3 rounded-xl transition-all duration-300 ${
-                  activeItem === item.id
+                  item.id === 'search' && isSearchActive
+                    ? 'bg-neon-blue/20 border border-neon-blue/50 shadow-neon'
+                    : item.id === 'search' && !isSearchActive
+                    ? 'hover:bg-surfaceHover/50 border border-transparent'
+                    : activeItem === item.id
                     ? 'bg-neon-blue/20 border border-neon-blue/50 shadow-neon'
                     : 'hover:bg-surfaceHover/50 border border-transparent'
                 }`}
@@ -66,7 +79,13 @@ export default function NavigationSidebar() {
               >
                 <item.icon 
                   className={`w-6 h-6 transition-colors duration-300 ${
-                    activeItem === item.id ? 'text-neon-blue' : 'text-textSecondary group-hover:text-textPrimary'
+                    item.id === 'search' && isSearchActive
+                    ? 'text-neon-blue'
+                    : item.id === 'search' && !isSearchActive
+                    ? 'text-textSecondary group-hover:text-textPrimary'
+                    : activeItem === item.id
+                    ? 'text-neon-blue'
+                    : 'text-textSecondary group-hover:text-textPrimary'
                   }`} 
                 />
                 
@@ -126,9 +145,13 @@ export default function NavigationSidebar() {
                     key={item.id}
                     onClick={() => handleNavClick(item.id, item.href)}
                     className={`w-full flex items-center gap-3 p-3 rounded-lg transition-all duration-300 ${
-                      activeItem === item.id
-                        ? 'bg-neon-blue/20 border border-neon-blue/50'
-                        : 'hover:bg-surfaceHover/50 border border-transparent'
+                      item.id === 'search' && isSearchActive
+                    ? 'bg-neon-blue/20 border border-neon-blue/50'
+                    : item.id === 'search' && !isSearchActive
+                    ? 'hover:bg-surfaceHover/50 border border-transparent'
+                    : activeItem === item.id
+                    ? 'bg-neon-blue/20 border border-neon-blue/50'
+                    : 'hover:bg-surfaceHover/50 border border-transparent'
                     }`}
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
@@ -138,11 +161,23 @@ export default function NavigationSidebar() {
                   >
                     <item.icon 
                       className={`w-5 h-5 ${
-                        activeItem === item.id ? 'text-neon-blue' : 'text-textSecondary'
+                        item.id === 'search' && isSearchActive
+                        ? 'text-neon-blue'
+                        : item.id === 'search' && !isSearchActive
+                        ? 'text-textSecondary'
+                        : activeItem === item.id
+                        ? 'text-neon-blue'
+                        : 'text-textSecondary'
                       }`} 
                     />
                     <span className={`text-sm font-medium ${
-                      activeItem === item.id ? 'text-neon-blue' : 'text-textPrimary'
+                      item.id === 'search' && isSearchActive
+                    ? 'text-neon-blue'
+                    : item.id === 'search' && !isSearchActive
+                    ? 'text-textPrimary'
+                    : activeItem === item.id
+                    ? 'text-neon-blue'
+                    : 'text-textPrimary'
                     }`}>
                       {item.label}
                     </span>
