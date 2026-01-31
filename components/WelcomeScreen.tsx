@@ -16,6 +16,7 @@ export default function WelcomeScreen({ onComplete }: WelcomeScreenProps) {
       setShowContent(true)
     }, 500)
 
+    // Cleanup function to prevent memory leaks
     return () => clearTimeout(timer)
   }, [])
 
@@ -77,17 +78,17 @@ export default function WelcomeScreen({ onComplete }: WelcomeScreenProps) {
   }
 
   return (
-    <AnimatePresence mode="wait">
-      <motion.div
-        className="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-br from-purple-900/20 via-black to-blue-900/20 backdrop-blur-sm"
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-        exit="exit"
-      >
-        {/* Animated Background Elements */}
-        <div className="absolute inset-0 overflow-hidden">
-          {[...Array(20)].map((_, i) => (
+    <div className="min-h-screen bg-background text-textPrimary flex items-center justify-center relative overflow-hidden">
+      <div suppressHydrationWarning>
+        {/* Animated Background */}
+        <div className="absolute inset-0">
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-neon-blue/20 rounded-full blur-3xl animate-pulse-glow" />
+          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-neon-purple/20 rounded-full blur-3xl animate-pulse-glow" style={{ animationDelay: '1s' }} />
+        </div>
+
+        {/* Floating Particles */}
+        <div className="absolute inset-0">
+          {Array.from({ length: 20 }).map((_, i) => (
             <motion.div
               key={i}
               className="absolute w-2 h-2 bg-purple-400 rounded-full"
@@ -95,9 +96,8 @@ export default function WelcomeScreen({ onComplete }: WelcomeScreenProps) {
                 left: `${Math.random() * 100}%`,
                 top: `${Math.random() * 100}%`,
               }}
-              variants={glowVariants}
-              initial="initial"
-              animate="animate"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
               transition={{
                 delay: i * 0.1,
                 duration: 2 + Math.random() * 2,
@@ -106,85 +106,72 @@ export default function WelcomeScreen({ onComplete }: WelcomeScreenProps) {
           ))}
         </div>
 
-        <div className="relative z-10 text-center max-w-4xl mx-auto px-4">
-          {/* Main Logo Animation */}
+        {/* Main Content */}
+        <motion.div
+          className="relative z-10 text-center max-w-4xl mx-auto px-6"
+          variants={containerVariants}
+          initial="hidden"
+          animate={showContent ? "visible" : "hidden"}
+        >
+          {/* Logo */}
           <motion.div
             className="mb-8"
-            variants={floatingVariants}
-            initial="initial"
-            animate="animate"
+            variants={itemVariants}
           >
-            <motion.div
-              className="inline-flex items-center justify-center w-32 h-32 bg-gradient-to-br from-purple-600 to-blue-600 rounded-3xl shadow-2xl"
-              whileHover={{ scale: 1.1, rotate: 5 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Gamepad2 className="w-16 h-16 text-white" />
-            </motion.div>
+            <div className="w-24 h-24 bg-gradient-to-br from-neon-blue to-neon-purple rounded-2xl flex items-center justify-center mx-auto shadow-neon">
+              <span className="text-surface font-bold text-3xl">FG</span>
+            </div>
           </motion.div>
 
-          {/* Title Animation */}
+          {/* Title */}
           <motion.h1
-            className="text-6xl md:text-8xl font-bold text-white mb-4 bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent"
+            className="text-5xl md:text-7xl font-bold mb-6"
             variants={itemVariants}
           >
-            Forsyth Games
+            <span className="bg-gradient-to-r from-neon-blue via-neon-purple to-neon-pink bg-clip-text text-transparent">
+              Forsyth Games
+            </span>
           </motion.h1>
 
-          {/* Subtitle Animation */}
+          {/* Subtitle */}
           <motion.p
-            className="text-xl md:text-2xl text-gray-300 mb-8"
+            className="text-xl text-textSecondary mb-8"
             variants={itemVariants}
           >
-            <motion.span
-              className="inline-flex items-center gap-2"
-              whileHover={{ scale: 1.05 }}
-            >
-              <Sparkles className="w-6 h-6 text-yellow-400" />
-              Educational Gaming Experience
-              <Zap className="w-6 h-6 text-blue-400" />
-            </motion.span>
+            Educational Gaming Experience
           </motion.p>
 
-          {/* Educational Features */}
+          {/* Features */}
           <motion.div
-            className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12"
+            className="grid md:grid-cols-3 gap-6 mb-12"
             variants={itemVariants}
           >
-            {[
-              { icon: Gamepad2, title: '293+ Educational Games', desc: 'Brain training & learning' },
-              { icon: Sparkles, title: 'Student-Focused', desc: 'Safe & appropriate content' },
-              { icon: Zap, title: 'Cognitive Development', desc: 'Critical thinking skills' },
-            ].map((feature, index) => (
-              <motion.div
-                key={index}
-                className="bg-white/10 backdrop-blur-md rounded-xl p-6 border border-white/20"
-                whileHover={{ 
-                  scale: 1.05, 
-                  boxShadow: '0 10px 30px rgba(147, 51, 234, 0.3)' 
-                }}
-                whileTap={{ scale: 0.98 }}
-              >
-                <feature.icon className="w-12 h-12 text-purple-400 mx-auto mb-3" />
-                <h3 className="text-white font-semibold text-lg mb-1">{feature.title}</h3>
-                <p className="text-gray-400 text-sm">{feature.desc}</p>
-              </motion.div>
-            ))}
+            <div className="bg-surface/40 backdrop-blur-xl border border-white/10 rounded-xl p-6">
+              <div className="text-3xl mb-3">🎮</div>
+              <h3 className="text-lg font-semibold text-textPrimary mb-2">293+ Games</h3>
+              <p className="text-textSecondary">Educational and brain-training games</p>
+            </div>
+            <div className="bg-surface/40 backdrop-blur-xl border border-white/10 rounded-xl p-6">
+              <div className="text-3xl mb-3">🎯</div>
+              <h3 className="text-lg font-semibold text-textPrimary mb-2">Skill Building</h3>
+              <p className="text-textSecondary">Enhance cognitive development</p>
+            </div>
+            <div className="bg-surface/40 backdrop-blur-xl border border-white/10 rounded-xl p-6">
+              <div className="text-3xl mb-3">🏫</div>
+              <h3 className="text-lg font-semibold text-textPrimary mb-2">School Safe</h3>
+              <p className="text-textSecondary">Secure educational environment</p>
+            </div>
           </motion.div>
 
           {/* Continue Button */}
           <motion.button
             onClick={handleContinue}
-            className="group relative inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-semibold text-lg rounded-full shadow-2xl hover:shadow-purple-500/25 transition-all duration-300"
+            className="bg-neon-blue text-surface px-8 py-4 rounded-full font-semibold text-lg shadow-neon hover:shadow-neon-lg transition-all duration-300"
             variants={itemVariants}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <span className="relative z-10">Enter Gaming Portal</span>
-            <motion.div
-              className="absolute inset-0 bg-gradient-to-r from-pink-600 to-purple-600 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-            />
-            <Gamepad2 className="w-5 h-5 relative z-10" />
+            Enter Gaming Portal
           </motion.button>
 
           {/* Skip Link */}
@@ -198,21 +185,21 @@ export default function WelcomeScreen({ onComplete }: WelcomeScreenProps) {
             <kbd className="px-2 py-1 bg-white/10 rounded text-xs">Enter</kbd>{' '}
             to continue
           </motion.p>
-        </div>
 
-        {/* Keyboard Navigation */}
-        {showContent && (
-          <div className="absolute bottom-4 right-4">
-            <motion.button
-              onClick={handleContinue}
-              className="text-gray-400 hover:text-white transition-colors"
-              whileHover={{ scale: 1.1 }}
-            >
-              Skip →
-            </motion.button>
-          </div>
-        )}
-      </motion.div>
-    </AnimatePresence>
+          {/* Keyboard Navigation */}
+          {showContent && (
+            <div className="absolute bottom-4 right-4">
+              <motion.button
+                onClick={handleContinue}
+                className="text-gray-400 hover:text-white transition-colors"
+                whileHover={{ scale: 1.1 }}
+              >
+                Skip →
+              </motion.button>
+            </div>
+          )}
+        </motion.div>
+      </div>
+    </div>
   )
 }

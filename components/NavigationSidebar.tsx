@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Home, TrendingUp, Grid3x3, Search, X, Menu } from 'lucide-react'
 
@@ -53,10 +54,12 @@ export default function NavigationSidebar({ onSearchToggle, isSearchActive }: Na
             whileHover={{ scale: 1.1, rotate: 5 }}
             transition={{ duration: 0.3 }}
           >
-            <img 
+            <Image 
               src="https://site.imsglobal.org/sites/default/files/orgs/logos/primary/fcslogo_hexagon.png" 
               alt="FCS Logo"
-              className="w-full h-full object-cover"
+              width={48}
+              height={48}
+              className="object-cover"
             />
           </motion.div>
 
@@ -116,10 +119,12 @@ export default function NavigationSidebar({ onSearchToggle, isSearchActive }: Na
             whileHover={{ scale: 1.1 }}
             transition={{ duration: 0.3 }}
           >
-            <img 
+            <Image 
               src="https://site.imsglobal.org/sites/default/files/orgs/logos/primary/fcslogo_hexagon.png" 
               alt="FCS Logo"
-              className="w-full h-full object-cover"
+              width={40}
+              height={40}
+              className="object-cover"
             />
           </motion.div>
 

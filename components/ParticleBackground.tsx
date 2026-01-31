@@ -53,23 +53,17 @@ export default function ParticleBackground() {
       ctx.clearRect(0, 0, canvas.width, canvas.height)
 
       particlesRef.current.forEach((particle) => {
-        // Update position
         particle.x += particle.vx
         particle.y += particle.vy
 
-        // Wrap around edges
-        if (particle.x < 0) particle.x = canvas.width
-        if (particle.x > canvas.width) particle.x = 0
-        if (particle.y < 0) particle.y = canvas.height
-        if (particle.y > canvas.height) particle.y = 0
+        if (particle.x < 0 || particle.x > canvas.width) particle.vx *= -1
+        if (particle.y < 0 || particle.y > canvas.height) particle.vy *= -1
 
-        // Draw particle
         ctx.beginPath()
         ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2)
-        ctx.fillStyle = particle.color + '40' // Add transparency
+        ctx.fillStyle = particle.color
         ctx.fill()
 
-        // Draw connections
         particlesRef.current.forEach((otherParticle) => {
           const distance = Math.sqrt(
             Math.pow(particle.x - otherParticle.x, 2) +

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { Play, TrendingUp, Users, Star } from 'lucide-react'
 
@@ -59,10 +60,12 @@ export default function HeroSection() {
               transition={{ delay: 0.3 }}
             >
               <div className="flex items-center gap-4">
-                <img 
+                <Image 
                   src="https://site.imsglobal.org/sites/default/files/orgs/logos/primary/fcslogo_hexagon.png" 
                   alt="FCS Logo"
-                  className="w-16 h-16 object-contain"
+                  width={64}
+                  height={64}
+                  className="object-contain"
                 />
                 <span className="bg-gradient-to-r from-neon-blue via-neon-purple to-neon-pink bg-clip-text text-transparent">
                   Forsyth Games
@@ -143,14 +146,16 @@ export default function HeroSection() {
               >
                 {/* Game Image */}
                 <div className="relative h-96 overflow-hidden">
-                  <img
+                  <Image
                     src={`${serverUrl}/${featuredGame.url}/${featuredGame.image}`}
                     alt={featuredGame.name}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-110"
                     onError={(e) => {
                       const target = e.target as HTMLImageElement
                       target.src = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%230f172a'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23cbd5e1' font-family='Arial' font-size='24'%3E${featuredGame.name}%3C/text%3E%3C/svg%3E`
                     }}
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
                   
                   {/* Overlay */}

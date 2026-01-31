@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { Play, Users, Star, TrendingUp, Clock } from 'lucide-react'
 
@@ -95,14 +96,16 @@ export default function BentoGameCard({ game, size, index }: BentoGameCardProps)
       >
         {/* Game Image */}
         <div className="relative h-3/5 overflow-hidden">
-          <img
+          <Image
             src={`${serverUrl}/${game.url}/${game.image}`}
             alt={game.name}
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+            fill
+            className="object-cover transition-transform duration-500 group-hover:scale-110"
             onError={(e) => {
               const target = e.target as HTMLImageElement
               target.src = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%230f172a'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23cbd5e1' font-family='Arial' font-size='24'%3E${game.name}%3C/text%3E%3C/svg%3E`
             }}
+            sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
           />
           
           {/* Overlay */}
