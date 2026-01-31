@@ -7,6 +7,7 @@ import NavigationSidebar from '@/components/NavigationSidebar'
 import CategoryPills from '@/components/CategoryPills'
 import BentoGameCard from '@/components/BentoGameCard'
 import GameSkeleton from '@/components/GameSkeleton'
+import SearchIsland from '@/components/SearchIsland'
 import Footer from '@/components/Footer'
 
 interface Game {
@@ -26,6 +27,7 @@ export default function Home() {
   const [filteredGames, setFilteredGames] = useState<Game[]>([])
   const [loading, setLoading] = useState(true)
   const [selectedCategory, setSelectedCategory] = useState('all')
+  const [searchQuery, setSearchQuery] = useState('')
 
   useEffect(() => {
     const fetchGames = async () => {
@@ -58,15 +60,27 @@ export default function Home() {
   useEffect(() => {
     let filtered = games
     
+    // Apply category filter
     if (selectedCategory !== 'all') {
       filtered = games.filter(game => game.genre === selectedCategory)
     }
     
+    // Apply search filter
+    if (searchQuery) {
+      filtered = filtered.filter(game =>
+        game.name.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    }
+    
     setFilteredGames(filtered)
-  }, [selectedCategory, games])
+  }, [selectedCategory, searchQuery, games])
 
   const handleCategoryChange = (category: string) => {
     setSelectedCategory(category)
+  }
+
+  const handleSearch = (query: string) => {
+    setSearchQuery(query)
   }
 
   // Create bento grid layout with different card sizes
@@ -90,6 +104,12 @@ export default function Home() {
     <div className="min-h-screen bg-background text-textPrimary">
       <NavigationSidebar />
       
+      {/* Search Island - Floating */}
+      <SearchIsland 
+        onSearch={handleSearch}
+        placeholder="Search 293+ educational games..."
+      />
+      
       {/* Main Content with Sidebar Offset */}
       <div className="lg:ml-20">
         {/* Hero Section */}
@@ -105,6 +125,34 @@ export default function Home() {
         {/* Bento Grid Game Library */}
         <section id="trending" className="relative">
           <div className="container mx-auto px-6 py-12">
+            {/* Search Results Header */}
+            {(searchQuery || selectedCategory !== 'all') && (
+              <motion.div
+                className="text-center mb-8"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+              >
+                <h3 className="text-2xl font-bold text-textPrimary">
+                  {searchQuery && (
+                    <span className="bg-gradient-to-r from-neon-blue to-neon-purple bg-clip-text text-transparent">
+                      {filteredGames.length} Results for "{searchQuery}"
+                    </span>
+                  )}
+                  {!searchQuery && selectedCategory !== 'all' && (
+                    <span className="text-textSecondary">
+                      {' '} in {selectedCategory}
+                    </span>
+                  )}
+                  {!searchQuery && selectedCategory === 'all' && (
+                    <span className="text-textSecondary">
+                      {' '} in All Games
+                    </span>
+                  )}
+                </h3>
+              </motion.div>
+            )}
+
             <motion.div
               className="text-center mb-12"
               initial={{ opacity: 0, y: 30 }}
@@ -159,14 +207,40 @@ export default function Home() {
                 <div className="bg-surface/40 backdrop-blur-xl border border-white/10 rounded-2xl p-12 max-w-md mx-auto">
                   <h3 className="text-2xl font-bold text-textPrimary mb-4">No Games Found</h3>
                   <p className="text-textSecondary mb-6">
-                    No games found in the "{selectedCategory}" category. Try selecting a different category.
+                    {searchQuery && (
+                      <>No games found matching "{searchQuery}"</>
+                    )}
+                    {!searchQuery && selectedCategory !== 'all' && (
+                      <>No games found in the "{selectedCategory}" category.</>
+                    )}
+                    {!searchQuery && selectedCategory === 'all' && (
+                      <>No games available.</>
+                    )}
                   </p>
-                  <button
-                    onClick={() => setSelectedCategory('all')}
-                    className="bg-neon-blue text-surface px-6 py-3 rounded-full font-semibold hover:bg-neon-blue/80 transition-colors"
-                  >
-                    Show All Games
-                  </button>
+                  <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                    {searchQuery && (
+                      <button
+                        onClick={() => {
+                          setSearchQuery('')
+                          handleSearch('')
+                        }}
+                        className="bg-neon-blue text-surface px-6 py-3 rounded-full font-semibold hover:bg-neon-blue/80 transition-colors"
+                      >
+                        Clear Search
+                      </button>
+                    )}
+                    {selectedCategory !== 'all' && (
+                      <button
+                        onClick={() => {
+                          setSelectedCategory('all')
+                          handleCategoryChange('all')
+                        }}
+                        className="bg-neon-purple text-surface px-6 py-3 rounded-full font-semibold hover:bg-neon-purple/80 transition-colors"
+                      >
+                      All Categories
+                      </button>
+                    )}
+                  </div>
                 </div>
               </motion.div>
             )}
