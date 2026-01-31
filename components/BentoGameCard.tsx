@@ -82,7 +82,7 @@ export default function BentoGameCard({ game, size, index }: BentoGameCardProps)
 
   return (
     <motion.div
-      className={`${sizeClasses[size]} ${heightClasses[size]} relative group cursor-pointer`}
+      className={`${sizeClasses[size]} ${heightClasses[size]} relative group cursor-pointer game-card opacity-0 transition-opacity duration-500`}
       variants={cardVariants}
       initial="initial"
       animate="animate"
@@ -110,8 +110,15 @@ export default function BentoGameCard({ game, size, index }: BentoGameCardProps)
             alt={game.name}
             fill
             className="object-cover transition-transform duration-500 group-hover:scale-110"
+            loading="lazy"
+            placeholder="blur"
+            blurDataURL="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%2300F2FF;stop-opacity:0.1'/%3E%3Cstop offset='100%25' style='stop-color:%238B5CF6;stop-opacity:0.1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='300' fill='url(%23grad)'/%3E%3C/svg%3E"
             onError={(e) => {
               const target = e.target as HTMLImageElement
+              // Prevent infinite error loops
+              if (target.dataset.errorHandled === 'true') return
+              target.dataset.errorHandled = 'true'
+              
               // Try alternative image names
               const alternatives = ['logo.png', 'icon.png', 'thumbnail.png', 'default.png']
               let tried = 0

@@ -34,6 +34,27 @@ export default function Home() {
     window.scrollTo(0, 0)
   }, [])
 
+  // Intersection Observer for lazy loading
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in-viewport')
+          }
+        })
+      },
+      { threshold: 0.1 }
+    )
+
+    const gameCards = document.querySelectorAll('.game-card')
+    gameCards.forEach((card) => observer.observe(card))
+
+    return () => {
+      gameCards.forEach((card) => observer.unobserve(card))
+    }
+  }, [filteredGames])
+
   useEffect(() => {
     const fetchGames = async () => {
       try {
