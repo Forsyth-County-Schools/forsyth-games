@@ -1,10 +1,7 @@
 import './globals.css'
 import { ClerkProvider } from '@clerk/nextjs'
-import { Inter } from 'next/font/google'
 import ScrollToTop from '@/components/ScrollToTop'
 import { Analytics } from '@vercel/analytics/next'
-
-const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
   title: 'Forsyth Games - Educational Games for Students',
@@ -156,7 +153,7 @@ export default function RootLayout({
             }}
           />
         </head>
-        <body className={inter.className}>
+        <body className="font-sans">
           <ScrollToTop />
           {children}
           <Analytics />
