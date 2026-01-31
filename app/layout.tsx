@@ -1,8 +1,6 @@
-'use client'
-
 import './globals.css'
 import { Inter } from 'next/font/google'
-import { useEffect } from 'react'
+import ScrollToTop from '@/components/ScrollToTop'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -95,22 +93,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  useEffect(() => {
-    // Scroll to top on page load
-    window.scrollTo(0, 0)
-    
-    // Handle browser back/forward buttons
-    const handlePopState = () => {
-      window.scrollTo(0, 0)
-    }
-    
-    window.addEventListener('popstate', handlePopState)
-    
-    return () => {
-      window.removeEventListener('popstate', handlePopState)
-    }
-  }, [])
-
   return (
     <html lang="en">
       <head>
@@ -171,7 +153,10 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <ScrollToTop />
+        {children}
+      </body>
     </html>
   )
 }
