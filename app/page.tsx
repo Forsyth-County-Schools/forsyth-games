@@ -163,17 +163,17 @@ export default function Home() {
               >
                 <h3 className="text-2xl font-bold text-text-primary">
                   {searchQuery && (
-                    <span className="bg-gradient-to-r from-neon-blue to-neon-purple bg-clip-text text-transparent text-glow">
+                    <span className="bg-gradient-to-r from-neon-blue/80 to-neon-purple/80 bg-clip-text text-transparent">
                       {filteredGames.length} Results for "{searchQuery}"
                     </span>
                   )}
                   {!searchQuery && selectedCategory !== 'all' && (
-                    <span className="text-text-secondary">
+                    <span className="text-text-secondary/80">
                       {' '} in {selectedCategory}
                     </span>
                   )}
                   {!searchQuery && selectedCategory === 'all' && (
-                    <span className="text-text-secondary">
+                    <span className="text-text-secondary/80">
                       {' '} in All Games
                     </span>
                   )}
@@ -188,11 +188,11 @@ export default function Home() {
               transition={{ duration: 0.8 }}
             >
               <h2 className="text-4xl md:text-5xl font-bold mb-4">
-                <span className="bg-gradient-to-r from-neon-blue via-neon-purple to-neon-pink bg-clip-text text-transparent text-glow animate-gradient">
+                <span className="bg-gradient-to-r from-neon-blue/80 via-neon-purple/80 to-neon-pink/80 bg-clip-text text-transparent">
                   Game Library
                 </span>
               </h2>
-              <p className="text-text-secondary text-lg max-w-2xl mx-auto text-glow-subtle">
+              <p className="text-text-secondary/70 text-lg max-w-2xl mx-auto">
                 Explore our collection of {filteredGames.length} educational games designed to enhance your learning experience
               </p>
             </motion.div>
@@ -228,8 +228,8 @@ export default function Home() {
                 animate={{ opacity: 1, scale: 1 }}
               >
                 <div className="bg-surface/40 backdrop-blur-xl glass border border-white/10 rounded-2xl p-12 max-w-md mx-auto">
-                  <h3 className="text-2xl font-bold text-text-primary mb-4 text-glow-subtle">No Games Found</h3>
-                  <p className="text-textSecondary mb-6">
+                  <h3 className="text-2xl font-bold text-text-primary mb-4">No Games Found</h3>
+                  <p className="text-textSecondary/70 mb-6">
                     {searchQuery && (
                       <>No games found matching "{searchQuery}"</>
                     )}
@@ -278,18 +278,18 @@ export default function Home() {
               >
                 <div className="inline-flex items-center gap-8 glass glass-hover border border-white/10 rounded-full px-8 py-4">
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-neon-blue text-glow">{filteredGames.length}</div>
-                    <div className="text-text-secondary text-sm">Games Available</div>
+                    <div className="text-2xl font-bold text-neon-blue">{filteredGames.length}</div>
+                    <div className="text-text-secondary/70 text-sm">Games Available</div>
                   </div>
                   <div className="w-px h-8 bg-white/20" />
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-neon-lime text-glow">{games.filter(g => g.trending).length}</div>
-                    <div className="text-text-secondary text-sm">Trending Now</div>
+                    <div className="text-2xl font-bold text-neon-lime">{games.filter(g => g.trending).length}</div>
+                    <div className="text-text-secondary/70 text-sm">Trending Now</div>
                   </div>
                   <div className="w-px h-8 bg-white/20" />
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-neon-purple text-glow">{games.filter(g => g.isNew).length}</div>
-                    <div className="text-text-secondary text-sm">New Games</div>
+                    <div className="text-2xl font-bold text-neon-purple">{games.filter(g => g.isNew).length}</div>
+                    <div className="text-text-secondary/70 text-sm">New Games</div>
                   </div>
                 </div>
               </motion.div>

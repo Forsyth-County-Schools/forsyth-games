@@ -62,7 +62,7 @@ export default function HeroSection() {
             </motion.div>
 
             <motion.h1 
-              className="text-5xl md:text-7xl font-bold text-text-primary mb-6 text-glow"
+              className="text-5xl md:text-7xl font-bold text-text-primary mb-6"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
@@ -75,14 +75,14 @@ export default function HeroSection() {
                   height={64}
                   className="object-contain"
                 />
-                <span className="bg-gradient-to-r from-neon-blue via-neon-purple to-neon-pink bg-clip-text text-transparent animate-gradient">
+                <span className="bg-gradient-to-r from-neon-blue/90 via-neon-purple/90 to-neon-pink/90 bg-clip-text text-transparent">
                   Forsyth Games
                 </span>
               </div>
             </motion.h1>
 
             <motion.p 
-              className="text-xl text-text-secondary mb-8 max-w-lg text-glow-subtle"
+              className="text-xl text-text-secondary/80 mb-8 max-w-lg"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
@@ -113,17 +113,17 @@ export default function HeroSection() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6 }}
             >
-              <div className="text-center">
-                <div className="text-3xl font-bold text-neon-blue text-glow">293+</div>
-                <div className="text-text-secondary text-sm">Educational Games</div>
+              <div className="text-center glass glass-hover rounded-2xl p-4 border border-white/10">
+                <div className="text-3xl font-bold text-neon-blue">293+</div>
+                <div className="text-text-secondary/70 text-sm">Educational Games</div>
               </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-neon-lime text-glow">{featuredGame.players}</div>
-                <div className="text-text-secondary text-sm">Players Online</div>
+              <div className="text-center glass glass-hover rounded-2xl p-4 border border-white/10">
+                <div className="text-3xl font-bold text-neon-lime">{featuredGame.players}</div>
+                <div className="text-text-secondary/70 text-sm">Players Online</div>
               </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-neon-purple text-glow">4.8★</div>
-                <div className="text-text-secondary text-sm">User Rating</div>
+              <div className="text-center glass glass-hover rounded-2xl p-4 border border-white/10">
+                <div className="text-3xl font-bold text-neon-purple">4.8★</div>
+                <div className="text-text-secondary/70 text-sm">User Rating</div>
               </div>
             </motion.div>
           </motion.div>
@@ -140,14 +140,14 @@ export default function HeroSection() {
               <motion.div 
                 className="relative floating-card glass glass-hover rounded-2xl overflow-hidden border border-white/10"
                 whileHover={{ 
-                  scale: 1.02, 
-                  y: -10,
-                  rotateX: 2,
-                  rotateY: -2
+                  scale: 1.03, 
+                  y: -15,
+                  rotateX: 4,
+                  rotateY: -4
                 }}
                 style={{
                   transformStyle: 'preserve-3d',
-                  perspective: '1000px'
+                  perspective: '1500px'
                 }}
               >
                 {/* Game Image */}
@@ -211,19 +211,19 @@ export default function HeroSection() {
                 {/* Game Info */}
                 <div className="p-6">
                   <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-2xl font-bold text-text-primary text-glow-subtle">{featuredGame.name}</h3>
+                    <h3 className="text-2xl font-bold text-text-primary">{featuredGame.name}</h3>
                     <div className="flex items-center gap-1">
                       <Star className="w-5 h-5 text-yellow-400 fill-current" />
-                      <span className="text-text-secondary">{featuredGame.rating}</span>
+                      <span className="text-text-secondary/80">{featuredGame.rating}</span>
                     </div>
                   </div>
                   
                   <div className="flex items-center gap-4 text-sm">
                     <div className="flex items-center gap-2">
                       <Users className="w-4 h-4 text-neon-lime" />
-                      <span className="text-text-secondary">{featuredGame.players}</span>
+                      <span className="text-text-secondary/80">{featuredGame.players}</span>
                     </div>
-                    <div className="px-3 py-1 glass glass-hover rounded-full text-neon-purple text-xs font-semibold border border-white/10">
+                    <div className="px-3 py-1 glass glass-hover rounded-full text-neon-purple/90 text-xs font-semibold border border-white/10">
                       {featuredGame.genre}
                     </div>
                   </div>
@@ -231,7 +231,7 @@ export default function HeroSection() {
               </motion.div>
 
               {/* Glow Effect */}
-              <div className="absolute -inset-1 bg-gradient-to-r from-neon-blue/20 to-neon-purple/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="absolute -inset-2 bg-gradient-to-r from-neon-blue/30 to-neon-purple/30 rounded-2xl blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
             </div>
           </motion.div>
         </div>

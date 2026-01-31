@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { ArrowLeft, Maximize2, RefreshCw, AlertTriangle } from 'lucide-react'
 import Navbar from '@/components/Navbar'
@@ -228,7 +228,16 @@ function PlayPageContent() {
 export default function PlayPage() {
   return (
     <ErrorBoundary>
-      <PlayPageContent />
+      <Suspense fallback={
+        <div className="min-h-screen bg-dark-gradient flex items-center justify-center">
+          <div className="text-center">
+            <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-accent mb-4"></div>
+            <p className="text-white text-lg">Loading Game...</p>
+          </div>
+        </div>
+      }>
+        <PlayPageContent />
+      </Suspense>
     </ErrorBoundary>
   )
 }
