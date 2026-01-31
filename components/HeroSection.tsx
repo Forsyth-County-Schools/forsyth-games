@@ -96,16 +96,6 @@ export default function HeroSection() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
             >
-              <button
-                onClick={() => window.location.href = `/play?gameurl=${featuredGame.url}/`}
-                className="group relative conic-border inline-flex items-center gap-3 text-text-primary px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 hover:scale-105"
-              >
-                <span className="relative z-10 flex items-center gap-3">
-                  <Play className="w-5 h-5" />
-                  <span>Play Featured</span>
-                </span>
-              </button>
-
               <motion.button
                 onClick={() => window.location.href = "/#games"}
                 className="inline-flex items-center gap-3 glass glass-hover text-text-primary px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300"
