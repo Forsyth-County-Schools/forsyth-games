@@ -13,23 +13,36 @@ export default function SearchIsland({ onSearch, placeholder = "Search games..."
   const [isExpanded, setIsExpanded] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
   const [suggestions, setSuggestions] = useState<string[]>([])
+  const [gameNames, setGameNames] = useState<string[]>([])
 
-  // Mock suggestions based on common game names
-  const mockSuggestions = [
-    '1v1.LOL', '2048', 'Minecraft', 'Among Us', 'Roblox', 'Fortnite',
-    'Puzzle Games', 'Racing Games', 'Strategy Games', 'Action Games'
-  ]
+  // Fetch actual games data on component mount
+  useEffect(() => {
+    const fetchGames = async () => {
+      try {
+        const response = await fetch('/config/games.json')
+        const data = await response.json()
+        const names = data.map((game: { name: string }) => game.name)
+        setGameNames(names)
+      } catch (error) {
+        console.error('Error fetching games:', error)
+        // Fallback to empty array to prevent broken search functionality
+        setGameNames([])
+      }
+    }
+
+    fetchGames()
+  }, [])
 
   useEffect(() => {
-    if (searchQuery.length > 0) {
-      const filtered = mockSuggestions.filter(suggestion =>
-        suggestion.toLowerCase().includes(searchQuery.toLowerCase())
+    if (searchQuery.length > 0 && gameNames.length > 0) {
+      const filtered = gameNames.filter(name =>
+        name.toLowerCase().includes(searchQuery.toLowerCase())
       )
       setSuggestions(filtered.slice(0, 5))
     } else {
       setSuggestions([])
     }
-  }, [searchQuery])
+  }, [searchQuery, gameNames])
 
   const handleSearch = (query: string) => {
     setSearchQuery(query)
