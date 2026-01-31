@@ -104,9 +104,12 @@ export default function FloatingNavigation({ onSearchToggle, isSearchActive }: F
               <div className="flex items-center gap-3 justify-center">
                 {/* Logo */}
                 <motion.div
-                  className="w-10 h-10 bg-gradient-to-br from-neon-blue to-neon-purple rounded-xl flex items-center justify-center shadow-neon overflow-hidden"
+                  className="w-10 h-10 bg-gradient-to-br from-yellow-500 via-amber-500 to-yellow-600 rounded-lg flex items-center justify-center shadow-lg overflow-hidden ring-2 ring-yellow-500/50"
                   whileHover={{ scale: 1.1, rotate: 5 }}
                   transition={{ duration: 0.3 }}
+                  style={{
+                    clipPath: 'polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)'
+                  }}
                 >
                   <Image 
                     src="https://site.imsglobal.org/sites/default/files/orgs/logos/primary/fcslogo_hexagon.png" 
@@ -217,9 +220,12 @@ export default function FloatingNavigation({ onSearchToggle, isSearchActive }: F
               <div className="flex items-center justify-between p-4">
                 {/* Logo */}
                 <motion.div
-                  className="w-10 h-10 bg-gradient-to-br from-neon-blue to-neon-purple rounded-lg flex items-center justify-center shadow-neon overflow-hidden"
+                  className="w-10 h-10 bg-gradient-to-br from-yellow-500 via-amber-500 to-yellow-600 rounded-lg flex items-center justify-center shadow-lg overflow-hidden ring-2 ring-yellow-500/50"
                   whileHover={{ scale: 1.1 }}
                   transition={{ duration: 0.3 }}
+                  style={{
+                    clipPath: 'polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)'
+                  }}
                 >
                   <Image 
                     src="https://site.imsglobal.org/sites/default/files/orgs/logos/primary/fcslogo_hexagon.png" 
