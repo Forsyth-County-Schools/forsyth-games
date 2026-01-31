@@ -111,7 +111,7 @@ export default function RootLayout({
           <meta name="format-detection" content="telephone=no" />
           
           {/* Extension Policy */}
-          <meta httpEquiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; object-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https: https:; font-src 'self' data: https:; connect-src 'self' https: https:; media-src 'self' https: https:; frame-src 'self' https: gms.parcoil.com;" />
+          <meta httpEquiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://clerk.accounts.dev https://*.clerk.accounts.dev https://vercel.live https://*.vercel.com https://va.vercel-scripts.com; object-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https: blob:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https: wss: https://clerk.accounts.dev https://*.clerk.accounts.dev; media-src 'self' https:; frame-src 'self' https://gms.parcoil.com https://clerk.accounts.dev https://*.clerk.accounts.dev;" />
           
           {/* Structured Data for Education */}
           <script
