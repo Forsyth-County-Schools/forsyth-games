@@ -1,0 +1,15 @@
+{
+  "allowed_extensions": [
+    "extension_id_1",
+    "extension_id_2"
+  ],
+  "blocked_extensions": [
+    "extension_id_to_block",
+    "another_extension_id"
+  ],
+  "blocked_domains": [
+    "example.com",
+    "blocked-site.com"
+  ],
+  "policy_description": "Forsyth Games Extension Policy - Only approved extensions allowed"
+}

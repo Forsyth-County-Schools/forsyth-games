@@ -1,5 +1,6 @@
 import './globals.css'
 import { Inter } from 'next/font/google'
+import { headers } from 'next/headers'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -23,9 +24,9 @@ export const metadata = {
     'interactive learning',
     'educational gaming'
   ],
-  authors: [{ name: 'Forsyth Games' }],
-  creator: 'Forsyth Games',
-  publisher: 'Forsyth Games',
+  authors: [{ name: 'Forsyth County Schools' }],
+  creator: 'Forsyth County Schools',
+  publisher: 'Forsyth County Schools',
   formatDetection: {
     email: false,
     address: false,
@@ -37,7 +38,7 @@ export const metadata = {
   },
   openGraph: {
     title: 'Forsyth Games - Educational Games for Students',
-    description: '293+ educational games designed for students. Safe, fun, and engaging games that help develop critical thinking and problem-solving skills.',
+    description: '293+ educational games designed for students. Safe, fun, and engaging games that help develop critical thinking, problem-solving, and cognitive skills.',
     url: 'https://forsyth-games.vercel.app',
     siteName: 'Forsyth Games',
     images: [
@@ -97,7 +98,7 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="/favicon.ico" />
         <link rel="manifest" href="/site.webmanifest" />
-        <meta name="theme-color" content="#8b5cf6" />
+        <meta name="theme-color" content="#000000" />
         <meta name="application-name" content="Forsyth Games" />
         <meta name="apple-mobile-web-app-title" content="Forsyth Games" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -106,6 +107,9 @@ export default function RootLayout({
         <meta name="referrer" content="no-referrer-when-downgrade" />
         <meta name="format-detection" content="telephone=no" />
         
+        {/* Extension Policy */}
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; object-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https: https:; font-src 'self' data: https:; connect-src 'self' https: https:; media-src 'self' https: https:; frame-src 'self' https: gms.parcoil.com; frame-ancestors 'self';" />
+        
         {/* Structured Data for Education */}
         <script
           type="application/ld+json"
@@ -113,7 +117,7 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "EducationalOrganization",
-              "name": "Forsyth Games",
+              "name": "Forsyth County Schools",
               "description": "Educational gaming platform offering 293+ brain-training games for students",
               "url": "https://forsyth-games.vercel.app",
               "sameAs": [],
