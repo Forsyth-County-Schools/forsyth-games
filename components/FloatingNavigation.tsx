@@ -100,8 +100,8 @@ export default function FloatingNavigation({ onSearchToggle, isSearchActive }: F
             transition={{ duration: 0.3, ease: 'easeInOut' }}
             className="hidden lg:block fixed top-6 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-4xl px-4"
           >
-            <div className="glass glass-hover border border-white/10 rounded-full px-8 py-4 shadow-glow w-fit mx-auto">
-              <div className="flex items-center gap-3 justify-center">
+            <div className="glass glass-hover border border-white/10 rounded-full px-8 py-4 shadow-glow">
+              <div className="flex items-center gap-3">
                 {/* Logo */}
                 <motion.div
                   className="w-10 h-10 bg-gradient-to-br from-yellow-500 via-amber-500 to-yellow-600 rounded-lg flex items-center justify-center shadow-lg overflow-hidden ring-2 ring-yellow-500/50"

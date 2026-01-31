@@ -1,5 +1,7 @@
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
+import { checkGeorgiaLocation, getClientIp } from './lib/geolocation';
 
 const isPublicRoute = createRouteMatcher([
   '/',
@@ -7,15 +9,72 @@ const isPublicRoute = createRouteMatcher([
   '/welcome(.*)',
   '/sign-in(.*)',
   '/sign-up(.*)',
-  '/api/webhooks(.*)'
+  '/api/webhooks(.*)',
+  '/blocked(.*)', // Allow access to blocked page
 ]);
 
-export default clerkMiddleware(async (auth, request) => {
+// Routes that should bypass region check (API routes)
+const isApiRoute = createRouteMatcher([
+  '/api(.*)',
+]);
+
+export default clerkMiddleware(async (auth, request: NextRequest) => {
+  // Clerk authentication check
   if (!isPublicRoute(request)) {
     await auth.protect();
   }
 
   const response = NextResponse.next();
+  
+  // Region lock - only apply to non-API routes
+  if (!isApiRoute(request)) {
+    const pathname = request.nextUrl.pathname;
+    
+    // Don't check on blocked page to avoid redirect loop
+    if (pathname !== '/blocked') {
+      // Check if we already have a valid Georgia check in cookies
+      const geoChecked = request.cookies.get('geo-checked');
+      const geoAllowed = request.cookies.get('geo-allowed');
+      
+      // If not checked or not allowed, verify location
+      if (!geoChecked || geoAllowed?.value !== 'true') {
+        const clientIp = getClientIp(request.headers);
+        const location = await checkGeorgiaLocation(clientIp);
+        
+        // Set cookies with location info
+        const redirectResponse = location.isGeorgia 
+          ? NextResponse.next() 
+          : NextResponse.redirect(new URL('/blocked', request.url));
+        
+        // Set geo cookies (expire in 1 hour for re-verification)
+        const cookieExpiry = new Date(Date.now() + 60 * 60 * 1000);
+        redirectResponse.cookies.set('geo-checked', 'true', { expires: cookieExpiry });
+        redirectResponse.cookies.set('geo-allowed', location.isGeorgia ? 'true' : 'false', { expires: cookieExpiry });
+        
+        if (location.region) {
+          redirectResponse.cookies.set('geo-region', location.region, { expires: cookieExpiry });
+        }
+        if (location.country) {
+          redirectResponse.cookies.set('geo-country', location.country, { expires: cookieExpiry });
+        }
+        
+        // If not in Georgia, redirect to blocked page
+        if (!location.isGeorgia) {
+          return redirectResponse;
+        }
+        
+        // Copy the geo cookies to the next response
+        response.cookies.set('geo-checked', 'true', { expires: cookieExpiry });
+        response.cookies.set('geo-allowed', 'true', { expires: cookieExpiry });
+        if (location.region) {
+          response.cookies.set('geo-region', location.region, { expires: cookieExpiry });
+        }
+        if (location.country) {
+          response.cookies.set('geo-country', location.country, { expires: cookieExpiry });
+        }
+      }
+    }
+  }
   
   // Block browser extensions - Apply Content Security Policy
   response.headers.set(

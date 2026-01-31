@@ -235,7 +235,6 @@ input:focus {
     var(--neon-blue)
   );
   border-radius: inherit;
-  animation: conic-rotate 3s linear infinite;
   z-index: -1;
   filter: blur(1px);
 }
