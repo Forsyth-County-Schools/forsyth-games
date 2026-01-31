@@ -113,15 +113,15 @@ export default function HeroSection() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6 }}
             >
-              <div className="text-center">
+              <div className="text-center glass glass-hover rounded-2xl p-4 border border-white/10">
                 <div className="text-3xl font-bold text-neon-blue text-glow">293+</div>
                 <div className="text-text-secondary text-sm">Educational Games</div>
               </div>
-              <div className="text-center">
+              <div className="text-center glass glass-hover rounded-2xl p-4 border border-white/10">
                 <div className="text-3xl font-bold text-neon-lime text-glow">{featuredGame.players}</div>
                 <div className="text-text-secondary text-sm">Players Online</div>
               </div>
-              <div className="text-center">
+              <div className="text-center glass glass-hover rounded-2xl p-4 border border-white/10">
                 <div className="text-3xl font-bold text-neon-purple text-glow">4.8★</div>
                 <div className="text-text-secondary text-sm">User Rating</div>
               </div>
@@ -140,14 +140,14 @@ export default function HeroSection() {
               <motion.div 
                 className="relative floating-card glass glass-hover rounded-2xl overflow-hidden border border-white/10"
                 whileHover={{ 
-                  scale: 1.02, 
-                  y: -10,
-                  rotateX: 2,
-                  rotateY: -2
+                  scale: 1.03, 
+                  y: -15,
+                  rotateX: 4,
+                  rotateY: -4
                 }}
                 style={{
                   transformStyle: 'preserve-3d',
-                  perspective: '1000px'
+                  perspective: '1500px'
                 }}
               >
                 {/* Game Image */}
@@ -231,7 +231,7 @@ export default function HeroSection() {
               </motion.div>
 
               {/* Glow Effect */}
-              <div className="absolute -inset-1 bg-gradient-to-r from-neon-blue/20 to-neon-purple/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="absolute -inset-2 bg-gradient-to-r from-neon-blue/30 to-neon-purple/30 rounded-2xl blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
             </div>
           </motion.div>
         </div>

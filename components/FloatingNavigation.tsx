@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Home, TrendingUp, Grid3x3, Search, X, Menu } from 'lucide-react'
+import { SignInButton, SignUpButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
 
 interface NavigationItem {
   id: string
@@ -159,6 +160,42 @@ export default function FloatingNavigation({ onSearchToggle, isSearchActive }: F
                       </motion.div>
                     </motion.button>
                   ))}
+
+                  {/* Divider */}
+                  <div className="w-px h-8 bg-white/20 mx-2" />
+
+                  {/* Authentication Buttons */}
+                  <SignedOut>
+                    <SignInButton mode="modal">
+                      <motion.button
+                        className="px-4 py-2 rounded-xl glass glass-hover border border-white/10 text-text-primary text-sm font-semibold transition-all duration-300 hover:border-neon-blue/50"
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                      >
+                        Sign In
+                      </motion.button>
+                    </SignInButton>
+                    <SignUpButton mode="modal">
+                      <motion.button
+                        className="conic-border px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300"
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                      >
+                        <span className="relative z-10 text-text-primary">Sign Up</span>
+                      </motion.button>
+                    </SignUpButton>
+                  </SignedOut>
+                  <SignedIn>
+                    <div className="flex items-center">
+                      <UserButton 
+                        appearance={{
+                          elements: {
+                            avatarBox: "w-10 h-10 rounded-xl border-2 border-neon-blue/50 shadow-neon-cyan hover:border-neon-purple/50 transition-all duration-300"
+                          }
+                        }}
+                      />
+                    </div>
+                  </SignedIn>
                 </div>
               </div>
             </div>
@@ -262,6 +299,41 @@ export default function FloatingNavigation({ onSearchToggle, isSearchActive }: F
                           </span>
                         </motion.button>
                       ))}
+                      
+                      {/* Mobile Authentication */}
+                      <div className="pt-2 mt-2 border-t border-white/10 space-y-2">
+                        <SignedOut>
+                          <SignInButton mode="modal">
+                            <motion.button
+                              className="w-full p-3 rounded-lg glass glass-hover border border-white/10 text-text-primary text-sm font-semibold"
+                              whileHover={{ scale: 1.02 }}
+                              whileTap={{ scale: 0.98 }}
+                            >
+                              Sign In
+                            </motion.button>
+                          </SignInButton>
+                          <SignUpButton mode="modal">
+                            <motion.button
+                              className="w-full conic-border p-3 rounded-lg text-sm font-semibold"
+                              whileHover={{ scale: 1.02 }}
+                              whileTap={{ scale: 0.98 }}
+                            >
+                              <span className="relative z-10 text-text-primary">Sign Up</span>
+                            </motion.button>
+                          </SignUpButton>
+                        </SignedOut>
+                        <SignedIn>
+                          <div className="flex items-center justify-center p-3">
+                            <UserButton 
+                              appearance={{
+                                elements: {
+                                  avatarBox: "w-12 h-12 rounded-xl border-2 border-neon-blue/50 shadow-neon-cyan"
+                                }
+                              }}
+                            />
+                          </div>
+                        </SignedIn>
+                      </div>
                     </div>
                   </motion.div>
                 )}

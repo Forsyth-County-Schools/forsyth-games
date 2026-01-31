@@ -93,14 +93,14 @@ export default function BentoGameCard({ game, size, index }: BentoGameCardProps)
       <motion.div 
         className="relative h-full floating-card glass glass-hover border border-white/10 rounded-2xl overflow-hidden neon-border-sweep"
         whileHover={{ 
-          scale: 1.02,
-          y: -8,
-          rotateX: 2,
-          rotateY: -2
+          scale: 1.03,
+          y: -12,
+          rotateX: 3,
+          rotateY: -3
         }}
         style={{
           transformStyle: 'preserve-3d',
-          perspective: '1000px'
+          perspective: '1500px'
         }}
       >
         {/* Game Image */}
@@ -217,9 +217,9 @@ export default function BentoGameCard({ game, size, index }: BentoGameCardProps)
         
         {/* Floating Shadow */}
         <motion.div
-          className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-3/4 h-8 bg-neon-blue/20 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+          className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 w-3/4 h-10 bg-neon-blue/30 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"
           style={{
-            filter: 'blur(20px)',
+            filter: 'blur(30px)',
           }}
         />
       </motion.div>
