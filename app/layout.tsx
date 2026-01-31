@@ -2,10 +2,93 @@
 
 import './globals.css'
 import { Inter } from 'next/font/google'
-import { headers } from 'next/headers'
 import { useEffect } from 'react'
 
 const inter = Inter({ subsets: ['latin'] })
+
+export const metadata = {
+  title: 'Forsyth Games - Educational Games for Students',
+  description: 'A curated collection of 293+ educational and brain-training games designed for students. Perfect for school breaks, study breaks, and educational entertainment. Safe, fun, and engaging games that help develop critical thinking, problem-solving, and cognitive skills.',
+  keywords: [
+    'educational games',
+    'student games',
+    'school games',
+    'learning games',
+    'brain training',
+    'educational entertainment',
+    'student activities',
+    'safe games for students',
+    'cognitive development',
+    'problem solving games',
+    'educational technology',
+    'classroom games',
+    'study break games',
+    'interactive learning',
+    'educational gaming'
+  ],
+  authors: [{ name: 'Forsyth County Schools' }],
+  creator: 'Forsyth County Schools',
+  publisher: 'Forsyth County Schools',
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  metadataBase: new URL('https://forsyth-games.vercel.app'),
+  alternates: {
+    canonical: '/',
+  },
+  openGraph: {
+    title: 'Forsyth Games - Educational Games for Students',
+    description: '293+ educational games designed for students. Safe, fun, and engaging games that help develop critical thinking, problem-solving, and cognitive skills.',
+    url: 'https://forsyth-games.vercel.app',
+    siteName: 'Forsyth Games',
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Forsyth Games - Educational Gaming Platform',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Forsyth Games - Educational Games for Students',
+    description: '293+ educational games designed for students. Safe, fun, and engaging games that help develop critical thinking skills.',
+    images: ['/og-image.jpg'],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  verification: {
+    google: 'your-google-verification-code',
+  },
+  category: 'education',
+  classification: 'Educational Content',
+  rating: 'general',
+  language: 'en',
+  geoRegion: 'US',
+  targetAudience: 'students, teachers, parents, educators',
+  educationalUse: 'instruction, recreation, cognitive development',
+  learningResourceType: 'interactive resource, educational game',
+  interactivityType: 'active',
+  typicalAgeRange: '8-18',
+  timeRequired: 'PT5M',
+  accessMode: ['visual', 'textual'],
+  accessibilityFeature: ['navigation', 'readingOrder'],
+  accessibilityHazard: 'none',
+}
 
 export default function RootLayout({
   children,
@@ -91,88 +174,4 @@ export default function RootLayout({
       <body className={inter.className}>{children}</body>
     </html>
   )
-}
-
-export const metadata = {
-  title: 'Forsyth Games - Educational Games for Students',
-  description: 'A curated collection of 293+ educational and brain-training games designed for students. Perfect for school breaks, study breaks, and educational entertainment. Safe, fun, and engaging games that help develop critical thinking, problem-solving, and cognitive skills.',
-  keywords: [
-    'educational games',
-    'student games',
-    'school games',
-    'learning games',
-    'brain training',
-    'educational entertainment',
-    'student activities',
-    'safe games for students',
-    'cognitive development',
-    'problem solving games',
-    'educational technology',
-    'classroom games',
-    'study break games',
-    'interactive learning',
-    'educational gaming'
-  ],
-  authors: [{ name: 'Forsyth County Schools' }],
-  creator: 'Forsyth County Schools',
-  publisher: 'Forsyth County Schools',
-  formatDetection: {
-    email: false,
-    address: false,
-    telephone: false,
-  },
-  metadataBase: new URL('https://forsyth-games.vercel.app'),
-  alternates: {
-    canonical: '/',
-  },
-  openGraph: {
-    title: 'Forsyth Games - Educational Games for Students',
-    description: '293+ educational games designed for students. Safe, fun, and engaging games that help develop critical thinking, problem-solving, and cognitive skills.',
-    url: 'https://forsyth-games.vercel.app',
-    siteName: 'Forsyth Games',
-    images: [
-      {
-        url: '/og-image.jpg',
-        width: 1200,
-        height: 630,
-        alt: 'Forsyth Games - Educational Gaming Platform',
-      },
-    ],
-    locale: 'en_US',
-    type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Forsyth Games - Educational Games for Students',
-    description: '293+ educational games designed for students. Safe, fun, and engaging games that help develop critical thinking skills.',
-    images: ['/og-image.jpg'],
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
-  },
-  verification: {
-    google: 'your-google-verification-code',
-  },
-  category: 'education',
-  classification: 'Educational Content',
-  rating: 'general',
-  language: 'en',
-  geoRegion: 'US',
-  targetAudience: 'students, teachers, parents, educators',
-  educationalUse: 'instruction, recreation, cognitive development',
-  learningResourceType: 'interactive resource, educational game',
-  interactivityType: 'active',
-  typicalAgeRange: '8-18',
-  timeRequired: 'PT5M',
-  accessMode: ['visual', 'textual'],
-  accessibilityFeature: ['navigation', 'readingOrder'],
-  accessibilityHazard: 'none',
 }
