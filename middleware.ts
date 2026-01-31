@@ -3,6 +3,9 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { checkGeorgiaLocation, getClientIp } from './lib/geolocation';
 
+// Cache duration for geolocation checks (1 hour)
+const GEO_CACHE_DURATION_MS = 60 * 60 * 1000;
+
 const isPublicRoute = createRouteMatcher([
   '/',
   '/play(.*)',
@@ -34,10 +37,9 @@ export default clerkMiddleware(async (auth, request: NextRequest) => {
     if (pathname !== '/blocked') {
       // Check if we already have a valid Georgia check in cookies
       const geoChecked = request.cookies.get('geo-checked');
-      const geoAllowed = request.cookies.get('geo-allowed');
       
-      // If not checked or not allowed, verify location
-      if (!geoChecked || geoAllowed?.value !== 'true') {
+      // Only verify location if not already checked
+      if (!geoChecked) {
         const clientIp = getClientIp(request.headers);
         const location = await checkGeorgiaLocation(clientIp);
         
@@ -46,8 +48,8 @@ export default clerkMiddleware(async (auth, request: NextRequest) => {
           ? NextResponse.next() 
           : NextResponse.redirect(new URL('/blocked', request.url));
         
-        // Set geo cookies (expire in 1 hour for re-verification)
-        const cookieExpiry = new Date(Date.now() + 60 * 60 * 1000);
+        // Set geo cookies with cache duration
+        const cookieExpiry = new Date(Date.now() + GEO_CACHE_DURATION_MS);
         redirectResponse.cookies.set('geo-checked', 'true', { expires: cookieExpiry });
         redirectResponse.cookies.set('geo-allowed', location.isGeorgia ? 'true' : 'false', { expires: cookieExpiry });
         
