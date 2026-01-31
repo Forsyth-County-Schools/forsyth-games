@@ -4,12 +4,27 @@
     "extension_id_2"
   ],
   "blocked_extensions": [
-    "extension_id_to_block",
-    "another_extension_id"
+    "infpabiiejbjobcphaomiifjibpkjlf"
   ],
   "blocked_domains": [
-    "example.com",
-    "blocked-site.com"
+    "linewize.com",
+    "linewize.io",
+    "linewize.net",
+    "qoria.com",
+    "qoria.cloud",
+    "qoriaapis.cloud",
+    "us.classwize.qoria.cloud",
+    "us.schoolmanager.qoria.cloud",
+    "ably.io",
+    "ably-realtime.com",
+    "xirsys.com",
+    "stream-io-api.com",
+    "stream-io-video.com",
+    "stream-io-cdn.com",
+    "getstream.io"
   ],
-  "policy_description": "Forsyth Games Extension Policy - Only approved extensions allowed"
+  "allowed_domains": [
+    "*.parcoil.com"
+  ],
+  "policy_description": "Forsyth County Schools Extension Policy - Only approved extensions allowed. Classwize and Linewize domains are blocked for security and compliance."
 }
