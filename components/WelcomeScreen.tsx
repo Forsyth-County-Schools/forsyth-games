@@ -1,8 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { Gamepad2, Sparkles, Zap } from 'lucide-react'
+import { motion } from 'framer-motion'
 
 interface WelcomeScreenProps {
   onComplete: () => void
@@ -48,31 +47,6 @@ export default function WelcomeScreen({ onComplete }: WelcomeScreenProps) {
         type: "spring" as const,
         stiffness: 100,
         damping: 12,
-      },
-    },
-  }
-
-  const floatingVariants = {
-    initial: { y: 0 },
-    animate: {
-      y: [-10, 10, -10],
-      transition: {
-        duration: 3,
-        repeat: Infinity,
-        ease: "easeInOut" as const,
-      },
-    },
-  }
-
-  const glowVariants = {
-    initial: { scale: 1, opacity: 0.5 },
-    animate: {
-      scale: [1, 1.2, 1],
-      opacity: [0.5, 0.8, 0.5],
-      transition: {
-        duration: 2,
-        repeat: Infinity,
-        ease: "easeInOut" as const,
       },
     },
   }

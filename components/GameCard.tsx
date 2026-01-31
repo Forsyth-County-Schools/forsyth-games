@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { ExternalLink, Play, Star } from 'lucide-react'
+import { Play, Star } from 'lucide-react'
 
 interface Game {
   name: string

@@ -62,7 +62,7 @@ export default function Home() {
         const data = await response.json()
         
         // Transform and enhance games data - moved to useEffect to prevent hydration mismatch
-        const enhancedGames = data.map((game: any, index: number) => ({
+        const enhancedGames = data.map((game: { name: string; image: string; url: string }) => ({
           ...game,
           genre: ['Action', 'Arcade', 'Strategy', 'Puzzle', 'Sports', 'Racing'][Math.floor(Math.random() * 6)],
           players: `${Math.floor(Math.random() * 5000) + 100}`,
@@ -164,7 +164,7 @@ export default function Home() {
                 <h3 className="text-2xl font-bold text-text-primary">
                   {searchQuery && (
                     <span className="bg-gradient-to-r from-neon-blue/80 to-neon-purple/80 bg-clip-text text-transparent">
-                      {filteredGames.length} Results for "{searchQuery}"
+                      {filteredGames.length} Results for &quot;{searchQuery}&quot;
                     </span>
                   )}
                   {!searchQuery && selectedCategory !== 'all' && (
@@ -231,10 +231,10 @@ export default function Home() {
                   <h3 className="text-2xl font-bold text-text-primary mb-4">No Games Found</h3>
                   <p className="text-textSecondary/70 mb-6">
                     {searchQuery && (
-                      <>No games found matching "{searchQuery}"</>
+                      <>No games found matching &quot;{searchQuery}&quot;</>
                     )}
                     {!searchQuery && selectedCategory !== 'all' && (
-                      <>No games found in the "{selectedCategory}" category.</>
+                      <>No games found in the &quot;{selectedCategory}&quot; category.</>
                     )}
                     {!searchQuery && selectedCategory === 'all' && (
                       <>No games available.</>

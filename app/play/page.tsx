@@ -33,10 +33,10 @@ function PlayPageContent() {
     const iframe = document.getElementById('gameFrame') as HTMLIFrameElement
     if (iframe.requestFullscreen) {
       iframe.requestFullscreen()
-    } else if ((iframe as any).webkitRequestFullscreen) {
-      (iframe as any).webkitRequestFullscreen()
-    } else if ((iframe as any).msRequestFullscreen) {
-      (iframe as any).msRequestFullscreen()
+    } else if ((iframe as HTMLIFrameElement & { webkitRequestFullscreen?: () => void }).webkitRequestFullscreen) {
+      (iframe as HTMLIFrameElement & { webkitRequestFullscreen: () => void }).webkitRequestFullscreen()
+    } else if ((iframe as HTMLIFrameElement & { msRequestFullscreen?: () => void }).msRequestFullscreen) {
+      (iframe as HTMLIFrameElement & { msRequestFullscreen: () => void }).msRequestFullscreen()
     }
   }
 
@@ -203,7 +203,7 @@ function PlayPageContent() {
               <h3 className="text-accent font-medium mb-2">💡 Tips</h3>
               <ul className="text-textSecondary space-y-1 text-sm">
                 <li>• Games may take time to load</li>
-                <li>• Try refresh if game doesn't start</li>
+                <li>• Try refresh if game doesn&apos;t start</li>
                 <li>• Some games need internet connection</li>
               </ul>
             </div>

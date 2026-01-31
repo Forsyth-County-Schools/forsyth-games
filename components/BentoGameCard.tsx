@@ -1,9 +1,8 @@
 'use client'
 
-import { useState } from 'react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
-import { Play, Users, Star, TrendingUp, Clock } from 'lucide-react'
+import { Play, Users, Star, TrendingUp } from 'lucide-react'
 
 interface Game {
   name: string
@@ -23,7 +22,6 @@ interface BentoGameCardProps {
 }
 
 export default function BentoGameCard({ game, size, index }: BentoGameCardProps) {
-  const [isHovered, setIsHovered] = useState(false)
   const serverUrl = "https://gms.parcoil.com"
 
   const sizeClasses = {
