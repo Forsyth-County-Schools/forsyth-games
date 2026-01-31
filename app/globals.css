@@ -2,15 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-  --background: #0f0f0f;
-  --surface: #1a1a1a;
-  --surface-hover: #252525;
-  --accent: #4b87f7;
-  --text-primary: #ffffff;
-  --text-secondary: #b0b0b0;
+  --background: #020617;
+  --surface: #0f172a;
+  --surfaceHover: #1e293b;
+  --accent: #22d3ee;
+  --accentHover: #06b6d4;
+  --primary: #a78bfa;
+  --secondary: #f472b6;
+  --textPrimary: #f8fafc;
+  --textSecondary: #cbd5e1;
+  --textMuted: #64748b;
+  --neon-blue: #22d3ee;
+  --neon-lime: #84cc16;
+  --neon-purple: #a855f7;
+  --neon-pink: #ec4899;
 }
 
 * {
@@ -24,11 +33,12 @@ body {
   max-width: 100vw;
   overflow-x: hidden;
   background-color: var(--background);
-  color: var(--text-primary);
+  color: var(--textPrimary);
 }
 
 body {
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: 'Inter', 'Plus Jakarta Sans', system-ui, sans-serif;
+  background: var(--background);
 }
 
 /* Custom scrollbar */
@@ -46,18 +56,13 @@ body {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #5a94ff;
-}
-
-/* Smooth transitions */
-* {
-  transition: all 0.2s ease-in-out;
+  background: var(--accentHover);
 }
 
 /* Selection color */
 ::selection {
   background-color: var(--accent);
-  color: white;
+  color: var(--background);
 }
 
 /* Focus styles */
@@ -65,4 +70,101 @@ button:focus,
 input:focus {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
+}
+
+/* Glassmorphism base styles */
+.glass {
+  background: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glass-hover {
+  background: rgba(30, 41, 59, 0.4);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* Neon glow effects */
+.neon-glow {
+  box-shadow: 0 0 20px rgba(34, 211, 238, 0.5);
+}
+
+.neon-glow-lg {
+  box-shadow: 0 0 40px rgba(34, 211, 238, 0.7);
+}
+
+.neon-text {
+  text-shadow: 0 0 10px currentColor;
+}
+
+/* Smooth transitions */
+* {
+  transition: all 0.3s ease-in-out;
+}
+
+/* Loading animations */
+@keyframes slide-up {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+/* Utility classes */
+.animate-slide-up {
+  animation: slide-up 0.3s ease-out;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.5s ease-out;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Hide scrollbar for cleaner look */
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
 }
