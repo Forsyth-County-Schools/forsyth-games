@@ -3,7 +3,7 @@
 
 <h1 align=center> Native. Unblocked games site template </h1>
 
-### Introduction:
+### Introduction
 
 This repository provides a simple template for creating unblocked games sites. The template includes basic HTML, CSS, and JavaScript files that you can customize according to your preferences.
 
