@@ -19,7 +19,7 @@ export default function SearchIsland({ onSearch, placeholder = "Search games..."
   useEffect(() => {
     const fetchGames = async () => {
       try {
-        const response = await fetch('/config/games.json')
+        const response = await fetch('/api/games')
         const data = await response.json()
         const names = data.map((game: { name: string }) => game.name)
         setGameNames(names)

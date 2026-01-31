@@ -98,10 +98,10 @@ export default function FloatingNavigation({ onSearchToggle, isSearchActive }: F
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -100, opacity: 0 }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
-            className="hidden lg:block fixed top-6 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-4xl px-4"
+            className="hidden lg:block fixed top-6 left-1/2 transform -translate-x-1/2 z-50"
           >
-            <div className="glass glass-hover border border-white/10 rounded-full px-8 py-4 shadow-glow">
-              <div className="flex items-center gap-3">
+            <div className="glass glass-hover border border-white/10 rounded-full px-6 py-4 shadow-glow">
+              <div className="flex items-center justify-center gap-2">
                 {/* Logo */}
                 <motion.div
                   className="w-10 h-10 bg-gradient-to-br from-yellow-500 via-amber-500 to-yellow-600 rounded-lg flex items-center justify-center shadow-lg overflow-hidden ring-2 ring-yellow-500/50"
@@ -121,12 +121,12 @@ export default function FloatingNavigation({ onSearchToggle, isSearchActive }: F
                 </motion.div>
 
                 {/* Navigation Items */}
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1">
                   {navigationItems.map((item, index) => (
                     <motion.button
                       key={item.id}
                       onClick={() => handleNavClick(item.id, item.href)}
-                      className={`group relative p-3 rounded-xl transition-all duration-300 ${
+                      className={`group relative p-2.5 rounded-xl transition-all duration-300 ${
                         item.id === 'search' && isSearchActive
                           ? 'bg-neon-blue/20 border border-neon-blue/50 shadow-neon'
                           : item.id === 'search' && !isSearchActive
@@ -165,13 +165,13 @@ export default function FloatingNavigation({ onSearchToggle, isSearchActive }: F
                   ))}
 
                   {/* Divider */}
-                  <div className="w-px h-8 bg-white/20 mx-2" />
+                  <div className="w-px h-8 bg-white/20 mx-1" />
 
                   {/* Authentication Buttons */}
                   <SignedOut>
                     <SignInButton mode="modal">
                       <motion.button
-                        className="px-4 py-2 rounded-xl glass glass-hover border border-white/10 text-text-primary text-sm font-semibold transition-all duration-300 hover:border-neon-blue/50"
+                        className="px-3 py-2 rounded-xl glass glass-hover border border-white/10 text-text-primary text-sm font-semibold transition-all duration-300 hover:border-neon-blue/50"
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                       >
@@ -180,7 +180,7 @@ export default function FloatingNavigation({ onSearchToggle, isSearchActive }: F
                     </SignInButton>
                     <SignUpButton mode="modal">
                       <motion.button
-                        className="conic-border px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300"
+                        className="conic-border px-3 py-2 rounded-xl text-sm font-semibold transition-all duration-300"
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                       >
