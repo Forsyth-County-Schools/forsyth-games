@@ -58,7 +58,7 @@ export default function Home() {
   useEffect(() => {
     const fetchGames = async () => {
       try {
-        const response = await fetch('/config/games.json')
+        const response = await fetch('/api/games')
         const data = await response.json()
         
         // Transform and enhance games data - moved to useEffect to prevent hydration mismatch
