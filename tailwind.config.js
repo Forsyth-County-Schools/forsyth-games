@@ -8,19 +8,21 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Deep Space Theme
+        // Deep Space Theme - 2026 Enhanced
         'deep-space': '#000000',
         'deep-space-dark': '#050505',
         'surface': '#0a0a0a',
         'surface-hover': '#1a1a1a',
         
-        // Dynamic Mesh Gradient Colors
-        'electric-cyan': '#00F2FF',
-        'royal-purple': '#8B5CF6',
-        'neon-blue': '#00F2FF',
-        'neon-purple': '#8B5CF6',
-        'neon-pink': '#EC4899',
-        'neon-lime': '#84CC16',
+        // Dynamic Mesh Gradient Colors - More Vibrant 2026 Palette
+        'electric-cyan': '#00F5FF',
+        'royal-purple': '#A855F7',
+        'neon-blue': '#00F5FF',
+        'neon-purple': '#A855F7',
+        'neon-pink': '#FF00AA',
+        'neon-lime': '#CCFF00',
+        'neon-magenta': '#FF00FF',
+        'acid-green': '#39FF14',
         
         // Text Colors
         'text-primary': '#ffffff',
@@ -48,10 +50,12 @@ module.exports = {
           end: '#0a0a0a',
         },
         neon: {
-          blue: '#00F2FF',
-          purple: '#8B5CF6',
-          pink: '#EC4899',
-          lime: '#84CC16',
+          blue: '#00F5FF',
+          purple: '#A855F7',
+          pink: '#FF00AA',
+          lime: '#CCFF00',
+          magenta: '#FF00FF',
+          cyan: '#00FFFF',
         },
       },
       fontFamily: {
@@ -75,14 +79,18 @@ module.exports = {
       },
       boxShadow: {
         'glass': '0 8px 32px 0 rgba(0, 0, 0, 0.5), inset 0 1px 0 0 rgba(255, 255, 255, 0.05)',
-        'glass-hover': '0 12px 48px 0 rgba(0, 242, 255, 0.25), inset 0 1px 0 0 rgba(255, 255, 255, 0.1)',
-        'neon-cyan': '0 0 30px rgba(0, 242, 255, 0.5), 0 0 60px rgba(0, 242, 255, 0.2)',
-        'neon-purple': '0 0 30px rgba(139, 92, 246, 0.5), 0 0 60px rgba(139, 92, 246, 0.2)',
-        'neon-lg': '0 0 50px rgba(0, 242, 255, 0.7), 0 0 100px rgba(0, 242, 255, 0.3)',
+        'glass-hover': '0 12px 48px 0 rgba(0, 245, 255, 0.25), inset 0 1px 0 0 rgba(255, 255, 255, 0.1)',
+        'neon-cyan': '0 0 30px rgba(0, 245, 255, 0.5), 0 0 60px rgba(0, 245, 255, 0.2)',
+        'neon-purple': '0 0 30px rgba(168, 85, 247, 0.5), 0 0 60px rgba(168, 85, 247, 0.2)',
+        'neon-pink': '0 0 30px rgba(255, 0, 170, 0.5), 0 0 60px rgba(255, 0, 170, 0.2)',
+        'neon-lg': '0 0 50px rgba(0, 245, 255, 0.7), 0 0 100px rgba(0, 245, 255, 0.3)',
+        'neon-xl': '0 0 80px rgba(0, 245, 255, 0.8), 0 0 120px rgba(168, 85, 247, 0.4)',
         'card': '0 4px 20px rgba(0, 0, 0, 0.4)',
-        'card-hover': '0 12px 40px rgba(0, 242, 255, 0.2), 0 8px 30px rgba(139, 92, 246, 0.15)',
-        'floating': '0 20px 60px rgba(0, 242, 255, 0.15), 0 30px 80px rgba(139, 92, 246, 0.1)',
-        'glow': '0 0 80px rgba(0, 242, 255, 0.4), inset 0 0 40px rgba(139, 92, 246, 0.15)',
+        'card-hover': '0 12px 40px rgba(0, 245, 255, 0.2), 0 8px 30px rgba(168, 85, 247, 0.15)',
+        'floating': '0 20px 60px rgba(0, 245, 255, 0.15), 0 30px 80px rgba(168, 85, 247, 0.1)',
+        'glow': '0 0 80px rgba(0, 245, 255, 0.4), inset 0 0 40px rgba(168, 85, 247, 0.15)',
+        'glow-intense': '0 0 120px rgba(0, 245, 255, 0.6), inset 0 0 60px rgba(168, 85, 247, 0.3)',
+        'holographic': '0 0 40px rgba(0, 245, 255, 0.3), 0 0 80px rgba(255, 0, 170, 0.2), inset 0 0 20px rgba(168, 85, 247, 0.1)',
       },
       animation: {
         'float': 'float 3s ease-in-out infinite',
@@ -94,6 +102,12 @@ module.exports = {
         'conic-rotate': 'conic-rotate 3s linear infinite',
         'aurora': 'aurora 8s ease-in-out infinite',
         'mesh-shift': 'mesh-shift 4s ease-in-out infinite',
+        'shimmer': 'shimmer 2s linear infinite',
+        'glow-pulse': 'glow-pulse 3s ease-in-out infinite',
+        'glitch': 'glitch 3s ease-in-out infinite',
+        'scan': 'scan 8s linear infinite',
+        'float-slow': 'float-slow 6s ease-in-out infinite',
+        'count-up': 'count-up 1s ease-out',
       },
       keyframes: {
         float: {
@@ -132,6 +146,44 @@ module.exports = {
         'mesh-shift': {
           '0%, 100%': { backgroundPosition: '0% 50%' },
           '50%': { backgroundPosition: '100% 50%' },
+        },
+        'shimmer': {
+          '0%': { transform: 'translateX(-100%)' },
+          '100%': { transform: 'translateX(100%)' },
+        },
+        'glow-pulse': {
+          '0%, 100%': { 
+            boxShadow: '0 0 20px rgba(0, 245, 255, 0.3), 0 0 40px rgba(168, 85, 247, 0.2)',
+          },
+          '50%': { 
+            boxShadow: '0 0 40px rgba(0, 245, 255, 0.6), 0 0 80px rgba(168, 85, 247, 0.4)',
+          },
+        },
+        'glitch': {
+          '0%, 100%': { 
+            transform: 'translate(0)',
+            filter: 'hue-rotate(0deg)',
+          },
+          '33%': { 
+            transform: 'translate(-2px, 2px)',
+            filter: 'hue-rotate(90deg)',
+          },
+          '66%': { 
+            transform: 'translate(2px, -2px)',
+            filter: 'hue-rotate(180deg)',
+          },
+        },
+        'scan': {
+          '0%': { transform: 'translateY(-100%)' },
+          '100%': { transform: 'translateY(100%)' },
+        },
+        'float-slow': {
+          '0%, 100%': { transform: 'translateY(0px)' },
+          '50%': { transform: 'translateY(-20px)' },
+        },
+        'count-up': {
+          '0%': { opacity: 0, transform: 'translateY(10px)' },
+          '100%': { opacity: 1, transform: 'translateY(0)' },
         },
       },
       backdropBlur: {

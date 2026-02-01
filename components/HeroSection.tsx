@@ -52,12 +52,13 @@ export default function HeroSection() {
             transition={{ duration: 0.8 }}
           >
             <motion.div 
-              className="inline-flex items-center gap-2 bg-surface/80 backdrop-blur-md border border-white/10 rounded-full px-4 py-2 mb-6"
+              className="inline-flex items-center gap-2 glass-premium rounded-full px-4 py-2 mb-6 shadow-neon-cyan"
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.2 }}
+              whileHover={{ scale: 1.05 }}
             >
-              <TrendingUp className="w-4 h-4 text-neon-lime" />
+              <TrendingUp className="w-4 h-4 text-neon-lime animate-pulse" />
               <span className="text-neon-lime text-sm font-semibold">Trending Now</span>
             </motion.div>
 
@@ -68,14 +69,19 @@ export default function HeroSection() {
               transition={{ delay: 0.3 }}
             >
               <div className="flex items-center gap-4">
-                <Image 
-                  src="https://site.imsglobal.org/sites/default/files/orgs/logos/primary/fcslogo_hexagon.png" 
-                  alt="FCS Logo"
-                  width={64}
-                  height={64}
-                  className="object-contain"
-                />
-                <span className="bg-gradient-to-r from-neon-blue/90 via-neon-purple/90 to-neon-pink/90 bg-clip-text text-transparent">
+                <motion.div
+                  whileHover={{ rotate: 360 }}
+                  transition={{ duration: 0.6 }}
+                >
+                  <Image 
+                    src="https://site.imsglobal.org/sites/default/files/orgs/logos/primary/fcslogo_hexagon.png" 
+                    alt="FCS Logo"
+                    width={64}
+                    height={64}
+                    className="object-contain drop-shadow-[0_0_15px_rgba(0,245,255,0.5)]"
+                  />
+                </motion.div>
+                <span className="bg-gradient-to-r from-neon-blue via-neon-purple to-neon-pink bg-clip-text text-transparent neon-text-glow">
                   Forsyth Games
                 </span>
               </div>
@@ -87,7 +93,7 @@ export default function HeroSection() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
             >
-              Ultimate Educational Gaming Portal with 293+ brain-training games designed for students.
+              Ultimate Educational Gaming Portal • 293+ Educational Games • Brain-Training Arena
             </motion.p>
 
             <motion.div 
@@ -98,11 +104,18 @@ export default function HeroSection() {
             >
               <motion.button
                 onClick={() => window.location.href = "/#games"}
-                className="inline-flex items-center gap-3 glass glass-hover text-text-primary px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                className="inline-flex items-center gap-3 premium-button text-text-primary px-8 py-4 rounded-full font-semibold text-lg relative z-10"
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.98 }}
               >
-                Browse Games
+                <span className="relative z-10">Browse Games</span>
+                <motion.span
+                  className="relative z-10"
+                  animate={{ x: [0, 5, 0] }}
+                  transition={{ repeat: Infinity, duration: 1.5 }}
+                >
+                  →
+                </motion.span>
               </motion.button>
             </motion.div>
 
@@ -113,18 +126,48 @@ export default function HeroSection() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6 }}
             >
-              <div className="text-center glass glass-hover rounded-2xl p-4 border border-white/10">
-                <div className="text-3xl font-bold text-neon-blue">293+</div>
+              <motion.div 
+                className="text-center glass-premium rounded-2xl p-4 border border-white/10 glow-hover group"
+                whileHover={{ y: -5, scale: 1.05 }}
+              >
+                <motion.div 
+                  className="text-3xl font-bold text-neon-blue"
+                  initial={{ opacity: 0, scale: 0.5 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.8, type: "spring" }}
+                >
+                  293+
+                </motion.div>
                 <div className="text-text-secondary/70 text-sm">Educational Games</div>
-              </div>
-              <div className="text-center glass glass-hover rounded-2xl p-4 border border-white/10">
-                <div className="text-3xl font-bold text-neon-lime">{featuredGame.players}</div>
+              </motion.div>
+              <motion.div 
+                className="text-center glass-premium rounded-2xl p-4 border border-white/10 glow-hover group"
+                whileHover={{ y: -5, scale: 1.05 }}
+              >
+                <motion.div 
+                  className="text-3xl font-bold text-neon-lime"
+                  initial={{ opacity: 0, scale: 0.5 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.9, type: "spring" }}
+                >
+                  {featuredGame.players}
+                </motion.div>
                 <div className="text-text-secondary/70 text-sm">Players Online</div>
-              </div>
-              <div className="text-center glass glass-hover rounded-2xl p-4 border border-white/10">
-                <div className="text-3xl font-bold text-neon-purple">4.8★</div>
+              </motion.div>
+              <motion.div 
+                className="text-center glass-premium rounded-2xl p-4 border border-white/10 glow-hover group"
+                whileHover={{ y: -5, scale: 1.05 }}
+              >
+                <motion.div 
+                  className="text-3xl font-bold text-neon-purple"
+                  initial={{ opacity: 0, scale: 0.5 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 1.0, type: "spring" }}
+                >
+                  4.8★
+                </motion.div>
                 <div className="text-text-secondary/70 text-sm">User Rating</div>
-              </div>
+              </motion.div>
             </motion.div>
           </motion.div>
 
@@ -138,7 +181,7 @@ export default function HeroSection() {
             <div className="relative group">
               {/* 3D Bento Box */}
               <motion.div 
-                className="relative floating-card glass glass-hover rounded-2xl overflow-hidden border border-white/10"
+                className="relative floating-card glass-premium rounded-2xl overflow-hidden border border-white/10 holographic scanline"
                 whileHover={{ 
                   scale: 1.03, 
                   y: -15,
@@ -190,15 +233,23 @@ export default function HeroSection() {
                   
                   {/* Play Button Overlay */}
                   <motion.div 
-                    className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/40 backdrop-blur-sm"
                     initial={{ scale: 0.8 }}
                     whileHover={{ scale: 1 }}
                   >
                     <motion.button
                       onClick={() => window.location.href = `/play?gameurl=${featuredGame.url}/`}
-                      className="conic-border px-8 py-4 rounded-full font-semibold flex items-center gap-3 transition-all duration-300"
-                      whileHover={{ scale: 1.1 }}
+                      className="premium-button px-8 py-4 rounded-full font-semibold flex items-center gap-3 shadow-neon-xl"
+                      whileHover={{ scale: 1.1, y: -5 }}
                       whileTap={{ scale: 0.95 }}
+                      animate={{ 
+                        boxShadow: [
+                          "0 0 30px rgba(0, 245, 255, 0.5)",
+                          "0 0 60px rgba(168, 85, 247, 0.7)",
+                          "0 0 30px rgba(0, 245, 255, 0.5)",
+                        ]
+                      }}
+                      transition={{ duration: 2, repeat: Infinity }}
                     >
                       <span className="relative z-10 flex items-center gap-3 text-text-primary">
                         <Play className="w-6 h-6" />

@@ -89,7 +89,7 @@ export default function BentoGameCard({ game, size, index }: BentoGameCardProps)
     >
       {/* Glass Card with Floating Effect */}
       <motion.div 
-        className="relative h-full floating-card glass glass-hover border border-white/10 rounded-2xl overflow-hidden neon-border-sweep"
+        className="relative h-full floating-card glass-premium border border-white/10 rounded-2xl overflow-hidden neon-border-sweep holographic"
         whileHover={{ 
           scale: 1.03,
           y: -12,
@@ -143,37 +143,37 @@ export default function BentoGameCard({ game, size, index }: BentoGameCardProps)
           <div className="absolute top-3 left-3 flex gap-2">
             {game.trending && (
               <motion.div
-                className="flex items-center gap-1 glass glass-hover rounded-full px-2 py-1 border border-white/10"
+                className="flex items-center gap-1 glass-premium rounded-full px-2 py-1 border border-neon-lime/30 shadow-neon-cyan"
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ delay: 0.2 }}
               >
-                <TrendingUp className="w-3 h-3 text-neon-lime" />
+                <TrendingUp className="w-3 h-3 text-neon-lime animate-pulse" />
                 <span className="text-xs text-neon-lime font-semibold">Trending</span>
               </motion.div>
             )}
             {game.isNew && (
               <motion.div
-                className="glass glass-hover rounded-full px-2 py-1 border border-white/10"
+                className="glass-premium rounded-full px-2 py-1 border border-neon-blue/30 shadow-neon-blue"
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ delay: 0.3 }}
               >
-                <span className="text-xs text-neon-blue font-semibold">NEW</span>
+                <span className="text-xs text-neon-blue font-semibold animate-pulse">NEW</span>
               </motion.div>
             )}
           </div>
 
           {/* Play Button Overlay */}
           <motion.div 
-            className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/50 backdrop-blur-sm"
             initial={{ scale: 0.8 }}
             whileHover={{ scale: 1 }}
           >
             <motion.button
               onClick={() => window.location.href = `/play?gameurl=${game.url}/`}
-              className="conic-border px-6 py-3 rounded-full font-semibold flex items-center gap-2 transition-all duration-300"
-              whileHover={{ scale: 1.1 }}
+              className="premium-button px-6 py-3 rounded-full font-semibold flex items-center gap-2"
+              whileHover={{ scale: 1.1, y: -3 }}
               whileTap={{ scale: 0.95 }}
             >
               <span className="relative z-10 flex items-center gap-2 text-text-primary">
