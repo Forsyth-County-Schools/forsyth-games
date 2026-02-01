@@ -15,7 +15,7 @@ function PlayPageContent() {
   const [isLoading, setIsLoading] = useState(true)
   const [retryCount, setRetryCount] = useState(0)
 
-  const serverUrl = process.env.NEXT_PUBLIC_GAME_SERVER_URL || "https://forsyth-games-backend.onrender.com/game"
+  const serverUrl = "https://forsyth-games.onrender.com/game"
 
   useEffect(() => {
     if (!gameUrl) {
