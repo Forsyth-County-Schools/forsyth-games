@@ -2,7 +2,6 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
-const fetch = require('node-fetch');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -28,9 +27,10 @@ app.get('/game/:gameId', async (req, res) => {
   const { gameId } = req.params;
   
   try {
-    const gameUrl = `${GAME_SERVER_URL}/${gameId}`;
+    // Add trailing slash as the game server expects it
+    const gameUrl = `${GAME_SERVER_URL}/${gameId}/`;
     
-    // Fetch the game content
+    // Fetch the game content using Node.js built-in fetch
     const response = await fetch(gameUrl, {
       headers: {
         'User-Agent': req.headers['user-agent'] || 'Mozilla/5.0',
@@ -55,8 +55,9 @@ app.get('/game/:gameId', async (req, res) => {
       'X-Frame-Options': 'ALLOWALL',
     });
 
-    // Stream the response
-    response.body.pipe(res);
+    // Get the response as text and send it
+    const content = await response.text();
+    res.send(content);
     
   } catch (error) {
     console.error(`Error proxying game ${gameId}:`, error);
@@ -95,7 +96,8 @@ app.get('/game/:gameId/*', async (req, res) => {
       'Cache-Control': 'public, max-age=3600', // Cache assets for 1 hour
     });
 
-    response.body.pipe(res);
+    const content = await response.arrayBuffer();
+    res.send(Buffer.from(content));
     
   } catch (error) {
     console.error(`Error proxying asset ${assetPath}:`, error);
