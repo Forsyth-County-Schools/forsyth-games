@@ -1,0 +1,31 @@
+services:
+  # Backend API Service
+  - type: web
+    name: forsyth-games-backend
+    env: node
+    repo: https://github.com/yourusername/forsyth-games.git
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    plan: free
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+    
+  # Frontend Service (Optional - if you want to deploy frontend too)
+  - type: web
+    name: forsyth-games-frontend
+    env: static
+    repo: https://github.com/yourusername/forsyth-games.git
+    rootDir: out
+    buildCommand: npm run build
+    plan: free
+    routes:
+      - type: rewrite
+        source: /api/*
+        destination: https://forsyth-games-backend.onrender.com/api/*
+      - type: rewrite
+        source: /game/*
+        destination: https://forsyth-games-backend.onrender.com/game/*
