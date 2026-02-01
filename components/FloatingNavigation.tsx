@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Home, TrendingUp, Grid3x3, Search, X, Menu } from 'lucide-react'
+import { Home, TrendingUp, Youtube, Search, X, Menu } from 'lucide-react'
 import { SignInButton, SignUpButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
 
 interface NavigationItem {
@@ -19,6 +20,7 @@ interface FloatingNavigationProps {
 }
 
 export default function FloatingNavigation({ onSearchToggle, isSearchActive }: FloatingNavigationProps) {
+  const router = useRouter()
   const [isVisible, setIsVisible] = useState(true)
   const [lastScrollY, setLastScrollY] = useState(0)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -28,7 +30,7 @@ export default function FloatingNavigation({ onSearchToggle, isSearchActive }: F
   const navigationItems: NavigationItem[] = [
     { id: 'home', label: 'Home', icon: Home, href: '#home' },
     { id: 'trending', label: 'Trending', icon: TrendingUp, href: '#trending' },
-    { id: 'categories', label: 'Categories', icon: Grid3x3, href: '#categories' },
+    { id: 'youtube', label: 'YouTube', icon: Youtube, href: '/youtube' },
     { id: 'search', label: 'Search', icon: Search, href: '#search' },
   ]
 
@@ -76,6 +78,9 @@ export default function FloatingNavigation({ onSearchToggle, isSearchActive }: F
   const handleNavClick = (itemId: string, href: string) => {
     if (itemId === 'search') {
       onSearchToggle()
+    } else if (itemId === 'youtube') {
+      // Navigate to YouTube page using Next.js router
+      router.push(href)
     } else {
       setActiveItem(itemId)
       setIsMobileMenuOpen(false)
