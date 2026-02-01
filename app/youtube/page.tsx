@@ -179,9 +179,8 @@ export default function YouTubePage() {
                   <iframe
                     src={embedUrl}
                     className="absolute top-0 left-0 w-full h-full"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     allowFullScreen
-                    sandbox="allow-scripts allow-same-origin allow-presentation"
                     title="YouTube video player"
                   />
                 </div>
