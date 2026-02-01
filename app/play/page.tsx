@@ -2,10 +2,8 @@
 
 import { useEffect, useState, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
-import { ArrowLeft, Maximize2, RefreshCw, AlertTriangle, Gamepad2, Trophy, Star, Zap, Target, Shield, Sword } from 'lucide-react'
-import Navbar from '@/components/Navbar'
+import { ArrowLeft, Maximize2, RefreshCw, AlertTriangle, Gamepad2 } from 'lucide-react'
 import Footer from '@/components/Footer'
-import ErrorBoundary from '@/components/ErrorBoundary'
 import gamesData from '@/config/games.json'
 
 function PlayPageContent() {
@@ -85,7 +83,7 @@ function PlayPageContent() {
     }
   }
 
-  // Get game theme based on game name or category
+  // Optimized game theme - simplified for performance
   const getGameTheme = (gameName: string) => {
     const name = gameName.toLowerCase()
     
@@ -94,7 +92,6 @@ function PlayPageContent() {
         primary: 'from-purple-600 to-blue-600',
         secondary: 'bg-purple-500/20',
         accent: 'text-purple-400',
-        icon: Target,
         category: 'Puzzle'
       }
     }
@@ -103,7 +100,6 @@ function PlayPageContent() {
         primary: 'from-red-600 to-orange-600',
         secondary: 'bg-red-500/20',
         accent: 'text-red-400',
-        icon: Sword,
         category: 'Action'
       }
     }
@@ -112,7 +108,6 @@ function PlayPageContent() {
         primary: 'from-green-600 to-teal-600',
         secondary: 'bg-green-500/20',
         accent: 'text-green-400',
-        icon: Zap,
         category: 'Racing'
       }
     }
@@ -121,7 +116,6 @@ function PlayPageContent() {
         primary: 'from-emerald-600 to-green-600',
         secondary: 'bg-emerald-500/20',
         accent: 'text-emerald-400',
-        icon: Shield,
         category: 'Building'
       }
     }
@@ -130,7 +124,6 @@ function PlayPageContent() {
       primary: 'from-blue-600 to-purple-600',
       secondary: 'bg-blue-500/20',
       accent: 'text-blue-400',
-      icon: Gamepad2,
       category: 'Arcade'
     }
   }
@@ -154,12 +147,10 @@ function PlayPageContent() {
   }
 
   const theme = getGameTheme(gameData.name)
-  const GameIcon = theme.icon
 
   if (error && !gameUrl) {
     return (
-      <div className="min-h-screen bg-dark-gradient">
-        <Navbar />
+      <div className="min-h-screen bg-deep-space text-text-primary">
         <div className="container mx-auto px-4 py-8">
           <div className="text-center">
             <div className="bg-red-500/20 border border-red-500/50 rounded-lg p-8 max-w-md mx-auto">
