@@ -4,6 +4,7 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
 
 :root {
   --background: #000000;
@@ -549,6 +550,14 @@ input:focus {
   }
 }
 
+/* Disable all animations globally to prevent glitches */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
 /* Simplified glass effect for better performance */
 .glass {
   background: rgba(10, 10, 10, 0.8);
@@ -616,6 +625,16 @@ body {
   transform: translateZ(0);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Disable aurora animations to prevent glitches */
+.aurora-light {
+  animation: none !important;
+}
+
+/* Disable film grain to improve performance */
+.film-grain {
+  display: none !important;
 }
 
 /* Enhanced responsive typography */

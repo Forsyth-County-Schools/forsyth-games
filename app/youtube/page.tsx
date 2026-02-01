@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
 import { Play, X, Loader2, Youtube } from 'lucide-react'
 import FloatingNavigation from '@/components/FloatingNavigation'
 import Footer from '@/components/Footer'
@@ -65,13 +64,10 @@ export default function YouTubePage() {
 
   return (
     <div className="min-h-screen bg-deep-space text-text-primary relative overflow-hidden">
-      {/* Aurora Light Leaks */}
-      <div className="aurora-light aurora-1" />
-      <div className="aurora-light aurora-2" />
-      <div className="aurora-light aurora-3" />
-      
-      {/* Film Grain Overlay */}
-      <div className="film-grain" />
+      {/* Simplified Background - Remove heavy effects */}
+      <div className="aurora-light aurora-1 hidden lg:block" />
+      <div className="aurora-light aurora-2 hidden lg:block" />
+      <div className="aurora-light aurora-3 hidden xl:block" />
       
       <FloatingNavigation 
         onSearchToggle={() => setIsSearchActive(!isSearchActive)}
@@ -80,15 +76,10 @@ export default function YouTubePage() {
 
       {/* Main Content */}
       <div className="container mx-auto px-6 py-24 min-h-screen flex flex-col items-center justify-center">
-        <motion.div
-          className="w-full max-w-4xl"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
+        <div className="w-full max-w-4xl">
           {/* Header */}
           <div className="text-center mb-12">
-            <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl glass glass-hover border border-white/10 mb-6">
+            <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl glass border border-white/10 mb-6">
               <Youtube className="w-10 h-10 text-neon-blue" />
             </div>
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
@@ -122,18 +113,11 @@ export default function YouTubePage() {
               </div>
 
               {/* Error Message */}
-              <AnimatePresence>
-                {error && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: 'auto' }}
-                    exit={{ opacity: 0, height: 0 }}
-                    className="px-4 py-3 bg-red-500/10 border border-red-500/30 rounded-xl text-red-400 text-sm"
-                  >
-                    {error}
-                  </motion.div>
-                )}
-              </AnimatePresence>
+              {error && (
+                <div className="px-4 py-3 bg-red-500/10 border border-red-500/30 rounded-xl text-red-400 text-sm">
+                  {error}
+                </div>
+              )}
 
               {/* Buttons */}
               <div className="flex gap-3">
@@ -166,42 +150,29 @@ export default function YouTubePage() {
           </div>
 
           {/* Video Player */}
-          <AnimatePresence>
-            {embedUrl && (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.4 }}
-                className="glass glass-hover border border-white/10 rounded-2xl overflow-hidden"
-              >
-                <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
-                  <iframe
-                    src={embedUrl}
-                    className="absolute top-0 left-0 w-full h-full"
-                    allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowFullScreen
-                    title="YouTube video player"
-                  />
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+          {embedUrl && (
+            <div className="glass border border-white/10 rounded-2xl overflow-hidden">
+              <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
+                <iframe
+                  src={embedUrl}
+                  className="absolute top-0 left-0 w-full h-full"
+                  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                  title="YouTube video player"
+                />
+              </div>
+            </div>
+          )}
 
           {/* Instructions */}
           {!embedUrl && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.3 }}
-              className="mt-8 text-center"
-            >
+            <div className="mt-8 text-center">
               <p className="text-text-secondary/60 text-sm">
                 Supported formats: youtube.com/watch, youtu.be, youtube.com/shorts, and more
               </p>
-            </motion.div>
+            </div>
           )}
-        </motion.div>
+        </div>
       </div>
 
       <Footer />
