@@ -1,5 +1,11 @@
 [
   {
+    "name": "10 Minutes Till Dawn",
+    "image": "splash.png",
+    "url": "10-minutes-till-dawn",
+    "new": false
+  },
+  {
     "name": "1v1lol",
     "image": "logo.png",
     "url": "1v1lol",
@@ -9,18 +15,6 @@
     "name": "1v1space",
     "image": "splash.png",
     "url": "1v1space",
-    "new": false
-  },
-  {
-    "name": "10 Minutes Till Dawn",
-    "image": "splash.png",
-    "url": "10-minutes-till-dawn",
-    "new": false
-  },
-  {
-    "name": "100ng",
-    "image": "100ng.jpg",
-    "url": "100ng",
     "new": false
   },
   {
@@ -36,51 +30,21 @@
     "new": false
   },
   {
-    "name": "9007199254740992",
-    "image": "logo-4.png",
-    "url": "9007199254740992",
-    "new": false
-  },
-  {
-    "name": "DogeMiner",
-    "image": "favicon.ico",
-    "url": "DogeMiner",
-    "new": false
-  },
-  {
-    "name": "HexGL",
-    "image": "icon.png",
-    "url": "HexGL",
-    "new": false
-  },
-  {
-    "name": "Offline Paradise",
-    "image": "assets/icon.jpeg",
-    "url": "OfflineParadise",
-    "new": false
-  },
-  {
-    "name": "Stickman Survival",
-    "image": "Icon.png",
-    "url": "Stickman-Survival",
-    "new": false
-  },
-  {
     "name": "A Dance of Fire and Ice",
     "image": "splash.png",
     "url": "a-dance-of-fire-and-ice",
     "new": false
   },
   {
-    "name": "Achievement Unlocked",
-    "image": "achievementunlocked.png",
-    "url": "achievementunlocked",
-    "new": false
-  },
-  {
     "name": "A Dark Room",
     "image": "splash.png",
     "url": "adarkroom",
+    "new": false
+  },
+  {
+    "name": "Achievement Unlocked",
+    "image": "achievementunlocked.png",
+    "url": "achievementunlocked",
     "new": false
   },
   {
@@ -216,21 +180,9 @@
     "new": false
   },
   {
-    "name": "Big Red Button",
-    "image": "bigredbutton.png",
-    "url": "bigredbutton",
-    "new": false
-  },
-  {
     "name": "BitLife",
     "image": "splash.png",
     "url": "bitlife",
-    "new": false
-  },
-  {
-    "name": "Black Hole Square",
-    "image": "icon.png",
-    "url": "blacholesquare",
     "new": false
   },
   {
@@ -249,18 +201,6 @@
     "name": "Bloons TD 2",
     "image": "bloonstd2.png",
     "url": "bloonstd2",
-    "new": false
-  },
-  {
-    "name": "Bloxors",
-    "image": "title.png",
-    "url": "bloxors",
-    "new": false
-  },
-  {
-    "name": "BNTTS",
-    "image": "icons/icon-256.png",
-    "url": "bntts",
     "new": false
   },
   {
@@ -285,12 +225,6 @@
     "name": "Breaking the Bank",
     "image": "breakingthebank.png",
     "url": "breakingthebank",
-    "new": false
-  },
-  {
-    "name": "BTTS",
-    "image": "images.png",
-    "url": "btts",
     "new": false
   },
   {
@@ -324,33 +258,21 @@
     "new": false
   },
   {
-    "name": "Champion Island",
-    "image": "splash.png",
-    "url": "champion-island",
-    "new": false
-  },
-  {
     "name": "Champion Archer",
     "image": "championarcher.png",
     "url": "championarcher",
     "new": false
   },
   {
-    "name": "Chill Radio",
-    "image": "img/chill-icon.png",
-    "url": "chill-radio",
+    "name": "Champion Island",
+    "image": "splash.png",
+    "url": "champion-island",
     "new": false
   },
   {
     "name": "Chrome Dino",
     "image": "images/default_100_percent/offline/100-error-offline.png",
     "url": "chrome-dino",
-    "new": false
-  },
-  {
-    "name": "Circlo",
-    "image": "img/download.png",
-    "url": "circlo",
     "new": false
   },
   {
@@ -363,12 +285,6 @@
     "name": "CN Ping Pong",
     "image": "tabletennisultimate.png",
     "url": "cnpingpong",
-    "new": false
-  },
-  {
-    "name": "Connect 3",
-    "image": "connect3.png",
-    "url": "connect3",
     "new": false
   },
   {
@@ -402,27 +318,9 @@
     "new": false
   },
   {
-    "name": "CS:GO Clicker",
-    "image": "images/case1.png",
-    "url": "csgo-clicker",
-    "new": false
-  },
-  {
     "name": "CTR",
     "image": "logo.png",
     "url": "ctr",
-    "new": false
-  },
-  {
-    "name": "CTR Holiday",
-    "image": "favicon.ico",
-    "url": "ctr-holiday",
-    "new": false
-  },
-  {
-    "name": "CTR TR",
-    "image": "logo.png",
-    "url": "ctr-tr",
     "new": false
   },
   {
@@ -432,21 +330,9 @@
     "new": false
   },
   {
-    "name": "Cupcake 2048",
-    "image": "favicon.ico",
-    "url": "cupcake2048",
-    "new": false
-  },
-  {
     "name": "Dante",
     "image": "splash.png",
     "url": "dante",
-    "new": false
-  },
-  {
-    "name": "Deal or No Deal",
-    "image": "index.jpg",
-    "url": "deal-or-no-deal",
     "new": false
   },
   {
@@ -468,21 +354,15 @@
     "new": false
   },
   {
-    "name": "Doge 2048",
-    "image": "doge1.jpeg",
-    "url": "doge2048",
+    "name": "DogeMiner",
+    "image": "favicon.ico",
+    "url": "DogeMiner",
     "new": false
   },
   {
     "name": "Doodle Jump",
     "image": "doodle.png",
     "url": "doodle-jump",
-    "new": false
-  },
-  {
-    "name": "Double Wires",
-    "image": "doublewires.png",
-    "url": "doublewires",
     "new": false
   },
   {
@@ -540,24 +420,6 @@
     "new": false
   },
   {
-    "name": "Edge Surf",
-    "image": "splash.png",
-    "url": "edge-surf",
-    "new": false
-  },
-  {
-    "name": "Edge Not Found",
-    "image": "edge.png",
-    "url": "edgenotfound",
-    "new": false
-  },
-  {
-    "name": "Eel Slap",
-    "image": "eel-slap.png",
-    "url": "eel-slap",
-    "new": false
-  },
-  {
     "name": "Elastic Man",
     "image": "elasticman.jpg",
     "url": "elasticman",
@@ -576,39 +438,15 @@
     "new": false
   },
   {
-    "name": "Evil Glitch",
-    "image": "evil.png",
-    "url": "evil-glitch",
-    "new": false
-  },
-  {
     "name": "Evolution",
     "image": "splash.png",
     "url": "evolution",
     "new": false
   },
   {
-    "name": "Exo",
-    "image": "img/small.jpg",
-    "url": "exo",
-    "new": false
-  },
-  {
     "name": "Factory Balls",
     "image": "images/splash.png",
     "url": "factoryballs",
-    "new": false
-  },
-  {
-    "name": "Fairsquares",
-    "image": "index.icon.png",
-    "url": "fairsquares",
-    "new": false
-  },
-  {
-    "name": "Fake Virus",
-    "image": "icon.png",
-    "url": "fake-virus",
     "new": false
   },
   {
@@ -624,9 +462,9 @@
     "new": false
   },
   {
-    "name": "Flappy 2048",
-    "image": "favicon.ico",
-    "url": "flappy-2048",
+    "name": "Five Nights at Wario's (FNAW)",
+    "image": "splash.png",
+    "url": "fnaw",
     "new": false
   },
   {
@@ -645,12 +483,6 @@
     "name": "Flippy Fish",
     "image": "2022_10_28_0jt_Kleki.png",
     "url": "flippy-fish",
-    "new": false
-  },
-  {
-    "name": "Five Nights at Wario's (FNAW)",
-    "image": "splash.png",
-    "url": "fnaw",
     "new": false
   },
   {
@@ -694,6 +526,12 @@
     "image": "geoscratchicon.png",
     "url": "geodash",
     "new": false
+  },
+  {
+    "name": "Geometry Dash",
+    "image": "geoscratchicon.png",
+    "url": "games/geodash",
+    "new": true
   },
   {
     "name": "George and the Printer",
@@ -798,6 +636,12 @@
     "new": false
   },
   {
+    "name": "HexGL",
+    "image": "icon.png",
+    "url": "HexGL",
+    "new": false
+  },
+  {
     "name": "Hextris",
     "image": "images/hextris-logo.png",
     "url": "hextris",
@@ -888,18 +732,6 @@
     "new": false
   },
   {
-    "name": "Madalin Stunt Cars 2",
-    "image": "img/logo.jpg",
-    "url": "madalin-stunt-cars-2",
-    "new": false
-  },
-  {
-    "name": "Madalin Stunt Cars 3",
-    "image": "img/index.jpg",
-    "url": "madalin-stunt-cars-3",
-    "new": false
-  },
-  {
     "name": "Mario",
     "image": "Theme/Mario.gif",
     "url": "mario",
@@ -948,15 +780,15 @@
     "new": false
   },
   {
-    "name": "Minecraft Classic",
-    "image": "pack.png",
-    "url": "minecraft-classic",
-    "new": false
-  },
-  {
     "name": "Minecraft Beta",
     "image": "bg_main.png",
     "url": "minecraftbeta",
+    "new": false
+  },
+  {
+    "name": "Minecraft Classic",
+    "image": "pack.png",
+    "url": "minecraft-classic",
     "new": false
   },
   {
@@ -984,6 +816,12 @@
     "new": false
   },
   {
+    "name": "Moto X3M 2",
+    "image": "Moto-X3M-2.webp",
+    "url": "motox3m2",
+    "new": false
+  },
+  {
     "name": "Moto X3M Pool",
     "image": "splash.jpg",
     "url": "motox3m-pool",
@@ -999,12 +837,6 @@
     "name": "Moto X3M Winter",
     "image": "download.jpeg",
     "url": "motox3m-winter",
-    "new": false
-  },
-  {
-    "name": "Moto X3M 2",
-    "image": "Moto-X3M-2.webp",
-    "url": "motox3m2",
     "new": false
   },
   {
@@ -1038,15 +870,21 @@
     "new": false
   },
   {
+    "name": "NS Resurgence",
+    "image": "neon.png",
+    "url": "nsresurgence",
+    "new": false
+  },
+  {
     "name": "NS Shaft",
     "image": "favicon.png",
     "url": "ns-shaft",
     "new": false
   },
   {
-    "name": "NS Resurgence",
-    "image": "neon.png",
-    "url": "nsresurgence",
+    "name": "Offline Paradise",
+    "image": "assets/icon.jpeg",
+    "url": "OfflineParadise",
     "new": false
   },
   {
@@ -1176,30 +1014,6 @@
     "new": false
   },
   {
-    "name": "Riddle School 2",
-    "image": "riddleschool2.png",
-    "url": "riddleschool2",
-    "new": false
-  },
-  {
-    "name": "Riddle School 3",
-    "image": "riddleschool3.png",
-    "url": "riddleschool3",
-    "new": false
-  },
-  {
-    "name": "Riddle School 4",
-    "image": "riddleschool4.png",
-    "url": "riddleschool4",
-    "new": false
-  },
-  {
-    "name": "Riddle School 5",
-    "image": "riddleschool5.png",
-    "url": "riddleschool5",
-    "new": false
-  },
-  {
     "name": "Riddle Transfer",
     "image": "riddletransfer.png",
     "url": "riddletransfer",
@@ -1233,12 +1047,6 @@
     "name": "Ruffle",
     "image": "splash.png",
     "url": "ruffle",
-    "new": false
-  },
-  {
-    "name": "Slap The Monkey",
-    "image": "slap-the-monkey.jpg",
-    "url": "slap-the-monkey",
     "new": false
   },
   {
@@ -1287,6 +1095,12 @@
     "name": "Sky Car Stunt",
     "image": "512x512.jpg",
     "url": "sky-car-stunt",
+    "new": false
+  },
+  {
+    "name": "Slap The Monkey",
+    "image": "slap-the-monkey.jpg",
+    "url": "slap-the-monkey",
     "new": false
   },
   {
@@ -1392,12 +1206,6 @@
     "new": false
   },
   {
-    "name": "Stack",
-    "image": "stack.png",
-    "url": "stack",
-    "new": false
-  },
-  {
     "name": "Stack Bump 3D",
     "image": "thumbnail.jpg",
     "url": "stack-bump-3d",
@@ -1434,9 +1242,9 @@
     "new": false
   },
   {
-    "name": "Stick Merge",
-    "image": "splash.png",
-    "url": "stick-merge",
+    "name": "Stick War",
+    "image": "stickwar.jpg",
+    "url": "stickwar",
     "new": false
   },
   {
@@ -1458,9 +1266,9 @@
     "new": false
   },
   {
-    "name": "Stick War",
-    "image": "stickwar.jpg",
-    "url": "stickwar",
+    "name": "Stickman Survival",
+    "image": "Icon.png",
+    "url": "Stickman-Survival",
     "new": false
   },
   {
@@ -1482,15 +1290,15 @@
     "new": false
   },
   {
-    "name": "Superhot",
-    "image": "hot.jpg",
-    "url": "superhot",
-    "new": false
-  },
-  {
     "name": "Super Mario Construct",
     "image": "icons/icon-256.png",
     "url": "supermarioconstruct",
+    "new": false
+  },
+  {
+    "name": "Superhot",
+    "image": "hot.jpg",
+    "url": "superhot",
     "new": false
   },
   {
@@ -1518,15 +1326,15 @@
     "new": false
   },
   {
-    "name": "Tactical Weapon Pack 2",
-    "image": "splash.jpg",
-    "url": "tactical-weapon-pack-2",
-    "new": false
-  },
-  {
     "name": "Tactical Assassin 2",
     "image": "tacticalassassin2.png",
     "url": "tacticalassasin2",
+    "new": false
+  },
+  {
+    "name": "Tactical Weapon Pack 2",
+    "image": "splash.jpg",
+    "url": "tactical-weapon-pack-2",
     "new": false
   },
   {
@@ -1548,27 +1356,27 @@
     "new": false
   },
   {
-    "name": "The Final Earth",
-    "image": "images.png",
-    "url": "the-final-earth",
-    "new": false
-  },
-  {
-    "name": "The Hotel",
-    "image": "splash.png",
-    "url": "the-hotel",
-    "new": false
-  },
-  {
     "name": "The Battle",
     "image": "thebattle.png",
     "url": "thebattle",
     "new": false
   },
   {
+    "name": "The Final Earth",
+    "image": "images.png",
+    "url": "the-final-earth",
+    "new": false
+  },
+  {
     "name": "The Heist",
     "image": "theheist.jpg",
     "url": "theheist",
+    "new": false
+  },
+  {
+    "name": "The Hotel",
+    "image": "splash.png",
+    "url": "the-hotel",
     "new": false
   },
   {
@@ -1620,18 +1428,6 @@
     "new": false
   },
   {
-    "name": "TV Static",
-    "image": "static.png",
-    "url": "tv-static",
-    "new": false
-  },
-  {
-    "name": "Twitch Tetris",
-    "image": "logo.png",
-    "url": "twitch-tetris",
-    "new": false
-  },
-  {
     "name": "Veloce",
     "image": "qN6zkD.png",
     "url": "veloce",
@@ -1668,12 +1464,6 @@
     "new": false
   },
   {
-    "name": "Wall Smash",
-    "image": "thumb.png",
-    "url": "wallsmash",
-    "new": false
-  },
-  {
     "name": "Waterworks",
     "image": "square.png",
     "url": "waterworks",
@@ -1683,12 +1473,6 @@
     "name": "WeaveSilk",
     "image": "thumb.png",
     "url": "weavesilk",
-    "new": false
-  },
-  {
-    "name": "WebGL Fluid Simulation",
-    "image": "promo_back.png",
-    "url": "webgl-fluid-simulation",
     "new": false
   },
   {
@@ -1731,24 +1515,6 @@
     "name": "X-Trial Racing",
     "image": "splash.png",
     "url": "x-trial-racing",
-    "new": false
-  },
-  {
-    "name": "xx142-B2.exe",
-    "image": "splash.png",
-    "url": "xx142-b2exe",
-    "new": false
-  },
-  {
-    "name": "Yoshi Fabrication",
-    "image": "icons/icon-512.png",
-    "url": "yoshifabrication",
-    "new": false
-  },
-  {
-    "name": "You Are Bezos",
-    "image": "img/banner.png",
-    "url": "you-are-bezos",
     "new": false
   },
   {
