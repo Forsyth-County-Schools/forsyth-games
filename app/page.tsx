@@ -7,6 +7,7 @@ import CategoryPills from '@/components/CategoryPills'
 import BentoGameCard from '@/components/BentoGameCard'
 import SearchIsland from '@/components/SearchIsland'
 import Footer from '@/components/Footer'
+import Settings from '@/components/Settings'
 
 // Lazy load FloatingNavigation to improve initial load performance
 const FloatingNavigation = lazy(() => import('@/components/FloatingNavigation'))
@@ -29,10 +30,35 @@ export default function Home() {
   const [selectedCategory, setSelectedCategory] = useState('all')
   const [searchQuery, setSearchQuery] = useState('')
   const [isSearchActive, setIsSearchActive] = useState(false)
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false)
+  const [displayLimit, setDisplayLimit] = useState(20)
 
   // Scroll to top on component mount
   useEffect(() => {
     window.scrollTo(0, 0)
+  }, [])
+
+  // Load and apply saved tab preferences
+  useEffect(() => {
+    const savedTab = localStorage.getItem('preferredTab')
+    if (savedTab) {
+      const tabOptions = [
+        { id: 'classlink', name: 'ClassLink', faviconUrl: '/classlink-logo.png' },
+        { id: 'infinite-campus', name: 'Infinite Campus', faviconUrl: '/infinite-campus-logo.png' },
+        { id: 'google-drive', name: 'Google Drive', faviconUrl: '/google-drive-logo.png' }
+      ]
+      
+      const option = tabOptions.find(opt => opt.id === savedTab)
+      if (option) {
+        document.title = `FCS | ${option.name}`
+        
+        const faviconLink = document.querySelector("link[rel='icon']") as HTMLLinkElement
+        const appleTouchIcon = document.querySelector("link[rel='apple-touch-icon']") as HTMLLinkElement
+        
+        if (faviconLink) faviconLink.href = option.faviconUrl
+        if (appleTouchIcon) appleTouchIcon.href = option.faviconUrl
+      }
+    }
   }, [])
 
   // Intersection Observer for lazy loading
@@ -114,6 +140,14 @@ export default function Home() {
     setIsSearchActive(!isSearchActive)
   }
 
+  const handleSettingsToggle = () => {
+    setIsSettingsOpen(!isSettingsOpen)
+  }
+
+  const handleLoadMore = () => {
+    setDisplayLimit(prev => Math.min(prev + 20, filteredGames.length))
+  }
+
   return (
     <div className="min-h-screen bg-deep-space text-text-primary relative overflow-hidden font-loading">
       {/* Fixed height containers to prevent CLS */}
@@ -131,9 +165,14 @@ export default function Home() {
           <FloatingNavigation 
             onSearchToggle={handleSearchToggle}
             isSearchActive={isSearchActive}
+            onSettingsToggle={handleSettingsToggle}
+            isSettingsActive={isSettingsOpen}
           />
         </Suspense>
       </div>
+      
+      {/* Settings Modal */}
+      <Settings isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} />
       
       {/* Search Island - Only show when search is active */}
       <AnimatePresence>
@@ -193,6 +232,26 @@ export default function Home() {
               <p className="text-text-secondary/70 text-xl max-w-3xl mx-auto leading-relaxed text-reserve">
                 Explore our curated collection of {filteredGames.length} educational games designed to enhance learning, critical thinking, and problem-solving skills
               </p>
+              
+              {/* Want More Games Link */}
+              <div className="mt-6">
+                <a
+                  href="https://forms.google.com/your-form-link-here"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full glass-premium border border-neon-blue/30 hover:border-neon-blue/60 text-text-primary hover:text-neon-blue transition-all duration-300 hover:scale-105 group"
+                >
+                  <span className="text-sm font-medium">Want more games? Suggest here:</span>
+                  <svg 
+                    className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" 
+                    fill="none" 
+                    stroke="currentColor" 
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                  </svg>
+                </a>
+              </div>
             </div>
 
             {/* Optimized Grid Layout with CLS prevention */}
@@ -205,7 +264,7 @@ export default function Home() {
                 </div>
               ) : (
                 // Stable grid with fixed aspect ratios, prioritize first 6 games
-                filteredGames.slice(0, 20).map((game, index) => (
+                filteredGames.slice(0, displayLimit).map((game, index) => (
                   <div key={game.url} className="aspect-ratio-1-1">
                     <BentoGameCard
                       game={game}
@@ -218,10 +277,13 @@ export default function Home() {
             </div>
             
             {/* Load more button with stable height */}
-            {filteredGames.length > 20 && (
+            {filteredGames.length > displayLimit && (
               <div className="text-center mt-8 min-h-[60px] stats-container">
-                <button className="glass-premium px-6 py-3 rounded-full text-text-primary border border-white/10 hover:border-neon-blue/50 transition-all duration-200 btn-stable">
-                  Load More Games ({filteredGames.length - 20} remaining)
+                <button 
+                  onClick={handleLoadMore}
+                  className="glass-premium px-6 py-3 rounded-full text-text-primary border border-white/10 hover:border-neon-blue/50 transition-all duration-200 btn-stable hover:scale-105"
+                >
+                  Load More Games ({filteredGames.length - displayLimit} remaining)
                 </button>
               </div>
             )}

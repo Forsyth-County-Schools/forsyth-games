@@ -29,7 +29,7 @@ export async function GET() {
     }
     
     // Prioritize specific games at the top - optimized single-pass
-    const priorityGames = ['Geometry Dash', 'Duck Life 1', 'Duck Life 2', 'Duck Life 3', 'Duck Life 4']
+    const priorityGames = ['Polytrack', 'Geometry Dash', 'Duck Life 1', 'Duck Life 2', 'Duck Life 3', 'Duck Life 4']
     const prioritized: Game[] = []
     const rest: Game[] = []
     
@@ -39,6 +39,11 @@ export async function GET() {
       } else {
         rest.push(game)
       }
+    })
+    
+    // Sort prioritized games to match the order in priorityGames array
+    prioritized.sort((a, b) => {
+      return priorityGames.indexOf(a.name) - priorityGames.indexOf(b.name)
     })
     
     const sortedGames = [...prioritized, ...rest]
