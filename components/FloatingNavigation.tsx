@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { useRouter, usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Home, TrendingUp, Youtube, MessageCircle, X, Menu, Settings } from 'lucide-react'
+import { Home, School, Youtube, MessageCircle, X, Menu, Settings } from 'lucide-react'
 import { SignInButton, SignUpButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
 import { startTransition } from 'react'
 
@@ -27,7 +27,7 @@ export default function FloatingNavigation() {
 
   const navigationItems: NavigationItem[] = [
     { id: 'home', label: 'Home', icon: Home, href: '#home' },
-    { id: 'trending', label: 'Trending', icon: TrendingUp, href: '#trending' },
+    { id: 'school', label: 'School', icon: School, href: 'https://schoolcancelled.today/' },
     { id: 'youtube', label: 'YouTube', icon: Youtube, href: '/youtube' },
     { id: 'chat', label: 'Chat', icon: MessageCircle, href: 'https://forsyth-chats.vercel.app/' },
     { id: 'settings', label: 'Settings', icon: Settings, href: '/settings' },
@@ -75,6 +75,9 @@ export default function FloatingNavigation() {
   const handleNavClick = (itemId: string, href: string) => {
     if (itemId === 'chat') {
       // Open chat in new tab
+      window.open(href, '_blank', 'noopener,noreferrer')
+    } else if (itemId === 'school') {
+      // Open school website in new tab
       window.open(href, '_blank', 'noopener,noreferrer')
     } else if (itemId === 'settings' || itemId === 'youtube') {
       // Navigate to Settings or YouTube page using Next.js router
@@ -141,7 +144,7 @@ export default function FloatingNavigation() {
                       key={item.id}
                       onClick={() => handleNavClick(item.id, item.href)}
                       className={`group relative p-2.5 rounded-xl transition-all duration-300 ${
-                        item.id === 'chat'
+                        item.id === 'chat' || item.id === 'school'
                           ? 'hover:bg-surfaceHover/50 border border-transparent'
                           : activeItem === item.id
                           ? 'bg-neon-blue/20 border border-neon-blue/50 shadow-neon'
@@ -155,7 +158,7 @@ export default function FloatingNavigation() {
                     >
                       <item.icon 
                         className={`w-5 h-5 transition-colors duration-300 ${
-                          item.id === 'chat'
+                          item.id === 'chat' || item.id === 'school'
                           ? 'text-text-secondary group-hover:text-text-primary'
                           : activeItem === item.id
                           ? 'text-neon-blue'
@@ -278,7 +281,7 @@ export default function FloatingNavigation() {
                           key={item.id}
                           onClick={() => handleNavClick(item.id, item.href)}
                           className={`w-full flex items-center gap-3 p-3 rounded-lg transition-all duration-300 ${
-                            item.id === 'chat'
+                            item.id === 'chat' || item.id === 'school'
                             ? 'hover:bg-surfaceHover/50 border border-transparent'
                             : activeItem === item.id
                             ? 'bg-neon-blue/20 border border-neon-blue/50'
@@ -292,7 +295,7 @@ export default function FloatingNavigation() {
                         >
                           <item.icon 
                             className={`w-5 h-5 ${
-                              item.id === 'chat'
+                              item.id === 'chat' || item.id === 'school'
                               ? 'text-text-secondary'
                               : activeItem === item.id
                               ? 'text-neon-blue'
@@ -300,7 +303,7 @@ export default function FloatingNavigation() {
                               }`} 
                           />
                           <span className={`text-sm font-medium ${
-                            item.id === 'chat'
+                            item.id === 'chat' || item.id === 'school'
                             ? 'text-text-primary'
                             : activeItem === item.id
                             ? 'text-neon-blue'
