@@ -103,8 +103,8 @@
   },
   {
     "name": "Polytrack",
-    "image": "polytrack.png",
-    "url": "games/polytrack",
+    "image": "geoscratchicon.png",
+    "url": "geodash",
     "new": true
   },
   {

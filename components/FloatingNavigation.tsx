@@ -6,6 +6,7 @@ import { useRouter, usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Home, TrendingUp, Youtube, Search, X, Menu, Settings } from 'lucide-react'
 import { SignInButton, SignUpButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
+import { startTransition } from 'react'
 
 interface NavigationItem {
   id: string
@@ -69,7 +70,9 @@ export default function FloatingNavigation({ onSearchToggle, isSearchActive }: F
       onSearchToggle()
     } else if (itemId === 'settings' || itemId === 'youtube') {
       // Navigate to Settings or YouTube page using Next.js router
-      router.push(href)
+      startTransition(() => {
+        router.push(href)
+      })
     } else {
       setActiveItem(itemId)
       setIsMobileMenuOpen(false)
@@ -111,6 +114,7 @@ export default function FloatingNavigation({ onSearchToggle, isSearchActive }: F
                     width={40}
                     height={40}
                     className="object-cover"
+                    style={{ width: 'auto', height: '40px' }}
                   />
                 </motion.div>
 
@@ -227,6 +231,7 @@ export default function FloatingNavigation({ onSearchToggle, isSearchActive }: F
                     width={40}
                     height={40}
                     className="object-cover"
+                    style={{ width: 'auto', height: '40px' }}
                   />
                 </motion.div>
 

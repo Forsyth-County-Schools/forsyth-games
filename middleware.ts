@@ -6,16 +6,28 @@ import { checkGeorgiaLocation, getClientIp } from './lib/geolocation';
 // Cache duration for geolocation checks (1 hour)
 const GEO_CACHE_DURATION_MS = 60 * 60 * 1000;
 
-// Rate limiting store (in production, use Redis)
+// Rate limiting store with size limit to prevent memory leaks
+const MAX_CACHE_SIZE = 10000;
 const rateLimitStore = new Map<string, { count: number; resetTime: number }>();
 
-// Cleanup expired entries to prevent memory leaks
+// Cleanup expired entries and enforce size limit to prevent memory leaks
 function cleanupExpiredEntries() {
   const now = Date.now();
   const entries = Array.from(rateLimitStore.entries());
+  
+  // Remove expired entries
   for (const [key, record] of entries) {
     if (now > record.resetTime) {
       rateLimitStore.delete(key);
+    }
+  }
+  
+  // Enforce size limit
+  if (rateLimitStore.size > MAX_CACHE_SIZE) {
+    const entriesToRemove = rateLimitStore.size - MAX_CACHE_SIZE;
+    const keys = Array.from(rateLimitStore.keys());
+    for (let i = 0; i < entriesToRemove; i++) {
+      rateLimitStore.delete(keys[i]);
     }
   }
 }
@@ -23,7 +35,7 @@ function cleanupExpiredEntries() {
 // Run cleanup every minute
 setInterval(cleanupExpiredEntries, 60000);
 
-// Rate limiting: 60 requests per minute per IP (relaxed for high traffic)
+// Rate limiting: 1000 requests per minute per IP (increased for high traffic)
 function checkRateLimit(ip: string): boolean {
   const now = Date.now();
   const key = ip;
@@ -34,7 +46,7 @@ function checkRateLimit(ip: string): boolean {
     return true;
   }
   
-  if (record.count >= 60) {
+  if (record.count >= 1000) {
     return false;
   }
   
@@ -97,21 +109,41 @@ export default clerkMiddleware(async (auth, request: NextRequest) => {
           city: location.city
         });
         
-        // Set cookies with location info - use single response to avoid race condition
+        // Set cookies with location info - batch operations to avoid race conditions
+        const cookieExpiry = new Date(Date.now() + GEO_CACHE_DURATION_MS);
         const finalResponse = location.isGeorgia 
           ? NextResponse.next() 
           : NextResponse.redirect(new URL('/blocked', request.url));
         
-        // Set geo cookies with cache duration
-        const cookieExpiry = new Date(Date.now() + GEO_CACHE_DURATION_MS);
-        finalResponse.cookies.set('geo-checked', 'true', { expires: cookieExpiry });
-        finalResponse.cookies.set('geo-allowed', location.isGeorgia ? 'true' : 'false', { expires: cookieExpiry });
+        // Batch set all cookies at once to prevent race conditions
+        finalResponse.cookies.set('geo-checked', 'true', { 
+          expires: cookieExpiry,
+          httpOnly: true,
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: 'lax'
+        });
+        finalResponse.cookies.set('geo-allowed', location.isGeorgia ? 'true' : 'false', { 
+          expires: cookieExpiry,
+          httpOnly: true,
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: 'lax'
+        });
         
         if (location.region) {
-          finalResponse.cookies.set('geo-region', location.region, { expires: cookieExpiry });
+          finalResponse.cookies.set('geo-region', location.region, { 
+            expires: cookieExpiry,
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'lax'
+          });
         }
         if (location.country) {
-          finalResponse.cookies.set('geo-country', location.country, { expires: cookieExpiry });
+          finalResponse.cookies.set('geo-country', location.country, { 
+            expires: cookieExpiry,
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'lax'
+          });
         }
         
         // Return the final response with cookies

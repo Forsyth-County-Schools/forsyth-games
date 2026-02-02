@@ -2,6 +2,8 @@
 
 import Image from 'next/image'
 import { Play, TrendingUp, Users, Star } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { startTransition } from 'react'
 
 interface FeaturedGame {
   name: string
@@ -13,6 +15,7 @@ interface FeaturedGame {
 }
 
 export default function HeroSection() {
+  const router = useRouter()
   const featuredGame: FeaturedGame = {
     name: "1v1.LOL",
     image: "logo.png",
@@ -60,6 +63,7 @@ export default function HeroSection() {
                       width={64}
                       height={64}
                       className="object-contain"
+                      style={{ width: 'auto', height: '64px' }}
                     />
                   </div>
                   <span className="bg-gradient-to-r from-neon-blue via-neon-purple to-neon-pink bg-clip-text text-transparent">
@@ -121,6 +125,11 @@ export default function HeroSection() {
                     className="object-cover transition-transform duration-300 group-hover:scale-105"
                     loading="lazy"
                     sizes="(max-width: 1200px) 50vw, 33vw"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement
+                      // Fallback to placeholder if image fails
+                      target.src = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%2300F2FF;stop-opacity:0.2'/%3E%3Cstop offset='100%25' style='stop-color:%238B5CF6;stop-opacity:0.2'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='300' fill='url(%23grad)'/%3E%3Ctext x='50%25' y='40%25' dominant-baseline='middle' text-anchor='middle' fill='%23ffffff' font-family='Sora' font-size='24' font-weight='bold'%3E${featuredGame.name}%3C/text%3E%3Ctext x='50%25' y='60%25' dominant-baseline='middle' text-anchor='middle' fill='%23a1a1aa' font-family='Sora' font-size='16'%3E${featuredGame.genre}%3C/text%3E%3C/svg%3E`
+                    }}
                   />
                   
                   {/* Fixed overlay */}
@@ -129,7 +138,7 @@ export default function HeroSection() {
                   {/* Fixed play button */}
                   <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/60">
                     <button
-                      onClick={() => window.location.href = `/play?gameurl=${featuredGame.url}/`}
+                      onClick={() => startTransition(() => router.push(`/play?gameurl=${featuredGame.url}/`))}
                       className="premium-button px-6 py-3 rounded-full font-semibold flex items-center gap-2 btn-stable"
                     >
                       <span className="relative z-10 flex items-center gap-2 text-text-primary">

@@ -38,24 +38,32 @@ export default function Home() {
 
   // Load and apply saved tab preferences
   useEffect(() => {
-    const savedTab = localStorage.getItem('preferredTab')
-    if (savedTab) {
-      const tabOptions = [
-        { id: 'classlink', name: 'ClassLink', faviconUrl: '/classlink-logo.png' },
-        { id: 'infinite-campus', name: 'Infinite Campus', faviconUrl: '/infinite-campus-logo.png' },
-        { id: 'google-drive', name: 'Google Drive', faviconUrl: '/google-drive-logo.png' }
-      ]
-      
-      const option = tabOptions.find(opt => opt.id === savedTab)
-      if (option) {
-        document.title = `FCS | ${option.name}`
+    try {
+      const savedTab = localStorage.getItem('preferredTab')
+      if (savedTab) {
+        const tabOptions = [
+          { id: 'classlink', name: 'ClassLink', faviconUrl: '/classlink-logo.png' },
+          { id: 'infinite-campus', name: 'Infinite Campus', faviconUrl: '/infinite-campus-logo.png' },
+          { id: 'google-drive', name: 'Google Drive', faviconUrl: '/google-drive-logo.png' }
+        ]
         
-        const faviconLink = document.querySelector("link[rel='icon']") as HTMLLinkElement
-        const appleTouchIcon = document.querySelector("link[rel='apple-touch-icon']") as HTMLLinkElement
-        
-        if (faviconLink) faviconLink.href = option.faviconUrl
-        if (appleTouchIcon) appleTouchIcon.href = option.faviconUrl
+        const option = tabOptions.find(opt => opt.id === savedTab)
+        if (option) {
+          try {
+            document.title = `FCS | ${option.name}`
+            
+            const faviconLink = document.querySelector("link[rel='icon']") as HTMLLinkElement
+            const appleTouchIcon = document.querySelector("link[rel='apple-touch-icon']") as HTMLLinkElement
+            
+            if (faviconLink) faviconLink.href = option.faviconUrl
+            if (appleTouchIcon) appleTouchIcon.href = option.faviconUrl
+          } catch (error) {
+            console.error('Error updating favicon:', error)
+          }
+        }
       }
+    } catch (error) {
+      console.error('Error accessing localStorage:', error)
     }
   }, [])
 
@@ -84,6 +92,13 @@ export default function Home() {
     const fetchGames = async () => {
       try {
         const response = await fetch('/api/games')
+        
+        if (!response.ok) {
+          const errorText = await response.text()
+          console.error(`API error: ${response.status} ${response.statusText}`, errorText)
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`)
+        }
+        
         const data = await response.json()
         
         // Transform and enhance games data - moved to useEffect to prevent hydration mismatch
@@ -238,7 +253,7 @@ export default function Home() {
                     <BentoGameCard
                       game={game}
                       size="medium"
-                      priority={index < 6}
+                      priority={index < 6 ? true : false}
                     />
                   </div>
                 ))

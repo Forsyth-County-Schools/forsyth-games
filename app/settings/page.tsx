@@ -56,7 +56,11 @@ export default function SettingsPage() {
     if (!option) return
 
     // Save to localStorage
-    localStorage.setItem('preferredTab', tabId)
+    try {
+      localStorage.setItem('preferredTab', tabId)
+    } catch (error) {
+      console.error('Error saving to localStorage:', error)
+    }
     
     // Update document title
     document.title = `FCS | ${option.name}`
@@ -100,8 +104,19 @@ export default function SettingsPage() {
     setErrorMessage('')
 
     const formData = new FormData(event.currentTarget)
-    // Use environment variable if available, fallback to hardcoded key
-    const accessKey = process.env.NEXT_PUBLIC_WEB3FORMS_KEY || 'e93c5755-8acb-4e64-872b-2ba9d3b00e54'
+    // Use environment variable if available
+    const accessKey = process.env.NEXT_PUBLIC_WEB3FORMS_KEY
+    
+    if (!accessKey) {
+      setStatus('error')
+      setErrorMessage('Form submission service is not available. Please contact support.')
+      setTimeout(() => {
+        setStatus('idle')
+        setErrorMessage('')
+      }, 3000)
+      return
+    }
+    
     formData.append('access_key', accessKey)
     
     // Optional metadata fields

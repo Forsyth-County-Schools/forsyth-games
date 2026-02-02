@@ -45,13 +45,39 @@ function isValidVideoId(videoId: string): boolean {
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json()
-    const { url } = body
-
-    // Validate input
-    if (!url) {
+    // Validate request size to prevent DoS attacks
+    const contentLength = request.headers.get('content-length')
+    if (contentLength && parseInt(contentLength) > 1024) {
       return NextResponse.json(
-        { error: 'YouTube URL is required' },
+        { error: 'Request too large' },
+        { status: 413 }
+      )
+    }
+
+    // Parse and validate JSON body
+    let body;
+    try {
+      body = await request.json()
+    } catch {
+      return NextResponse.json(
+        { error: 'Invalid JSON format' },
+        { status: 400 }
+      )
+    }
+
+    // Validate required field
+    const { url } = body
+    if (!url || typeof url !== 'string') {
+      return NextResponse.json(
+        { error: 'YouTube URL is required and must be a string' },
+        { status: 400 }
+      )
+    }
+
+    // Validate URL length to prevent injection
+    if (url.length > 2048) {
+      return NextResponse.json(
+        { error: 'URL too long' },
         { status: 400 }
       )
     }

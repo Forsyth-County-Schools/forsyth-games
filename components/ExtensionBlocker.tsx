@@ -11,7 +11,8 @@ import { useEffect } from 'react'
  * - Unauthorized extension injections
  * 
  * This protects the website from third-party interference while maintaining
- * normal site functionality. Does NOT bypass OS/network-level filters.
+ * normal site functionality and allowing game content.
+ * Does NOT bypass OS/network-level filters.
  * 
  * Performance optimized: Defers execution until after initial page load
  */
@@ -48,15 +49,32 @@ const BLOCKED_DOMAINS = [
   'eipulse.zendesk.com'
 ]
 
+// Game-related domains that should be allowed
+const ALLOWED_GAME_DOMAINS = [
+  'gms.parcoil.com',
+  'cdn.jsdelivr.net',
+  'github.com',
+  'raw.githubusercontent.com'
+]
+
 export default function ExtensionBlocker() {
+  // Allow injected content and monitoring for development
+  const isDevelopment = process.env.NODE_ENV === 'development'
+  
   useEffect(() => {
+    // Skip blocking in development mode
+    if (isDevelopment) {
+      console.info('[Security] Extension blocker disabled in development mode')
+      return
+    }
+    
     // Defer blocking setup until after initial render to improve FCP/LCP
     const timeoutId = setTimeout(() => {
       setupBlocking()
     }, 100) // Small delay to not block initial paint
 
     return () => clearTimeout(timeoutId)
-  }, [])
+  }, [isDevelopment])
 
   return null // This component doesn't render anything
 }
@@ -67,6 +85,12 @@ function setupBlocking() {
   const isBlockedUrl = (url: string): boolean => {
     try {
       const urlLower = url.toLowerCase()
+      
+      // Allow game-related domains
+      if (ALLOWED_GAME_DOMAINS.some(domain => urlLower.includes(domain))) {
+        return false
+      }
+      
       return BLOCKED_DOMAINS.some(domain => 
         urlLower.includes(domain) || 
         urlLower.includes('chrome-extension://') ||
@@ -100,6 +124,15 @@ function setupBlocking() {
               'screen-share'
             ]
             
+            // Game-related attributes that should be allowed
+            const gameIndicators = [
+              'game-',
+              'gms.parcoil.com',
+              'game-container',
+              'game-iframe',
+              'game-content'
+            ]
+            
             const hasIndicator = indicators.some(indicator => {
               const className = element.className
               const classNameStr = typeof className === 'string' ? className : ''
@@ -111,8 +144,20 @@ function setupBlocking() {
               )
             })
             
-            // Remove injected elements from monitoring services
-            if (hasIndicator) {
+            // Allow game-related content
+            const isGameContent = gameIndicators.some(indicator => {
+              const className = element.className
+              const classNameStr = typeof className === 'string' ? className : ''
+              return (
+                classNameStr.includes(indicator) ||
+                element.id?.includes(indicator) ||
+                element.hasAttribute(indicator) ||
+                (element.shadowRoot && element.shadowRoot.innerHTML.includes(indicator))
+              )
+            })
+            
+            // Remove injected elements from monitoring services, but allow game content
+            if (hasIndicator && !isGameContent) {
               element.remove()
               if (process.env.NODE_ENV === 'development') {
                 console.warn('[Security] Blocked injected element')

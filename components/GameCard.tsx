@@ -3,6 +3,8 @@
 import { motion } from 'framer-motion'
 import { Play, Star } from 'lucide-react'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
+import { startTransition } from 'react'
 
 interface Game {
   name: string
@@ -16,11 +18,18 @@ interface GameCardProps {
 }
 
 export default function GameCard({ game }: GameCardProps) {
+  const router = useRouter()
   const serverUrl = "https://gms.parcoil.com"
+  
+  // Validate image URL
+  const imageUrl = `${serverUrl}/${game.url}/${game.image}`
+  const isValidImageUrl = game.url && game.image && !imageUrl.includes('undefined')
   
   const handleGameClick = () => {
     try {
-      window.location.href = `/play?gameurl=${game.url}/`
+      startTransition(() => {
+        router.push(`/play?gameurl=${game.url}/`)
+      })
     } catch (error) {
       console.error('Navigation error:', error)
       // Fallback: try opening in new tab
@@ -95,17 +104,50 @@ export default function GameCard({ game }: GameCardProps) {
         
         {/* Game Image */}
         <div className="relative aspect-square overflow-hidden">
-          <Image
-            src={`${serverUrl}/${game.url}/${game.image}`}
-            alt={game.name}
-            width={200}
-            height={200}
-            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-            onError={(e) => {
-              const target = e.target as HTMLImageElement
-              target.src = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='%231a1a1a'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23a1a1aa' font-family='Arial' font-size='14'%3E${game.name}%3C/text%3E%3C/svg%3E`
-            }}
-          />
+          {isValidImageUrl ? (
+            <Image
+              src={imageUrl}
+              alt={game.name}
+              width={200}
+              height={200}
+              className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement
+                
+                // Try local fallbacks first
+                const localFallbacks = [
+                  `/games/${game.url}/${game.image}`,
+                  `/games/${game.url}/logo.png`,
+                  `/games/${game.url}/icon.png`,
+                  `/games/${game.url}/splash.png`,
+                  `/games/${game.url}/thumbnail.png`
+                ]
+                
+                let tried = 0
+                
+                const tryAlternative = () => {
+                  if (tried < localFallbacks.length) {
+                    target.src = localFallbacks[tried]
+                    tried++
+                  } else {
+                    // Final fallback to SVG placeholder
+                    target.src = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='%231a1a1a'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23a1a1aa' font-family='Arial' font-size='14'%3E${game.name}%3C/text%3E%3C/svg%3E`
+                  }
+                }
+                
+                tryAlternative()
+              }}
+            />
+          ) : (
+            <div className="w-full h-full bg-surface/20 flex items-center justify-center">
+              <div className="text-center">
+                <div className="w-12 h-12 bg-neon-blue/20 rounded-full flex items-center justify-center mx-auto mb-2">
+                  <div className="w-6 h-6 bg-neon-blue/40 rounded-full"></div>
+                </div>
+                <p className="text-text-secondary text-xs">{game.name}</p>
+              </div>
+            </div>
+          )}
           
           {/* Hover Overlay */}
           <motion.div

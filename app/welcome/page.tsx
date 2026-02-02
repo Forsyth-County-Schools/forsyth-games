@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 import { Gamepad2, ChevronRight, Zap } from 'lucide-react'
+import { startTransition } from 'react'
 
 export default function WelcomePage() {
   const router = useRouter()
@@ -20,7 +21,9 @@ export default function WelcomePage() {
 
     // Redirect after 3.2 seconds
     const timer = setTimeout(() => {
-      router.push('/')
+      startTransition(() => {
+        router.push('/')
+      })
     }, 3200)
 
     return () => {
@@ -109,7 +112,7 @@ export default function WelcomePage() {
 
       {/* Footer / Skip Action */}
       <motion.button
-        onClick={() => router.push('/')}
+        onClick={() => startTransition(() => router.push('/'))}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.5 }}

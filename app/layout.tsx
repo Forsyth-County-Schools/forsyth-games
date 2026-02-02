@@ -9,7 +9,7 @@ import { SpeedInsights } from '@vercel/speed-insights/next'
 export const dynamic = 'force-dynamic'
 
 export const metadata = {
-  title: 'FCS | Classlink',
+  title: 'Forsyth Games - Educational Gaming Platform',
   description: 'Official Forsyth County Schools educational gaming platform featuring 255+ curriculum-aligned games. Designed to enhance student learning through interactive gameplay, critical thinking exercises, and brain-training activities. Safe, monitored, and educationally approved for K-12 students.',
   keywords: [
     'Forsyth County Schools',
@@ -159,8 +159,8 @@ export default function RootLayout({
           <link rel="apple-touch-icon" href="/classlink-logo.png" />
           <link rel="manifest" href="/site.webmanifest" />
           <meta name="theme-color" content="#000000" />
-          <meta name="application-name" content="FCS | Classlink" />
-          <meta name="apple-mobile-web-app-title" content="FCS | Classlink" />
+          <meta name="application-name" content="Forsyth Games" />
+          <meta name="apple-mobile-web-app-title" content="Forsyth Games" />
           <meta name="apple-mobile-web-app-capable" content="yes" />
           <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
           <meta name="mobile-web-app-capable" content="yes" />

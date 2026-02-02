@@ -30,9 +30,11 @@ function normalizeRegion(region: string, countryCode: string): string {
  */
 export async function checkGeorgiaLocation(ip?: string): Promise<GeolocationResponse> {
   try {
-    // In production, use the actual IP from the request
-    // For development/testing, we'll simulate Georgia location
-    if (process.env.NODE_ENV === 'development') {
+    // Check for development bypass flag
+    const devBypass = process.env.DEV_BYPASS_GEOLOCATION === 'true'
+    
+    // In development with bypass flag, simulate Georgia location
+    if (process.env.NODE_ENV === 'development' && devBypass) {
       return {
         isGeorgia: true,
         region: 'Georgia',

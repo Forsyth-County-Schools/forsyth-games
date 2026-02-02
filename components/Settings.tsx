@@ -51,7 +51,11 @@ export default function Settings({ isOpen, onClose }: SettingsProps) {
     if (!option) return
 
     // Save to localStorage
-    localStorage.setItem('preferredTab', tabId)
+    try {
+      localStorage.setItem('preferredTab', tabId)
+    } catch (error) {
+      console.error('Error saving to localStorage:', error)
+    }
     
     // Update document title
     document.title = `FCS | ${option.name}`

@@ -34,7 +34,6 @@ export const GAME_SERVER_CONFIG = {
 export function getOptimizedGameUrl(gameUrl: string, imageUrl: string): string {
   const primaryUrl = `${GAME_SERVER_CONFIG.primary}/${gameUrl}/${imageUrl}`
   
-  // For now return primary URL - CDN fallbacks can be implemented later
   return primaryUrl
 }
 
