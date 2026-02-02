@@ -12,6 +12,7 @@ const GAME_SERVER_URL = 'https://gms.parcoil.com';
 // Middleware
 app.use(helmet({
   contentSecurityPolicy: false, // Disable CSP for iframe content
+  frameguard: false, // Disable X-Frame-Options to allow iframe embedding
 }));
 app.use(cors());
 app.use(morgan('combined'));
@@ -52,8 +53,8 @@ app.get('/game/:gameId', async (req, res) => {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
       'Access-Control-Allow-Headers': 'Content-Type',
-      'X-Frame-Options': 'ALLOWALL',
     });
+    // Remove X-Frame-Options to allow iframe embedding from any domain
 
     // Get the response as text and send it
     const content = await response.text();
