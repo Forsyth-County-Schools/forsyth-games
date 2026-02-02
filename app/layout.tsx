@@ -1,355 +1,129 @@
-import './globals.css'
-import { ClerkProvider } from '@clerk/nextjs'
-import ScrollToTop from '@/components/ScrollToTop'
-import ExtensionBlocker from '@/components/ExtensionBlocker'
-import WebRTCBlocker from '@/components/WebRTCBlocker'
-import { Analytics } from '@vercel/analytics/next'
-import { SpeedInsights } from '@vercel/speed-insights/next'
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import './globals.css';
+import { Toaster } from '@/components/ui/toaster';
+import { Analytics } from '@vercel/analytics/next';
+import {
+  ClerkProvider,
+  SignInButton,
+  SignUpButton,
+  SignedIn,
+  SignedOut,
+  UserButton,
+} from '@clerk/nextjs';
 
-// Force dynamic rendering for all pages since we use Clerk authentication
-export const dynamic = 'force-dynamic'
+const inter = Inter({ 
+  subsets: ['latin'],
+  display: 'swap',
+  preload: true
+});
 
-export const metadata = {
-  title: 'Forsyth Games - Educational Gaming Platform',
-  description: 'Official Forsyth County Schools educational gaming platform featuring 255+ curriculum-aligned games. Designed to enhance student learning through interactive gameplay, critical thinking exercises, and brain-training activities. Safe, monitored, and educationally approved for K-12 students.',
-  keywords: [
-    'Forsyth County Schools',
-    'educational games',
-    'student learning',
-    'K-12 education',
-    'curriculum games',
-    'brain training',
-    'cognitive development',
-    'problem solving skills',
-    'educational technology',
-    'interactive learning',
-    'study break activities',
-    'classroom resources',
-    'safe student games',
-    'learning games',
-    'educational entertainment',
-    'STEM games',
-    'math games',
-    'reading games',
-    'science games',
-    'critical thinking',
-    'student engagement',
-    'digital learning',
-    'educational gaming platform',
-    'school approved games'
-  ],
-  authors: [{ name: 'Forsyth County Schools', url: 'https://www.forsyth.k12.ga.us' }],
-  creator: 'Forsyth County Schools District',
-  publisher: {
-    name: 'Forsyth County Schools',
-    url: 'https://www.forsyth.k12.ga.us',
-    logo: {
-      url: 'https://site.imsglobal.org/sites/default/files/orgs/logos/primary/fcslogo_hexagon.png',
-      width: 512,
-      height: 512,
-    },
+export const metadata: Metadata = {
+  title: 'Canvas Dashboard',
+  description: 'Secure classroom chat exclusively for Forsyth County Schools in Georgia',
+  keywords: 'classroom, chat, forsyth county schools, education, georgia',
+  authors: [{ name: 'Forsyth County Schools IT Department' }],
+  robots: 'noindex, nofollow', // Keep private for school use
+  icons: {
+    icon: 'https://www.csc.edu/media/website/content-assets/images/tlpec/canvas_reversed_logo.png',
   },
-  formatDetection: {
-    email: false,
-    address: false,
-    telephone: false,
+  other: {
+    'X-Content-Type-Options': 'nosniff',
+    'X-Frame-Options': 'DENY',
+    'X-XSS-Protection': '1; mode=block',
+    'Referrer-Policy': 'strict-origin-when-cross-origin',
   },
-  metadataBase: new URL('https://forsyth-games.vercel.app'),
-  alternates: {
-    canonical: '/',
-  },
-  openGraph: {
-    title: 'Forsyth Games - Educational Gaming Platform | Forsyth County Schools',
-    description: 'Official Forsyth County Schools educational platform with 255+ curriculum-aligned games. Enhance student learning through interactive gameplay and critical thinking exercises.',
-    url: 'https://forsyth-games.vercel.app',
-    siteName: 'Forsyth Games - Forsyth County Schools',
-    images: [
-      {
-        url: '/og-image.jpg',
-        width: 1200,
-        height: 630,
-        alt: 'Forsyth Games - Educational Gaming Platform by Forsyth County Schools',
-      },
-      {
-        url: 'https://site.imsglobal.org/sites/default/files/orgs/logos/primary/fcslogo_hexagon.png',
-        width: 512,
-        height: 512,
-        alt: 'Forsyth County Schools Logo',
-      },
-    ],
-    locale: 'en_US',
-    type: 'website',
-    educationalUse: 'instruction',
-    learningResourceType: 'interactive resource',
-    typicalAgeRange: '5-18',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Forsyth Games - Educational Gaming Platform | Forsyth County Schools',
-    description: 'Official Forsyth County Schools platform with 255+ curriculum-aligned educational games for K-12 students.',
-    images: [
-      '/og-image.jpg',
-      'https://site.imsglobal.org/sites/default/files/orgs/logos/primary/fcslogo_hexagon.png'
-    ],
-    site: '@ForsythCountySchools',
-    creator: '@ForsythCountySchools',
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
-  },
-  verification: {
-    google: 'your-google-verification-code',
-    yandex: 'your-yandex-verification-code',
-    bing: 'your-bing-verification-code',
-  },
-  category: 'education',
-  classification: 'Educational Content',
-  rating: 'general',
-  language: 'en',
-  geoRegion: 'US-GA',
-  targetAudience: 'students, teachers, parents, educators, K-12, elementary, middle school, high school',
-  educationalUse: 'instruction, recreation, cognitive development, assessment, practice',
-  learningResourceType: 'interactive resource, educational game, learning tool, assessment',
-  interactivityType: 'active',
-  typicalAgeRange: '5-18',
-  timeRequired: 'PT5M',
-  accessMode: ['visual', 'textual', 'auditory'],
-  accessibilityFeature: ['navigation', 'readingOrder', 'highContrast'],
-  accessibilityHazard: 'none',
-  about: [
-    'Educational Games',
-    'Student Learning',
-    'K-12 Education',
-    'Interactive Learning',
-    'Curriculum Activities'
-  ],
-  teaches: [
-    'Critical Thinking',
-    'Problem Solving',
-    'Math Skills',
-    'Reading Comprehension',
-    'Scientific Reasoning',
-    'Digital Literacy'
-  ],
-  inLanguage: 'en-US',
-  isFamilyFriendly: true,
-  contentRating: 'E',
-  genre: ['Education', 'Learning', 'Games', 'Interactive'],
-  dateModified: new Date().toISOString(),
-  datePublished: '2024-01-01',
-}
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <ClerkProvider>
       <html lang="en">
         <head>
-          <link rel="icon" type="image/png" href="/classlink-logo.png" />
-          <link rel="apple-touch-icon" href="/classlink-logo.png" />
-          <link rel="manifest" href="/site.webmanifest" />
-          <meta name="theme-color" content="#000000" />
-          <meta name="application-name" content="Forsyth Games" />
-          <meta name="apple-mobile-web-app-title" content="Forsyth Games" />
-          <meta name="apple-mobile-web-app-capable" content="yes" />
-          <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-          <meta name="mobile-web-app-capable" content="yes" />
-          <meta name="referrer" content="no-referrer-when-downgrade" />
-          <meta name="format-detection" content="telephone=no" />
-          
-          {/* Performance Optimization - Resource Hints for faster loading on slower computers */}
-          {/* Google Fonts preconnect and dns-prefetch */}
-          <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="anonymous" />
+          {/* Google Font preconnect */}
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
           
-          {/* Additional preconnects */}
-          <link rel="preconnect" href="https://gms.parcoil.com" crossOrigin="anonymous" />
-          <link rel="preconnect" href="https://forsyth-games.onrender.com" crossOrigin="anonymous" />
-          
-          {/* dns-prefetch for additional domains */}
-          <link rel="dns-prefetch" href="https://gms.parcoil.com" />
-          <link rel="dns-prefetch" href="https://forsyth-games.onrender.com" />
-          <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
-          <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
-          
-          {/* Security Policy - Blocks monitoring/filtering services (Linewize, Qoria, Classwize, etc.) */}
-          <meta httpEquiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://clerk.accounts.dev https://*.clerk.accounts.dev https://challenges.cloudflare.com https://vercel.live https://*.vercel.com https://va.vercel-scripts.com blob:; worker-src 'self' blob:; object-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https: blob: https://img.clerk.com https://site.imsglobal.org; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https: wss: https://clerk.accounts.dev https://*.clerk.accounts.dev https://vitals.vercel-insights.com https://gms.parcoil.com https://api.web3forms.com; media-src 'self' https:; frame-src 'self' https://gms.parcoil.com https://forsyth-games.onrender.com https://clerk.accounts.dev https://*.clerk.accounts.dev https://challenges.cloudflare.com https://vercel.live https://*.vercel.app https://www.youtube.com https://youtube.com https://www.youtube-nocookie.com https://youtube-nocookie.com;" />
-          <meta httpEquiv="Permissions-Policy" content="camera=(), microphone=(), display-capture=(), screen-wake-lock=(), geolocation=(), payment=(), usb=()" />
-          
-          {/* Enhanced Structured Data for Education */}
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{
-              __html: JSON.stringify({
-                "@context": "https://schema.org",
-                "@type": "EducationalOrganization",
-                "name": "Forsyth County Schools",
-                "description": "Forsyth County Schools educational gaming platform featuring 255+ curriculum-aligned games for K-12 students",
-                "url": "https://forsyth-games.vercel.app",
-                "logo": "https://site.imsglobal.org/sites/default/files/orgs/logos/primary/fcslogo_hexagon.png",
-                "sameAs": [
-                  "https://www.forsyth.k12.ga.us"
-                ],
-                "address": {
-                  "@type": "PostalAddress",
-                  "addressLocality": "Cumming",
-                  "addressRegion": "GA",
-                  "addressCountry": "US",
-                  "postalCode": "30040"
-                },
-                "contactPoint": {
-                  "@type": "ContactPoint",
-                  "telephone": "+1-678-947-2000",
-                  "contactType": "educational services",
-                  "areaServed": "Forsyth County, Georgia"
-                },
-                "educationalUse": "instruction, recreation, cognitive development, assessment, practice",
-                "learningResourceType": "interactive resource, educational game, learning tool, assessment",
-                "typicalAgeRange": "5-18",
-                "targetAudience": {
-                  "@type": "EducationalAudience",
-                  "educationalRole": "student"
-                },
-                "offers": {
-                  "@type": "Offer",
-                  "price": "0",
-                  "priceCurrency": "USD",
-                  "availability": "https://schema.org/InStock",
-                  "description": "Free access to educational games for K-12 students"
-                },
-                "mainEntity": {
-                  "@type": "ItemList",
-                  "name": "Educational Games Collection",
-                  "description": "Collection of 255+ curriculum-aligned educational games for K-12 students",
-                  "numberOfItems": 204,
-                  "itemListElement": [
-                    {
-                      "@type": "Game",
-                      "name": "Educational Games",
-                      "description": "Curriculum-aligned educational games for K-12 students",
-                      "educationalUse": "cognitive development",
-                      "learningResourceType": "interactive resource",
-                      "typicalAgeRange": "5-18",
-                      "teaches": [
-                        "Critical Thinking",
-                        "Problem Solving",
-                        "Math Skills",
-                        "Reading Comprehension",
-                        "Scientific Reasoning",
-                        "Digital Literacy"
-                      ]
-                    }
-                  ]
-                },
-                "hasPart": [
-                  {
-                    "@type": "WebPage",
-                    "name": "Game Library",
-                    "description": "Browse our collection of educational games",
-                    "url": "https://forsyth-games.vercel.app#trending"
-                  },
-                  {
-                    "@type": "WebPage", 
-                    "name": "About",
-                    "description": "Learn about our educational gaming platform",
-                    "url": "https://forsyth-games.vercel.app#home"
-                  }
-                ],
-                "provider": {
-                  "@type": "Organization",
-                  "name": "Forsyth County Schools",
-                  "url": "https://www.forsyth.k12.ga.us"
-                },
-                "audience": {
-                  "@type": "EducationalAudience",
-                  "educationalRole": ["student", "teacher", "parent", "educator"]
-                },
-                "inLanguage": "en-US",
-                "isFamilyFriendly": true,
-                "contentRating": {
-                  "@type": "Rating",
-                  "ratingValue": "E",
-                  "ratingExplanation": "Everyone - Suitable for all ages"
-                }
-              })
-            }}
+          {/* Prevent flash of wrong theme */}
+          <style dangerouslySetInnerHTML={{
+            __html: `
+              html {
+                visibility: hidden;
+              }
+              html.dark {
+                visibility: visible;
+              }
+            `
+          }} />
+          {/* Content Security Policy for XSS protection - Updated for Clerk with eval allowed */}
+          <meta 
+            httpEquiv="Content-Security-Policy" 
+            content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' https://ipapi.co https://ipwho.is https://api.ipgeolocation.io https://api.ipify.org https://*.clerk.accounts.dev https://*.clerk.dev; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; connect-src 'self' https://forsyth-chats.onrender.com https://ipapi.co https://ipwho.is https://api.ipgeolocation.io https://api.ipify.org https://*.clerk.accounts.dev https://*.clerk.dev https://clerk-telemetry.com wss: ws:; frame-src 'self' https://*.clerk.accounts.dev https://*.clerk.dev; worker-src 'self' 'unsafe-eval' blob:; child-src 'self';" 
           />
-          
-          {/* Additional Educational Structured Data */}
+          {/* Force HTTPS in production */}
+          <script dangerouslySetInnerHTML={{
+            __html: `
+              if (location.protocol !== 'https:' && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
+                location.replace('https:' + window.location.href.substring(window.location.protocol.length));
+              }
+            `
+          }} />
           <script
-            type="application/ld+json"
             dangerouslySetInnerHTML={{
-              __html: JSON.stringify({
-                "@context": "https://schema.org",
-                "@type": "LearningResource",
-                "name": "Forsyth Games - Educational Gaming Platform",
-                "description": "Official Forsyth County Schools educational platform with 255+ curriculum-aligned games for K-12 students",
-                "url": "https://forsyth-games.vercel.app",
-                "learningResourceType": "interactive resource, educational game, learning tool",
-                "educationalLevel": ["Elementary School", "Middle School", "High School"],
-                "about": [
-                  "Educational Games",
-                  "Student Learning", 
-                  "K-12 Education",
-                  "Interactive Learning",
-                  "Curriculum Activities",
-                  "STEM Education",
-                  "Brain Training",
-                  "Critical Thinking"
-                ],
-                "teaches": [
-                  "Critical Thinking",
-                  "Problem Solving", 
-                  "Math Skills",
-                  "Reading Comprehension",
-                  "Scientific Reasoning",
-                  "Digital Literacy",
-                  "Cognitive Development",
-                  "Student Engagement"
-                ],
-                "audience": {
-                  "@type": "EducationalAudience",
-                  "educationalRole": ["student", "teacher", "parent", "educator", "administrator"]
-                },
-                "timeRequired": "PT5M",
-                "typicalAgeRange": "5-18",
-                "interactivityType": "active",
-                "accessMode": ["visual", "textual", "auditory"],
-                "accessibilityFeature": ["navigation", "readingOrder", "highContrast"],
-                "accessibilityHazard": "none",
-                "isFamilyFriendly": true,
-                "publisher": {
-                  "@type": "Organization",
-                  "name": "Forsyth County Schools",
-                  "url": "https://www.forsyth.k12.ga.us",
-                  "logo": "https://site.imsglobal.org/sites/default/files/orgs/logos/primary/fcslogo_hexagon.png"
-                },
-                "dateModified": new Date().toISOString(),
-                "datePublished": "2024-01-01"
-              })
+              __html: `
+                (function() {
+                  // Force dark mode immediately
+                  document.documentElement.classList.add('dark');
+                  
+                  // Check localStorage for saved preference
+                  const savedTheme = localStorage.getItem('theme');
+                  if (savedTheme === 'light') {
+                    document.documentElement.classList.remove('dark');
+                  } else {
+                    // Default to dark if no preference saved
+                    localStorage.setItem('theme', 'dark');
+                  }
+                  
+                  // Make page visible
+                  document.documentElement.style.visibility = 'visible';
+                })()
+              `,
             }}
           />
         </head>
-        <body className="font-sans">
-          <ScrollToTop />
-          <ExtensionBlocker />
-          <WebRTCBlocker />
+        <body className={inter.className}>
+          <header className="flex justify-end items-center p-4 gap-4 h-16 border-b border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900">
+            <SignedOut>
+              <SignInButton>
+                <button className="text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white font-medium transition-colors">
+                  Sign In
+                </button>
+              </SignInButton>
+              <SignUpButton>
+                <button className="bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-2xl font-medium text-sm h-10 px-6 cursor-pointer hover:from-blue-600 hover:to-blue-700 transition-all duration-200 shadow-lg">
+                  Sign Up
+                </button>
+              </SignUpButton>
+            </SignedOut>
+            <SignedIn>
+              <UserButton 
+                appearance={{
+                  elements: {
+                    avatarBox: "rounded-2xl",
+                  },
+                }}
+              />
+            </SignedIn>
+          </header>
           {children}
+          <Toaster />
           <Analytics />
-          <SpeedInsights />
         </body>
       </html>
     </ClerkProvider>
-  )
+  );
 }
