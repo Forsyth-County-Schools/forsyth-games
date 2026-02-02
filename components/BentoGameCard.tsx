@@ -2,7 +2,6 @@
 
 import Image from 'next/image'
 import { Play, Users, Star, TrendingUp } from 'lucide-react'
-import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { startTransition } from 'react'
 
@@ -25,15 +24,16 @@ interface BentoGameCardProps {
 
 export default function BentoGameCard({ game, size, priority = false }: BentoGameCardProps) {
   const router = useRouter()
-  const [imageUrl, setImageUrl] = useState<string>("")
-
-  // Optimize image URL with CDN fallback
-  useEffect(() => {
-    if (game.url && game.image) {
-      const url = `/games/${game.url}/${game.image}`
-      setImageUrl(url)
-    }
-  }, [game.url, game.image])
+  const GAME_SERVER = 'https://gms.parcoil.com'
+  
+  // Check if game has local assets (only 5 games: ducklife4, ducklife5, geodash, geodesicalxx, polytrack)
+  const localGames = ['games/ducklife4', 'games/ducklife5', 'games/geodash', 'geodesicalxx', 'polytrack', 'geodash']
+  const hasLocalAssets = localGames.includes(game.url)
+  
+  // Use local path if assets exist locally, otherwise use game server
+  const imageUrl = hasLocalAssets 
+    ? `/games/${game.url}/${game.image}`
+    : `${GAME_SERVER}/${game.url}/${game.image}`
 
   // Add validation for image URL
   const isValidImageUrl = imageUrl && imageUrl.trim() !== '' && !imageUrl.includes('undefined')
@@ -88,20 +88,25 @@ export default function BentoGameCard({ game, size, priority = false }: BentoGam
                 if (target.dataset.errorHandled === 'true') return
                 target.dataset.errorHandled = 'true'
                 
-                // Try local fallbacks first
-                const localFallbacks = [
+                // Try fallbacks from game server
+                const fallbacks = hasLocalAssets ? [
                   `/games/${game.url}/${game.image}`,
                   `/games/${game.url}/logo.png`,
                   `/games/${game.url}/icon.png`,
                   `/games/${game.url}/splash.png`,
-                  `/games/${game.url}/thumbnail.png`
+                ] : [
+                  `${GAME_SERVER}/${game.url}/${game.image}`,
+                  `${GAME_SERVER}/${game.url}/logo.png`,
+                  `${GAME_SERVER}/${game.url}/icon.png`,
+                  `${GAME_SERVER}/${game.url}/splash.png`,
+                  `${GAME_SERVER}/${game.url}/thumbnail.png`
                 ]
                 
                 let tried = 0
                 
                 const tryAlternative = () => {
-                  if (tried < localFallbacks.length) {
-                    target.src = localFallbacks[tried]
+                  if (tried < fallbacks.length) {
+                    target.src = fallbacks[tried]
                     tried++
                   } else {
                     // Final fallback to SVG placeholder
