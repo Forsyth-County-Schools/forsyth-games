@@ -66,7 +66,7 @@ function PlayPageContent() {
       setTimeout(() => {
         // Check if this is a local game (starts with 'games/')
         const isLocalGame = gameUrl.startsWith('games/')
-        iframe.src = isLocalGame ? `/${gameUrl}` : `${serverUrl}/${gameUrl}`
+        iframe.src = isLocalGame ? `/${gameUrl}/index.html` : `${serverUrl}/${gameUrl}`
       }, 100)
     }
   }
@@ -281,7 +281,7 @@ function PlayPageContent() {
           {/* Game Iframe */}
           <iframe
             id="gameFrame"
-            src={gameUrl ? (gameUrl.startsWith('games/') ? `/${gameUrl}` : `${serverUrl}/${gameUrl}`) : ''}
+            src={gameUrl ? (gameUrl.startsWith('games/') ? `/${gameUrl}/index.html` : `${serverUrl}/${gameUrl}`) : ''}
             className="w-full h-[calc(100vh-200px)] min-h-[600px] border-0"
             title={gameData.name}
             allowFullScreen
