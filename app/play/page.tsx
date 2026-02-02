@@ -2,8 +2,10 @@
 
 import { useEffect, useState, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
-import { ArrowLeft, Maximize2, RefreshCw, AlertTriangle, Gamepad2 } from 'lucide-react'
+import { ArrowLeft, Maximize2, RefreshCw, AlertTriangle, Gamepad2, Trophy, Star } from 'lucide-react'
 import Footer from '@/components/Footer'
+import Navbar from '@/components/Navbar'
+import ErrorBoundary from '@/components/ErrorBoundary'
 import gamesData from '@/config/games.json'
 
 function PlayPageContent() {
@@ -192,7 +194,7 @@ function PlayPageContent() {
               <div className="h-6 w-px bg-white/20"></div>
               <div className="flex items-center space-x-3">
                 <div className="bg-white/20 p-2 rounded-lg">
-                  <GameIcon className="w-6 h-6 text-white" />
+                  <Gamepad2 className="w-6 h-6 text-white" />
                 </div>
                 <div>
                   <h1 className="text-2xl font-bold text-white">
@@ -243,7 +245,7 @@ function PlayPageContent() {
                   {retryCount > 0 ? `Attempt ${retryCount + 1} of 3` : 'Preparing your game experience'}
                 </p>
                 <div className="flex justify-center space-x-2 mt-4">
-                  <GameIcon className={`w-8 h-8 ${theme.accent} animate-pulse`} />
+                  <Gamepad2 className={`w-8 h-8 ${theme.accent} animate-pulse`} />
                 </div>
               </div>
             </div>
@@ -294,7 +296,7 @@ function PlayPageContent() {
         <div className={`${theme.secondary} rounded-xl p-6 border border-white/10 backdrop-blur-sm`}>
           <div className="flex items-center space-x-3 mb-4">
             <div className={`p-2 rounded-lg bg-gradient-to-r ${theme.primary}`}>
-              <GameIcon className="w-6 h-6 text-white" />
+              <Gamepad2 className="w-6 h-6 text-white" />
             </div>
             <h2 className="text-xl font-semibold text-white">How to Play {gameData.name}</h2>
           </div>
