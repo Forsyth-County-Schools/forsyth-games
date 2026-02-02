@@ -342,6 +342,12 @@
     "new": false
   },
   {
+    "name": "Duck Life 5",
+    "image": "ducklife5.png",
+    "url": "games/ducklife5",
+    "new": true
+  },
+  {
     "name": "Elastic Man",
     "image": "elasticman.jpg",
     "url": "elasticman",
@@ -772,6 +778,12 @@
     "image": "img/pic1.png",
     "url": "polybranch",
     "new": false
+  },
+  {
+    "name": "Polytrack",
+    "image": "polytrack.png",
+    "url": "games/polytrack",
+    "new": true
   },
   {
     "name": "Popcat Classic",
