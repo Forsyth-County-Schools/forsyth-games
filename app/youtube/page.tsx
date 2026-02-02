@@ -10,29 +10,7 @@ import Footer from '@/components/Footer'
 const PARTICLE_COUNT = 15
 const MOUSE_THROTTLE_MS = 16 // ~60fps
 
-// Utility: Throttle function
-function throttle<T extends (...args: unknown[]) => void>(
-  func: T,
-  delay: number
-): (this: unknown, ...args: Parameters<T>) => void {
-  let timeoutId: NodeJS.Timeout | null = null
-  let lastRan: number = 0
-
-  return function (this: unknown, ...args: Parameters<T>) {
-    const now = Date.now()
-
-    if (now - lastRan >= delay) {
-      func.apply(this, args)
-      lastRan = now
-    } else {
-      if (timeoutId) clearTimeout(timeoutId)
-      timeoutId = setTimeout(() => {
-        func.apply(this, args)
-        lastRan = Date.now()
-      }, delay - (now - lastRan))
-    }
-  }
-}
+// Mouse movement throttling is now handled with useRef and setTimeout
 
 // Utility: Validate YouTube URL
 function isValidYouTubeUrl(url: string): boolean {
@@ -56,6 +34,7 @@ export default function YouTubePage() {
   const [windowSize, setWindowSize] = useState({ width: 0, height: 0 })
   const [mounted, setMounted] = useState(false)
   const errorAnnouncerRef = useRef<HTMLDivElement>(null)
+  const throttleTimer = useRef<NodeJS.Timeout | null>(null);
 
   // Handle mounting to avoid SSR issues
   useEffect(() => {
@@ -76,20 +55,40 @@ export default function YouTubePage() {
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
-  // Throttled mouse tracking for performance
-  const handleMouseMove = useCallback(
-    throttle<[MouseEvent]>((e) => {
-      setMousePosition({ x: e.clientX, y: e.clientY })
-    }, MOUSE_THROTTLE_MS),
-    []
-  )
+    // Throttled mouse tracking for performance
+  const handleMouseMove = useCallback((e: MouseEvent) => {
+    setMousePosition({ x: e.clientX, y: e.clientY });
+  }, []);
 
+  // Create a throttled version of the handler
+  const throttledHandleMouseMove = useCallback(
+    (e: MouseEvent) => {
+      if (!throttleTimer.current) {
+        throttleTimer.current = setTimeout(() => {
+          handleMouseMove(e);
+          throttleTimer.current = null;
+        }, MOUSE_THROTTLE_MS);
+      }
+    },
+    [handleMouseMove]
+  );
+
+  // Set up the event listener
   useEffect(() => {
-    if (!mounted) return
-
-    window.addEventListener('mousemove', handleMouseMove)
-    return () => window.removeEventListener('mousemove', handleMouseMove)
-  }, [mounted, handleMouseMove])
+    if (!mounted) return;
+    
+    const handler = (e: MouseEvent) => {
+      throttledHandleMouseMove(e);
+    };
+    
+    window.addEventListener('mousemove', handler);
+    return () => {
+      window.removeEventListener('mousemove', handler);
+      if (throttleTimer.current) {
+        clearTimeout(throttleTimer.current);
+      }
+    };
+  }, [mounted, throttledHandleMouseMove]);
 
   const handlePlay = async () => {
     const trimmedUrl = url.trim()
