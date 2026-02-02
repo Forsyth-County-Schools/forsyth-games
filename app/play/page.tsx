@@ -44,13 +44,82 @@ function PlayPageContent() {
   }, [gameUrl])
 
   const handleFullscreen = () => {
-    const iframe = document.getElementById('gameFrame') as HTMLIFrameElement
-    if (iframe.requestFullscreen) {
-      iframe.requestFullscreen()
-    } else if ((iframe as HTMLIFrameElement & { webkitRequestFullscreen?: () => void }).webkitRequestFullscreen) {
-      (iframe as HTMLIFrameElement & { webkitRequestFullscreen: () => void }).webkitRequestFullscreen()
-    } else if ((iframe as HTMLIFrameElement & { msRequestFullscreen?: () => void }).msRequestFullscreen) {
-      (iframe as HTMLIFrameElement & { msRequestFullscreen: () => void }).msRequestFullscreen()
+    if (!gameUrl) return
+    
+    // Create a new window with about:blank and write the game content
+    const fullscreenWindow = window.open('', '_blank', 'fullscreen=yes,scrollbars=no, resizable=no')
+    if (fullscreenWindow) {
+      let gameSrc
+      
+      // Determine the correct game source
+      if (gameUrl === 'madalin-stunt-cars-2') {
+        gameSrc = "https://www.madalingames.com/madalingames/wp-content/uploads/games/webgl/M/MSC2-WEBGL/index.html"
+      } else if (gameUrl.startsWith('games/')) {
+        gameSrc = `/${gameUrl}/index.html`
+      } else {
+        gameSrc = `${serverUrl}/${gameUrl}`
+      }
+      
+      fullscreenWindow.document.write(`
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>${gameData?.name || 'Game'} - Fullscreen</title>
+            <style>
+                body {
+                    margin: 0;
+                    padding: 0;
+                    background: #000;
+                    overflow: hidden;
+                    width: 100vw;
+                    height: 100vh;
+                }
+                iframe {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    border: none;
+                }
+                .close-btn {
+                    position: fixed;
+                    top: 10px;
+                    right: 10px;
+                    z-index: 9999;
+                    background: rgba(255, 255, 255, 0.9);
+                    color: #000;
+                    border: none;
+                    padding: 8px 16px;
+                    border-radius: 4px;
+                    cursor: pointer;
+                    font-size: 14px;
+                    font-weight: bold;
+                    transition: background 0.3s;
+                }
+                .close-btn:hover {
+                    background: rgba(255, 255, 255, 1);
+                }
+            </style>
+        </head>
+        <body>
+            <button class="close-btn" onclick="window.close()">✕ Close</button>
+            <iframe src="${gameSrc}" frameborder="0" scrolling="no" allowfullscreen></iframe>
+        </body>
+        </html>
+      `)
+      fullscreenWindow.document.close()
+      
+      // Try to request fullscreen for the new window
+      if (fullscreenWindow.document.documentElement.requestFullscreen) {
+        fullscreenWindow.document.documentElement.requestFullscreen()
+      } else if ((fullscreenWindow.document.documentElement as any).webkitRequestFullscreen) {
+        (fullscreenWindow.document.documentElement as any).webkitRequestFullscreen()
+      } else if ((fullscreenWindow.document.documentElement as any).msRequestFullscreen) {
+        (fullscreenWindow.document.documentElement as any).msRequestFullscreen()
+      }
     }
   }
 
@@ -64,9 +133,14 @@ function PlayPageContent() {
     if (iframe && gameUrl) {
       iframe.src = ''
       setTimeout(() => {
-        // Check if this is a local game (starts with 'games/')
-        const isLocalGame = gameUrl.startsWith('games/')
-        iframe.src = isLocalGame ? `/${gameUrl}/index.html` : `${serverUrl}/${gameUrl}`
+        // Check if this is Madalin Stunt Cars 2
+        if (gameUrl === 'madalin-stunt-cars-2') {
+          iframe.src = "https://www.madalingames.com/madalingames/wp-content/uploads/games/webgl/M/MSC2-WEBGL/index.html"
+        } else {
+          // Check if this is a local game (starts with 'games/')
+          const isLocalGame = gameUrl.startsWith('games/')
+          iframe.src = isLocalGame ? `/${gameUrl}/index.html` : `${serverUrl}/${gameUrl}`
+        }
       }, 100)
     }
   }
@@ -281,7 +355,13 @@ function PlayPageContent() {
           {/* Game Iframe */}
           <iframe
             id="gameFrame"
-            src={gameUrl ? (gameUrl.startsWith('games/') ? `/${gameUrl}/index.html` : `${serverUrl}/${gameUrl}`) : ''}
+            src={gameUrl ? (
+              gameUrl === 'madalin-stunt-cars-2' 
+                ? "https://www.madalingames.com/madalingames/wp-content/uploads/games/webgl/M/MSC2-WEBGL/index.html"
+                : gameUrl.startsWith('games/') 
+                  ? `/${gameUrl}/index.html` 
+                  : `${serverUrl}/${gameUrl}`
+            ) : ''}
             className="w-full h-[calc(100vh-200px)] min-h-[600px] border-0"
             title={gameData.name}
             allowFullScreen
