@@ -849,3 +849,57 @@ body {
     animation: none !important;
   }
 }
+
+/* Performance optimizations for slower computers */
+/* Disable heavy visual effects on low-end devices */
+@media (max-width: 640px) {
+  .aurora-light,
+  .film-grain,
+  .cyber-grid,
+  .particle-system {
+    display: none !important;
+  }
+  
+  .glass-premium,
+  .glass {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+}
+
+/* Further optimizations for very slow connections/devices */
+@media (prefers-reduced-data: reduce) {
+  .aurora-light,
+  .film-grain,
+  .cyber-grid,
+  .particle-system,
+  .holographic::before,
+  .scanline::after {
+    display: none !important;
+  }
+  
+  * {
+    animation: none !important;
+    transition-duration: 0.1s !important;
+  }
+  
+  .glass,
+  .glass-premium,
+  .glass-hover {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(10, 10, 10, 0.95) !important;
+  }
+}
+
+/* Optimize game card loading */
+.game-card img {
+  content-visibility: auto;
+  contain: layout style paint;
+}
+
+/* Lazy load optimization */
+.lazy-load-container {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 400px;
+}

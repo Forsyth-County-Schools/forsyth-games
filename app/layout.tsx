@@ -10,7 +10,7 @@ export const dynamic = 'force-dynamic'
 
 export const metadata = {
   title: 'Forsyth Games - Educational Gaming Platform | Forsyth County Schools',
-  description: 'Official Forsyth County Schools educational gaming platform featuring 293+ curriculum-aligned games. Designed to enhance student learning through interactive gameplay, critical thinking exercises, and brain-training activities. Safe, monitored, and educationally approved for K-12 students.',
+  description: 'Official Forsyth County Schools educational gaming platform featuring 255+ curriculum-aligned games. Designed to enhance student learning through interactive gameplay, critical thinking exercises, and brain-training activities. Safe, monitored, and educationally approved for K-12 students.',
   keywords: [
     'Forsyth County Schools',
     'educational games',
@@ -59,7 +59,7 @@ export const metadata = {
   },
   openGraph: {
     title: 'Forsyth Games - Educational Gaming Platform | Forsyth County Schools',
-    description: 'Official Forsyth County Schools educational platform with 293+ curriculum-aligned games. Enhance student learning through interactive gameplay and critical thinking exercises.',
+    description: 'Official Forsyth County Schools educational platform with 255+ curriculum-aligned games. Enhance student learning through interactive gameplay and critical thinking exercises.',
     url: 'https://forsyth-games.vercel.app',
     siteName: 'Forsyth Games - Forsyth County Schools',
     images: [
@@ -85,7 +85,7 @@ export const metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Forsyth Games - Educational Gaming Platform | Forsyth County Schools',
-    description: 'Official Forsyth County Schools platform with 293+ curriculum-aligned educational games for K-12 students.',
+    description: 'Official Forsyth County Schools platform with 255+ curriculum-aligned educational games for K-12 students.',
     images: [
       '/og-image.jpg',
       'https://site.imsglobal.org/sites/default/files/orgs/logos/primary/fcslogo_hexagon.png'
@@ -166,6 +166,16 @@ export default function RootLayout({
           <meta name="referrer" content="no-referrer-when-downgrade" />
           <meta name="format-detection" content="telephone=no" />
           
+          {/* Performance Optimization - Resource Hints for faster loading on slower computers */}
+          <link rel="dns-prefetch" href="https://gms.parcoil.com" />
+          <link rel="dns-prefetch" href="https://forsyth-games.onrender.com" />
+          <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+          <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+          <link rel="preconnect" href="https://gms.parcoil.com" crossOrigin="anonymous" />
+          <link rel="preconnect" href="https://forsyth-games.onrender.com" crossOrigin="anonymous" />
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+          
           {/* Security Policy - Blocks monitoring/filtering services (Linewize, Qoria, Classwize, etc.) */}
           <meta httpEquiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://clerk.accounts.dev https://*.clerk.accounts.dev https://challenges.cloudflare.com https://vercel.live https://*.vercel.com https://va.vercel-scripts.com blob:; worker-src 'self' blob:; object-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https: blob: https://img.clerk.com https://site.imsglobal.org; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https: wss: https://clerk.accounts.dev https://*.clerk.accounts.dev https://vitals.vercel-insights.com https://gms.parcoil.com; media-src 'self' https:; frame-src 'self' https://gms.parcoil.com https://forsyth-games.onrender.com https://clerk.accounts.dev https://*.clerk.accounts.dev https://challenges.cloudflare.com https://vercel.live https://*.vercel.app https://www.youtube.com https://youtube.com https://www.youtube-nocookie.com https://youtube-nocookie.com;" />
           <meta httpEquiv="Permissions-Policy" content="camera=(), microphone=(), display-capture=(), screen-wake-lock=(), geolocation=(), payment=(), usb=()" />
@@ -178,7 +188,7 @@ export default function RootLayout({
                 "@context": "https://schema.org",
                 "@type": "EducationalOrganization",
                 "name": "Forsyth County Schools",
-                "description": "Forsyth County Schools educational gaming platform featuring 293+ curriculum-aligned games for K-12 students",
+                "description": "Forsyth County Schools educational gaming platform featuring 255+ curriculum-aligned games for K-12 students",
                 "url": "https://forsyth-games.vercel.app",
                 "logo": "https://site.imsglobal.org/sites/default/files/orgs/logos/primary/fcslogo_hexagon.png",
                 "sameAs": [
@@ -214,8 +224,8 @@ export default function RootLayout({
                 "mainEntity": {
                   "@type": "ItemList",
                   "name": "Educational Games Collection",
-                  "description": "Collection of 293+ curriculum-aligned educational games for K-12 students",
-                  "numberOfItems": 293,
+                  "description": "Collection of 255+ curriculum-aligned educational games for K-12 students",
+                  "numberOfItems": 204,
                   "itemListElement": [
                     {
                       "@type": "Game",
@@ -277,7 +287,7 @@ export default function RootLayout({
                 "@context": "https://schema.org",
                 "@type": "LearningResource",
                 "name": "Forsyth Games - Educational Gaming Platform",
-                "description": "Official Forsyth County Schools educational platform with 293+ curriculum-aligned games for K-12 students",
+                "description": "Official Forsyth County Schools educational platform with 255+ curriculum-aligned games for K-12 students",
                 "url": "https://forsyth-games.vercel.app",
                 "learningResourceType": "interactive resource, educational game, learning tool",
                 "educationalLevel": ["Elementary School", "Middle School", "High School"],

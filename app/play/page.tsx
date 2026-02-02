@@ -25,7 +25,7 @@ function PlayPageContent() {
     }
 
     // Find game data from games.json
-    const cleanGameUrl = gameUrl.replace('/', '')
+    const cleanGameUrl = gameUrl.replace(/\/+$/, '')  // Remove all trailing slashes
     const game = gamesData.find(g => g.url === cleanGameUrl)
     
     if (game) {
@@ -59,10 +59,12 @@ function PlayPageContent() {
     setGameStarted(false)
     
     const iframe = document.getElementById('gameFrame') as HTMLIFrameElement
-    if (iframe) {
+    if (iframe && gameUrl) {
       iframe.src = ''
       setTimeout(() => {
-        iframe.src = `${serverUrl}/${gameUrl}`
+        // Check if this is a local game (starts with 'games/')
+        const isLocalGame = gameUrl.startsWith('games/')
+        iframe.src = isLocalGame ? `/${gameUrl}` : `${serverUrl}/${gameUrl}`
       }, 100)
     }
   }
@@ -277,7 +279,7 @@ function PlayPageContent() {
           {/* Game Iframe */}
           <iframe
             id="gameFrame"
-            src={gameUrl ? `${serverUrl}/${gameUrl}` : ''}
+            src={gameUrl ? (gameUrl.startsWith('games/') ? `/${gameUrl}` : `${serverUrl}/${gameUrl}`) : ''}
             className="w-full h-[calc(100vh-200px)] min-h-[600px] border-0"
             title={gameData.name}
             allowFullScreen
