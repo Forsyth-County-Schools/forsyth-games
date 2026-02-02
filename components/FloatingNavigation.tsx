@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Home, TrendingUp, Youtube, Search, X, Menu, Settings } from 'lucide-react'
 import { SignInButton, SignUpButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
@@ -21,6 +21,7 @@ interface FloatingNavigationProps {
 
 export default function FloatingNavigation({ onSearchToggle, isSearchActive }: FloatingNavigationProps) {
   const router = useRouter()
+  const pathname = usePathname()
   const [isVisible, setIsVisible] = useState(true)
   const [lastScrollY, setLastScrollY] = useState(0)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -35,6 +36,16 @@ export default function FloatingNavigation({ onSearchToggle, isSearchActive }: F
     { id: 'settings', label: 'Settings', icon: Settings, href: '/settings' },
   ]
 
+  // Hide navigation on play page - using pathname from Next.js
+  useEffect(() => {
+    if (pathname === '/play') {
+      setIsPlayingGame(true)
+      setIsVisible(false)
+    } else {
+      setIsPlayingGame(false)
+    }
+  }, [pathname])
+
   // Auto-hide on scroll
   useEffect(() => {
     const handleScroll = () => {
@@ -46,33 +57,10 @@ export default function FloatingNavigation({ onSearchToggle, isSearchActive }: F
       setLastScrollY(currentScrollY)
     }
 
-    const handleGamePlay = () => {
-      // Check if we're on the play page
-      if (window.location.pathname === '/play') {
-        setIsPlayingGame(true)
-        setIsVisible(false)
-      } else {
-        setIsPlayingGame(false)
-      }
-    }
-
-    // Check initial state
-    handleGamePlay()
-
     window.addEventListener('scroll', handleScroll)
-    window.addEventListener('popstate', handleGamePlay)
     
-    // Also check for route changes
-    const originalPushState = history.pushState
-    history.pushState = function(...args) {
-      originalPushState.apply(history, args)
-      setTimeout(handleGamePlay, 0)
-    }
-
     return () => {
       window.removeEventListener('scroll', handleScroll)
-      window.removeEventListener('popstate', handleGamePlay)
-      history.pushState = originalPushState
     }
   }, [lastScrollY])
 

@@ -295,9 +295,9 @@ input:focus {
   90% { transform: translate(-10%, 10%); }
 }
 
-/* Smooth transitions */
+/* Smooth transitions - only for specific properties to prevent black screen during route changes */
 * {
-  transition: all 0.3s ease-in-out;
+  transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out, color 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
 
 /* Loading animations */
