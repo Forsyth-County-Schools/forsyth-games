@@ -37,6 +37,17 @@ export default function FloatingNavigation({ onSearchToggle, isSearchActive }: F
     { id: 'settings', label: 'Settings', icon: Settings, href: '/settings' },
   ]
 
+  // Update active item based on current pathname
+  useEffect(() => {
+    if (pathname === '/') {
+      setActiveItem('home')
+    } else if (pathname === '/youtube') {
+      setActiveItem('youtube')
+    } else if (pathname === '/settings') {
+      setActiveItem('settings')
+    }
+  }, [pathname])
+
   // Hide navigation on play page - using pathname from Next.js
   useEffect(() => {
     if (pathname === '/play') {
@@ -70,6 +81,7 @@ export default function FloatingNavigation({ onSearchToggle, isSearchActive }: F
       onSearchToggle()
     } else if (itemId === 'settings' || itemId === 'youtube') {
       // Navigate to Settings or YouTube page using Next.js router
+      setActiveItem(itemId)
       startTransition(() => {
         router.push(href)
       })
@@ -77,10 +89,17 @@ export default function FloatingNavigation({ onSearchToggle, isSearchActive }: F
       setActiveItem(itemId)
       setIsMobileMenuOpen(false)
       
-      // Smooth scroll to section
-      const element = document.querySelector(href)
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' })
+      // Smooth scroll to section (only on home page)
+      if (pathname === '/') {
+        const element = document.querySelector(href)
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' })
+        }
+      } else {
+        // If on another page, navigate home first, then scroll
+        startTransition(() => {
+          router.push('/')
+        })
       }
     }
   }

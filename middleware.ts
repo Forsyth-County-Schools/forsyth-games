@@ -7,7 +7,7 @@ import { checkGeorgiaLocation, getClientIp } from './lib/geolocation';
 const GEO_CACHE_DURATION_MS = 60 * 60 * 1000;
 
 // Rate limiting store with size limit to prevent memory leaks
-const MAX_CACHE_SIZE = 10000;
+const MAX_CACHE_SIZE = 50000;
 const rateLimitStore = new Map<string, { count: number; resetTime: number }>();
 
 // Cleanup expired entries and enforce size limit to prevent memory leaks
@@ -35,7 +35,7 @@ function cleanupExpiredEntries() {
 // Run cleanup every minute
 setInterval(cleanupExpiredEntries, 60000);
 
-// Rate limiting: 1000 requests per minute per IP (increased for high traffic)
+// Rate limiting: 10000 requests per minute per IP (very high for global access)
 function checkRateLimit(ip: string): boolean {
   const now = Date.now();
   const key = ip;
@@ -46,7 +46,7 @@ function checkRateLimit(ip: string): boolean {
     return true;
   }
   
-  if (record.count >= 1000) {
+  if (record.count >= 10000) {
     return false;
   }
   
@@ -61,6 +61,8 @@ const isPublicRoute = createRouteMatcher([
   '/sign-in(.*)',
   '/sign-up(.*)',
   '/api/webhooks(.*)',
+  '/api/games(.*)', // Allow access to games API
+  '/api/youtube(.*)', // Allow access to YouTube API
   '/blocked(.*)', // Allow access to blocked page
   '/settings(.*)', // Allow access to settings page
   '/youtube(.*)', // Allow access to youtube page
