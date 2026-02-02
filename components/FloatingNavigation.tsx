@@ -17,11 +17,9 @@ interface NavigationItem {
 interface FloatingNavigationProps {
   onSearchToggle: () => void
   isSearchActive: boolean
-  onSettingsToggle?: () => void
-  isSettingsActive?: boolean
 }
 
-export default function FloatingNavigation({ onSearchToggle, isSearchActive, onSettingsToggle, isSettingsActive }: FloatingNavigationProps) {
+export default function FloatingNavigation({ onSearchToggle, isSearchActive }: FloatingNavigationProps) {
   const router = useRouter()
   const [isVisible, setIsVisible] = useState(true)
   const [lastScrollY, setLastScrollY] = useState(0)
@@ -34,7 +32,7 @@ export default function FloatingNavigation({ onSearchToggle, isSearchActive, onS
     { id: 'trending', label: 'Trending', icon: TrendingUp, href: '#trending' },
     { id: 'youtube', label: 'YouTube', icon: Youtube, href: '/youtube' },
     { id: 'search', label: 'Search', icon: Search, href: '#search' },
-    { id: 'settings', label: 'Settings', icon: Settings, href: '#settings' },
+    { id: 'settings', label: 'Settings', icon: Settings, href: '/settings' },
   ]
 
   // Auto-hide on scroll
@@ -81,10 +79,8 @@ export default function FloatingNavigation({ onSearchToggle, isSearchActive, onS
   const handleNavClick = (itemId: string, href: string) => {
     if (itemId === 'search') {
       onSearchToggle()
-    } else if (itemId === 'settings') {
-      onSettingsToggle?.()
-    } else if (itemId === 'youtube') {
-      // Navigate to YouTube page using Next.js router
+    } else if (itemId === 'settings' || itemId === 'youtube') {
+      // Navigate to Settings or YouTube page using Next.js router
       router.push(href)
     } else {
       setActiveItem(itemId)
@@ -139,8 +135,6 @@ export default function FloatingNavigation({ onSearchToggle, isSearchActive, onS
                       className={`group relative p-2.5 rounded-xl transition-all duration-300 ${
                         item.id === 'search' && isSearchActive
                           ? 'bg-neon-blue/20 border border-neon-blue/50 shadow-neon'
-                          : item.id === 'settings' && isSettingsActive
-                          ? 'bg-neon-purple/20 border border-neon-purple/50 shadow-neon'
                           : item.id === 'search' && !isSearchActive
                           ? 'hover:bg-surfaceHover/50 border border-transparent'
                           : activeItem === item.id
@@ -157,8 +151,6 @@ export default function FloatingNavigation({ onSearchToggle, isSearchActive, onS
                         className={`w-5 h-5 transition-colors duration-300 ${
                           item.id === 'search' && isSearchActive
                           ? 'text-neon-blue'
-                          : item.id === 'settings' && isSettingsActive
-                          ? 'text-neon-purple'
                           : item.id === 'search' && !isSearchActive
                           ? 'text-text-secondary group-hover:text-text-primary'
                           : activeItem === item.id
@@ -283,8 +275,6 @@ export default function FloatingNavigation({ onSearchToggle, isSearchActive, onS
                           className={`w-full flex items-center gap-3 p-3 rounded-lg transition-all duration-300 ${
                             item.id === 'search' && isSearchActive
                             ? 'bg-neon-blue/20 border border-neon-blue/50'
-                            : item.id === 'settings' && isSettingsActive
-                            ? 'bg-neon-purple/20 border border-neon-purple/50'
                             : item.id === 'search' && !isSearchActive
                             ? 'hover:bg-surfaceHover/50 border border-transparent'
                             : activeItem === item.id
@@ -301,8 +291,6 @@ export default function FloatingNavigation({ onSearchToggle, isSearchActive, onS
                             className={`w-5 h-5 ${
                               item.id === 'search' && isSearchActive
                               ? 'text-neon-blue'
-                              : item.id === 'settings' && isSettingsActive
-                              ? 'text-neon-purple'
                               : item.id === 'search' && !isSearchActive
                               ? 'text-text-secondary'
                               : activeItem === item.id
@@ -313,8 +301,6 @@ export default function FloatingNavigation({ onSearchToggle, isSearchActive, onS
                           <span className={`text-sm font-medium ${
                             item.id === 'search' && isSearchActive
                             ? 'text-neon-blue'
-                            : item.id === 'settings' && isSettingsActive
-                            ? 'text-neon-purple'
                             : item.id === 'search' && !isSearchActive
                             ? 'text-text-primary'
                             : activeItem === item.id
