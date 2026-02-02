@@ -25,7 +25,7 @@ function PlayPageContent() {
     }
 
     // Find game data from games.json
-    const cleanGameUrl = gameUrl.replace(/\/$/, '')  // Remove trailing slash
+    const cleanGameUrl = gameUrl.replace(/\/+$/, '')  // Remove all trailing slashes
     const game = gamesData.find(g => g.url === cleanGameUrl)
     
     if (game) {

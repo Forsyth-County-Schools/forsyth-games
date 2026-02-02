@@ -522,12 +522,6 @@
     "new": false
   },
   {
-    "name": "Geo Dash",
-    "image": "geoscratchicon.png",
-    "url": "games/geodash",
-    "new": false
-  },
-  {
     "name": "Geodesical",
     "image": "images/logo.svg",
     "url": "games/geodesicalxx",
