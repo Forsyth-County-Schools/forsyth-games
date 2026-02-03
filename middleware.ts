@@ -4,8 +4,8 @@ import type { NextRequest } from 'next/server';
 export function middleware(request: NextRequest) {
   const response = NextResponse.next();
   
-  // Game backend server URL
-  const gameServerUrl = 'https://forsyth-games.onrender.com';
+  // Game backend server URL - now using Vercel API routes
+  const gameServerUrl = window.location.origin;
   
   // Relaxed Content Security Policy for better game compatibility
   // Games require permissive policies to load external resources, scripts, and styles

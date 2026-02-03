@@ -18,7 +18,7 @@ function PlayPageContent() {
   const [retryCount, setRetryCount] = useState(0)
   const [gameStarted, setGameStarted] = useState(false)
 
-  const serverUrl = "https://forsyth-games.onrender.com/game"
+  const serverUrl = "/api/game"
 
   useEffect(() => {
     if (!gameUrl) {
