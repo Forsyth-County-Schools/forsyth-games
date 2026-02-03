@@ -3,8 +3,6 @@
 import { motion } from 'framer-motion'
 import { Play, Star } from 'lucide-react'
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
-import { startTransition } from 'react'
 
 interface Game {
   name: string
@@ -18,7 +16,6 @@ interface GameCardProps {
 }
 
 export default function GameCard({ game }: GameCardProps) {
-  const router = useRouter()
   const serverUrl = "https://gms.parcoil.com"
   
   // Validate image URL
@@ -27,9 +24,85 @@ export default function GameCard({ game }: GameCardProps) {
   
   const handleGameClick = () => {
     try {
-      startTransition(() => {
-        router.push(`/play?gameurl=${game.url}/`)
-      })
+      // Open about:blank in fullscreen with game content
+      const fullscreenWindow = window.open('about:blank', '_blank')
+      if (fullscreenWindow) {
+        let gameSrc: string
+        
+        // Determine the correct game source
+        if (game.url === 'madalin-stunt-cars-2') {
+          gameSrc = "https://www.madalingames.com/madalingames/wp-content/uploads/games/webgl/M/MSC2-WEBGL/index.html"
+        } else if (game.url.startsWith('games/')) {
+          gameSrc = `/${game.url}/index.html`
+        } else {
+          gameSrc = `${serverUrl}/${game.url}`
+        }
+        
+        fullscreenWindow.document.write(`
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+              <meta charset="UTF-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <title>${game.name} - Fullscreen</title>
+              <style>
+                  body {
+                      margin: 0;
+                      padding: 0;
+                      background: #000;
+                      overflow: hidden;
+                      width: 100vw;
+                      height: 100vh;
+                  }
+                  iframe {
+                      position: absolute;
+                      top: 0;
+                      left: 0;
+                      width: 100%;
+                      height: 100%;
+                      border: none;
+                  }
+                  .close-btn {
+                      position: fixed;
+                      top: 10px;
+                      right: 10px;
+                      z-index: 9999;
+                      background: rgba(255, 255, 255, 0.9);
+                      color: #000;
+                      border: none;
+                      padding: 8px 16px;
+                      border-radius: 4px;
+                      cursor: pointer;
+                      font-size: 14px;
+                      font-weight: bold;
+                      transition: background 0.3s;
+                  }
+                  .close-btn:hover {
+                      background: rgba(255, 255, 255, 1);
+                  }
+              </style>
+          </head>
+          <body>
+              <button class="close-btn" onclick="window.close()">✕ Close</button>
+              <iframe src="${gameSrc}" frameborder="0" scrolling="no" allowfullscreen></iframe>
+              <script>
+                  // Request fullscreen on load
+                  document.addEventListener('DOMContentLoaded', function() {
+                      var docEl = document.documentElement;
+                      if (docEl.requestFullscreen) {
+                          docEl.requestFullscreen();
+                      } else if (docEl.webkitRequestFullscreen) {
+                          docEl.webkitRequestFullscreen();
+                      } else if (docEl.msRequestFullscreen) {
+                          docEl.msRequestFullscreen();
+                      }
+                  });
+              </script>
+          </body>
+          </html>
+        `)
+        fullscreenWindow.document.close()
+      }
     } catch (error) {
       console.error('Navigation error:', error)
       // Fallback: try opening in new tab

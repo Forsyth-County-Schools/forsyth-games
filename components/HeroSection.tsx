@@ -2,8 +2,6 @@
 
 import Image from 'next/image'
 import { Play, TrendingUp, Users, Star } from 'lucide-react'
-import { useRouter } from 'next/navigation'
-import { startTransition } from 'react'
 
 interface FeaturedGame {
   name: string
@@ -15,7 +13,6 @@ interface FeaturedGame {
 }
 
 export default function HeroSection() {
-  const router = useRouter()
   const featuredGame: FeaturedGame = {
     name: "1v1.LOL",
     image: "logo.png",
@@ -26,6 +23,79 @@ export default function HeroSection() {
   }
 
   const serverUrl = "https://gms.parcoil.com"
+
+  const handlePlayGame = () => {
+    // Open about:blank in fullscreen with game content
+    const fullscreenWindow = window.open('about:blank', '_blank')
+    if (fullscreenWindow) {
+      const gameSrc = `${serverUrl}/${featuredGame.url}`
+      
+      fullscreenWindow.document.write(`
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>${featuredGame.name} - Fullscreen</title>
+            <style>
+                body {
+                    margin: 0;
+                    padding: 0;
+                    background: #000;
+                    overflow: hidden;
+                    width: 100vw;
+                    height: 100vh;
+                }
+                iframe {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    border: none;
+                }
+                .close-btn {
+                    position: fixed;
+                    top: 10px;
+                    right: 10px;
+                    z-index: 9999;
+                    background: rgba(255, 255, 255, 0.9);
+                    color: #000;
+                    border: none;
+                    padding: 8px 16px;
+                    border-radius: 4px;
+                    cursor: pointer;
+                    font-size: 14px;
+                    font-weight: bold;
+                    transition: background 0.3s;
+                }
+                .close-btn:hover {
+                    background: rgba(255, 255, 255, 1);
+                }
+            </style>
+        </head>
+        <body>
+            <button class="close-btn" onclick="window.close()">✕ Close</button>
+            <iframe src="${gameSrc}" frameborder="0" scrolling="no" allowfullscreen></iframe>
+            <script>
+                // Request fullscreen on load
+                document.addEventListener('DOMContentLoaded', function() {
+                    var docEl = document.documentElement;
+                    if (docEl.requestFullscreen) {
+                        docEl.requestFullscreen();
+                    } else if (docEl.webkitRequestFullscreen) {
+                        docEl.webkitRequestFullscreen();
+                    } else if (docEl.msRequestFullscreen) {
+                        docEl.msRequestFullscreen();
+                    }
+                });
+            </script>
+        </body>
+        </html>
+      `)
+      fullscreenWindow.document.close()
+    }
+  }
 
   return (
     <section className="hero-reserve overflow-hidden bg-deep-space">
@@ -138,7 +208,7 @@ export default function HeroSection() {
                   {/* Fixed play button */}
                   <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/60">
                     <button
-                      onClick={() => startTransition(() => router.push(`/play?gameurl=${featuredGame.url}/`))}
+                      onClick={handlePlayGame}
                       className="premium-button px-6 py-3 rounded-full font-semibold flex items-center gap-2 btn-stable"
                     >
                       <span className="relative z-10 flex items-center gap-2 text-text-primary">

@@ -2,8 +2,6 @@
 
 import Image from 'next/image'
 import { Play, Users, Star, TrendingUp } from 'lucide-react'
-import { useRouter } from 'next/navigation'
-import { startTransition } from 'react'
 
 interface Game {
   name: string
@@ -23,7 +21,6 @@ interface BentoGameCardProps {
 }
 
 export default function BentoGameCard({ game, size, priority = false }: BentoGameCardProps) {
-  const router = useRouter()
   const GAME_SERVER = 'https://gms.parcoil.com'
   
   // Check if game has local assets (only 5 games: ducklife4, ducklife5, geodash, geodesicalxx, polytrack)
@@ -62,6 +59,88 @@ export default function BentoGameCard({ game, size, priority = false }: BentoGam
       'Racing': 'border-cyan-400/50 bg-cyan-400/10',
     }
     return colors[genre] || 'border-white/20 bg-white/5'
+  }
+
+  const handleGameClick = () => {
+    // Open about:blank in fullscreen with game content
+    const fullscreenWindow = window.open('about:blank', '_blank')
+    if (fullscreenWindow) {
+      let gameSrc: string
+      
+      // Determine the correct game source
+      if (game.url === 'madalin-stunt-cars-2') {
+        gameSrc = "https://www.madalingames.com/madalingames/wp-content/uploads/games/webgl/M/MSC2-WEBGL/index.html"
+      } else if (game.url.startsWith('games/')) {
+        gameSrc = `/${game.url}/index.html`
+      } else {
+        gameSrc = `${GAME_SERVER}/${game.url}`
+      }
+      
+      fullscreenWindow.document.write(`
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>${game.name} - Fullscreen</title>
+            <style>
+                body {
+                    margin: 0;
+                    padding: 0;
+                    background: #000;
+                    overflow: hidden;
+                    width: 100vw;
+                    height: 100vh;
+                }
+                iframe {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    border: none;
+                }
+                .close-btn {
+                    position: fixed;
+                    top: 10px;
+                    right: 10px;
+                    z-index: 9999;
+                    background: rgba(255, 255, 255, 0.9);
+                    color: #000;
+                    border: none;
+                    padding: 8px 16px;
+                    border-radius: 4px;
+                    cursor: pointer;
+                    font-size: 14px;
+                    font-weight: bold;
+                    transition: background 0.3s;
+                }
+                .close-btn:hover {
+                    background: rgba(255, 255, 255, 1);
+                }
+            </style>
+        </head>
+        <body>
+            <button class="close-btn" onclick="window.close()">✕ Close</button>
+            <iframe src="${gameSrc}" frameborder="0" scrolling="no" allowfullscreen></iframe>
+            <script>
+                // Request fullscreen on load
+                document.addEventListener('DOMContentLoaded', function() {
+                    var docEl = document.documentElement;
+                    if (docEl.requestFullscreen) {
+                        docEl.requestFullscreen();
+                    } else if (docEl.webkitRequestFullscreen) {
+                        docEl.webkitRequestFullscreen();
+                    } else if (docEl.msRequestFullscreen) {
+                        docEl.msRequestFullscreen();
+                    }
+                });
+            </script>
+        </body>
+        </html>
+      `)
+      fullscreenWindow.document.close()
+    }
   }
 
   return (
@@ -149,7 +228,7 @@ export default function BentoGameCard({ game, size, priority = false }: BentoGam
           {/* Simplified Play Button */}
           <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-black/60">
             <button
-              onClick={() => startTransition(() => router.push(`/play?gameurl=${game.url}/`))}
+              onClick={handleGameClick}
               className="premium-button px-4 py-2 rounded-full font-semibold flex items-center gap-2 text-sm"
             >
               <span className="relative z-10 flex items-center gap-2 text-text-primary">
