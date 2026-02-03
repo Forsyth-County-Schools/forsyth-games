@@ -18,8 +18,6 @@ function PlayPageContent() {
   const [retryCount, setRetryCount] = useState(0)
   const [gameStarted, setGameStarted] = useState(false)
 
-  const serverUrl = "/api/game"
-
   // Helper function to get the correct game source URL
   const getGameSrc = (url: string) => {
     if (url === 'madalin-stunt-cars-2') {
@@ -27,10 +25,11 @@ function PlayPageContent() {
     } else if (url.startsWith('games/')) {
       return `/${url}/index.html`
     } else if (url.startsWith('http://') || url.startsWith('https://')) {
-      // Full URL from GitHub - proxy it through our API
-      return `${serverUrl}/${encodeURIComponent(url)}`
+      // Direct GitHub URL - load directly without proxy
+      return url
     } else {
-      return `${serverUrl}/${url}`
+      // For any remaining relative paths, assume they're local
+      return `/${url}/index.html`
     }
   }
 

@@ -71,6 +71,20 @@ const nextConfig = {
         ],
       },
       {
+        // Fix compression issues for static assets
+        source: '/_next/static/(.*)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+          {
+            key: 'Vary',
+            value: 'Accept-Encoding',
+          },
+        ],
+      },
+      {
         source: '/api/:path*',
         headers: [
           {
@@ -89,14 +103,9 @@ const nextConfig = {
             key: 'Access-Control-Allow-Headers',
             value: '*',
           },
-        ],
-      },
-      {
-        source: '/_next/static/(.*)',
-        headers: [
           {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
+            key: 'Vary',
+            value: 'Accept-Encoding',
           },
         ],
       },
