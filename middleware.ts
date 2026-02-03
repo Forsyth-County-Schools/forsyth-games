@@ -4,28 +4,37 @@ import type { NextRequest } from 'next/server';
 export function middleware(request: NextRequest) {
   const response = NextResponse.next();
   
+  // Game backend server URL
+  const gameServerUrl = 'https://forsyth-games.onrender.com';
+  
   // Relaxed Content Security Policy for better game compatibility
+  // Games require permissive policies to load external resources, scripts, and styles
+  // Note: This CSP is intentionally permissive because games from various sources
+  // need to load scripts, styles, images, and other resources dynamically
   const cspDirectives = [
-    "default-src 'self' https: data: blob:",
-    // Script sources - allow self, inline (for Next.js), eval (for games), and CDNs
-    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https: blob: data:",
-    // Worker sources
-    "worker-src 'self' blob:",
-    // Object sources
-    "object-src 'self' https: data:",
-    // Style sources
-    "style-src 'self' 'unsafe-inline' https:",
-    // Image sources - allow all HTTPS and data URIs
-    "img-src 'self' data: https: blob:",
+    // Default: allow self, HTTPS, data URIs, blobs, and the game server
+    `default-src 'self' ${gameServerUrl} https: data: blob:`,
+    // Script sources - allow self, inline, eval (required for games), and HTTPS
+    `script-src 'self' 'unsafe-inline' 'unsafe-eval' ${gameServerUrl} https: blob: data:`,
+    // Worker sources - games may use web workers
+    `worker-src 'self' ${gameServerUrl} blob: https:`,
+    // Object sources - for Flash/Unity games
+    `object-src 'self' ${gameServerUrl} https: data: blob:`,
+    // Style sources - games inject styles dynamically
+    `style-src 'self' 'unsafe-inline' ${gameServerUrl} https:`,
+    // Image sources - allow HTTPS and data URIs for game assets
+    `img-src 'self' ${gameServerUrl} data: https: blob:`,
     // Font sources
-    "font-src 'self' data: https:",
-    // Connect sources - allow HTTPS connections
-    "connect-src 'self' https: wss: blob: data:",
-    // Media sources
-    "media-src 'self' https: blob: data:",
-    // Frame sources - allow games and required services
-    "frame-src 'self' https:",
-    // Restrict framing to prevent clickjacking
+    `font-src 'self' ${gameServerUrl} data: https:`,
+    // Connect sources - allow HTTPS and secure WebSocket connections
+    `connect-src 'self' ${gameServerUrl} https: wss: blob: data:`,
+    // Media sources - for game audio/video
+    `media-src 'self' ${gameServerUrl} https: blob: data:`,
+    // Frame sources - allow games from HTTPS sources and the game server
+    `frame-src 'self' ${gameServerUrl} https: blob: data:`,
+    // Child sources - for nested workers and frames
+    `child-src 'self' ${gameServerUrl} https: blob:`,
+    // Allow framing from self only
     "frame-ancestors 'self'"
   ]
   
