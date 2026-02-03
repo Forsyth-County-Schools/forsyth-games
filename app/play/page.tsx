@@ -372,7 +372,7 @@ function PlayPageContent() {
             allowFullScreen
             onLoad={handleIframeLoad}
             onError={handleIframeError}
-            sandbox="allow-scripts allow-forms allow-popups allow-modals allow-pointer-lock allow-downloads allow-orientation-lock allow-presentation allow-top-navigation"
+            sandbox="allow-scripts allow-forms allow-popups allow-modals allow-pointer-lock allow-downloads allow-orientation-lock allow-presentation allow-top-navigation-by-user-activation"
             referrerPolicy="no-referrer-when-downgrade"
           />
         </div>
