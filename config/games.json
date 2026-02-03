@@ -79,8 +79,8 @@
   },
   {
     "name": "Polytrack",
-    "image": "geoscratchicon.png",
-    "url": "geodash",
+    "image": "polytrack.png",
+    "url": "polytrack",
     "new": true
   },
   {
