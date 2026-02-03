@@ -85,11 +85,15 @@ function PlayPageContent() {
                     height: 100%;
                     border: none;
                 }
-                .close-btn {
+                .toolbar {
                     position: fixed;
                     top: 10px;
                     right: 10px;
                     z-index: 9999;
+                    display: flex;
+                    gap: 8px;
+                }
+                .toolbar-btn {
                     background: rgba(255, 255, 255, 0.9);
                     color: #000;
                     border: none;
@@ -100,31 +104,46 @@ function PlayPageContent() {
                     font-weight: bold;
                     transition: background 0.3s;
                 }
-                .close-btn:hover {
+                .toolbar-btn:hover {
                     background: rgba(255, 255, 255, 1);
+                }
+                .fullscreen-btn {
+                    background: rgba(76, 175, 80, 0.9);
+                    color: #fff;
+                }
+                .fullscreen-btn:hover {
+                    background: rgba(76, 175, 80, 1);
                 }
             </style>
         </head>
         <body>
-            <button class="close-btn" onclick="window.close()">✕ Close</button>
-            <iframe src="${gameSrc}" frameborder="0" scrolling="no" allowfullscreen></iframe>
+            <div class="toolbar">
+                <button class="toolbar-btn fullscreen-btn" onclick="toggleFullscreen()">⛶ Fullscreen</button>
+                <button class="toolbar-btn" onclick="window.close()">✕ Close</button>
+            </div>
+            <iframe src="${gameSrc}" allowfullscreen></iframe>
+            <script>
+                function toggleFullscreen() {
+                    const docEl = document.documentElement;
+                    if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+                        if (docEl.requestFullscreen) {
+                            docEl.requestFullscreen();
+                        } else if (docEl.webkitRequestFullscreen) {
+                            docEl.webkitRequestFullscreen();
+                        }
+                    } else {
+                        if (document.exitFullscreen) {
+                            document.exitFullscreen();
+                        } else if (document.webkitExitFullscreen) {
+                            document.webkitExitFullscreen();
+                        }
+                    }
+                }
+            </script>
         </body>
         </html>
       `)
       fullscreenWindow.document.close()
-      
-      // Try to request fullscreen for the new window
-      const docEl = fullscreenWindow.document.documentElement as HTMLElement & {
-        webkitRequestFullscreen?: () => Promise<void>;
-        msRequestFullscreen?: () => Promise<void>;
-      }
-      if (docEl.requestFullscreen) {
-        docEl.requestFullscreen()
-      } else if (docEl.webkitRequestFullscreen) {
-        docEl.webkitRequestFullscreen()
-      } else if (docEl.msRequestFullscreen) {
-        docEl.msRequestFullscreen()
-      }
     }
   }
 
@@ -372,7 +391,6 @@ function PlayPageContent() {
             allowFullScreen
             onLoad={handleIframeLoad}
             onError={handleIframeError}
-            sandbox="allow-scripts allow-forms allow-popups allow-modals allow-pointer-lock allow-downloads allow-orientation-lock allow-presentation allow-top-navigation-by-user-activation"
             referrerPolicy="no-referrer-when-downgrade"
           />
         </div>
