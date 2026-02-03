@@ -165,6 +165,13 @@ export async function GET(
             /(<(?:script|link|img|source|iframe)[^>]*(?:src|href)=["'])\/(?!api\/game)/gi,
             `$1${vercelProxyBase}/${gameId}/`
           );
+          
+          // Pattern 4: Handle relative paths (not starting with / or http)
+          // Replace relative paths in src/href to go through proxy
+          content = content.replace(
+            /(<(?:script|link|img|source|iframe)[^>]*(?:src|href)=["'])(?!https?:\/\/|\/\/|\/|data:|blob:|#)([^"']+)(["'])/gi,
+            `$1${vercelProxyBase}/${gameId}/$2$3`
+          );
         }
         
         // Remove content-length header as we modified the content

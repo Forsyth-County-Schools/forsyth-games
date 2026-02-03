@@ -74,6 +74,34 @@ const nextConfig = {
           },
         ],
       },
+      {
+        source: '/game-proxy/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=86400, stale-while-revalidate=604800, immutable',
+          },
+          {
+            key: 'Access-Control-Allow-Origin',
+            value: '*',
+          },
+          {
+            key: 'Access-Control-Allow-Methods',
+            value: 'GET, OPTIONS',
+          },
+        ],
+      },
+    ]
+  },
+  
+  // Rewrites for game asset proxying
+  // This provides an efficient way to proxy external game assets through Vercel
+  async rewrites() {
+    return [
+      {
+        source: '/game-proxy/:path*',
+        destination: 'https://gms.parcoil.com/:path*',
+      },
     ]
   },
 }
