@@ -51,7 +51,6 @@ const BLOCKED_DOMAINS = [
 
 // Game-related domains that should be allowed
 const ALLOWED_GAME_DOMAINS = [
-  'gms.parcoil.com',
   'cdn.jsdelivr.net',
   'github.com',
   'raw.githubusercontent.com'
@@ -127,7 +126,6 @@ function setupBlocking() {
             // Game-related attributes that should be allowed
             const gameIndicators = [
               'game-',
-              'gms.parcoil.com',
               'game-container',
               'game-iframe',
               'game-content'

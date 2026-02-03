@@ -25,7 +25,7 @@ export default function HeroSection() {
     rating: 4.8
   }
 
-  const serverUrl = "https://gms.parcoil.com"
+  // All games now use GitHub URLs - no need for server constant
 
   return (
     <section className="hero-reserve overflow-hidden bg-deep-space">
@@ -119,7 +119,7 @@ export default function HeroSection() {
                 {/* Fixed height image container */}
                 <div className="relative h-80 overflow-hidden image-placeholder">
                   <Image
-                    src={`${serverUrl}/${featuredGame.url}/${featuredGame.image}`}
+                    src={featuredGame.image}
                     alt={featuredGame.name}
                     fill
                     className="object-cover transition-transform duration-300 group-hover:scale-105"

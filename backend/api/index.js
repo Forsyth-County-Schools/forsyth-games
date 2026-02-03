@@ -7,7 +7,8 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 // Game server URL
-const GAME_SERVER_URL = 'https://gms.parcoil.com';
+// All games now use GitHub URLs - no game server needed
+// const GAME_SERVER_URL = 'removed';
 
 // Middleware
 // NOTE: frameguard is disabled to allow game embedding in iframes from any domain

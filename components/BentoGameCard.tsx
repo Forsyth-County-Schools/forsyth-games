@@ -24,16 +24,16 @@ interface BentoGameCardProps {
 
 export default function BentoGameCard({ game, size, priority = false }: BentoGameCardProps) {
   const router = useRouter()
-  const GAME_SERVER = 'https://gms.parcoil.com'
+  // All games now use GitHub URLs - no need for server constant
   
   // Check if game has local assets (only 5 games: ducklife4, ducklife5, geodash, geodesicalxx, polytrack)
   const localGames = ['games/ducklife4', 'games/ducklife5', 'games/geodash', 'geodesicalxx', 'polytrack', 'geodash']
   const hasLocalAssets = localGames.includes(game.url)
   
-  // Use local path if assets exist locally, otherwise use game server
+  // Use local path if assets exist locally, otherwise use the game's image path directly
   const imageUrl = hasLocalAssets 
     ? `/games/${game.url}/${game.image}`
-    : `${GAME_SERVER}/${game.url}/${game.image}`
+    : game.image
 
   // Add validation for image URL
   const isValidImageUrl = imageUrl && imageUrl.trim() !== '' && !imageUrl.includes('undefined')
@@ -95,11 +95,8 @@ export default function BentoGameCard({ game, size, priority = false }: BentoGam
                   `/games/${game.url}/icon.png`,
                   `/games/${game.url}/splash.png`,
                 ] : [
-                  `${GAME_SERVER}/${game.url}/${game.image}`,
-                  `${GAME_SERVER}/${game.url}/logo.png`,
-                  `${GAME_SERVER}/${game.url}/icon.png`,
-                  `${GAME_SERVER}/${game.url}/splash.png`,
-                  `${GAME_SERVER}/${game.url}/thumbnail.png`
+                  game.image, // Use the direct image path from games.json (now points to placeholder)
+                  '/games/placeholder.svg', // Fallback to placeholder
                 ]
                 
                 let tried = 0

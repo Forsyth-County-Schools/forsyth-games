@@ -16,10 +16,6 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'gms.parcoil.com',
-      },
-      {
-        protocol: 'https',
         hostname: 'site.imsglobal.org',
       },
       // Add CDN domains for game assets
@@ -133,15 +129,9 @@ const nextConfig = {
     ]
   },
   
-  // Rewrites for game asset proxying
-  // This provides an efficient way to proxy external game assets through Vercel
+  // Rewrites removed - all games now use direct GitHub URLs
   async rewrites() {
-    return [
-      {
-        source: '/game-proxy/:path*',
-        destination: 'https://gms.parcoil.com/:path*',
-      },
-    ]
+    return []
   },
 }
 

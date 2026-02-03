@@ -5,7 +5,7 @@ export function middleware(request: NextRequest) {
   const response = NextResponse.next();
   
   // All games now served through Vercel API routes - no external server needed
-  // Games are proxied through /api/game which fetches from gms.parcoil.com
+  // Games are proxied through /api/game which fetches from GitHub
   
   // Extremely permissive Content Security Policy to allow all JavaScript including eval
   // This allows games to load external resources, scripts, styles, and use eval/inline scripts

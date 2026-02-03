@@ -3,8 +3,6 @@ import type { NextRequest } from 'next/server';
 
 export const dynamic = 'force-dynamic';
 
-const GAME_SERVER_URL = 'https://gms.parcoil.com';
-
 // Cache duration constants
 const ONE_HOUR = 3600;
 const ONE_DAY = 86400;
@@ -67,9 +65,20 @@ export async function GET(
     if (gamePath.startsWith('http://') || gamePath.startsWith('https://')) {
       targetUrl = gamePath;
     } else {
-      // For relative paths, use the old game server (for legacy games)
-      const isFile = gamePath.match(/\.[a-zA-Z0-9]+$/); // Has file extension
-      targetUrl = `${GAME_SERVER_URL}/${gamePath}${!isFile ? '/' : ''}`;
+      // All games should now be full URLs - reject relative paths
+      return new NextResponse(
+        JSON.stringify({
+          error: 'Invalid game URL - only full URLs are supported',
+          path: gamePath
+        }), 
+        { 
+          status: 400,
+          headers: {
+            'Content-Type': 'application/json',
+            ...corsHeaders
+          }
+        }
+      );
     }
     
     console.log(`Proxying game request: ${targetUrl}`);
@@ -83,7 +92,6 @@ export async function GET(
         signal: controller.signal,
         headers: {
           'User-Agent': request.headers.get('user-agent') || 'Mozilla/5.0',
-          'Referer': GAME_SERVER_URL,
           'Accept': request.headers.get('accept') || '*/*',
         },
       });
@@ -158,7 +166,7 @@ export async function GET(
         const gameId = pathSegments[0];
         
         // Rewrite various URL patterns to go through Vercel proxy
-        // Pattern 1: Absolute URLs to gms.parcoil.com
+        // Pattern 1: Absolute URLs to GitHub
         content = content.replace(
           new RegExp(`https?://gms\\.parcoil\\.com/${gameId}/`, 'g'),
           `${vercelProxyBase}/${gameId}/`

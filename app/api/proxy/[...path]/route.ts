@@ -37,13 +37,14 @@ export async function GET(request: NextRequest) {
       
       // Get allowed domains from environment variable with fallback
       const allowedDomains = process.env.ALLOWED_GAME_DOMAINS?.split(',').map(d => d.trim()) || [
-        'gms.parcoil.com',
         'www.crazygames.com',
         '*.parcoil.com',
         '*.crazygames.com',
         'site.imsglobal.org',
         'cdn.jsdelivr.net',
-        '*.cloudflare.com'
+        '*.cloudflare.com',
+        'raw.githubusercontent.com',
+        'github.com'
       ];
 
       const isDomainAllowed = allowedDomains.some(domain => {
