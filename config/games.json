@@ -1,7 +1,7 @@
 [
   {
     "name": "Madalin Stunt Cars 2",
-    "image": "splash.png",
+    "image": "/games/madalin-stunt-cars-2/splash.png",
     "url": "madalin-stunt-cars-2",
     "new": true
   },
@@ -79,7 +79,7 @@
   },
   {
     "name": "Polytrack",
-    "image": "polytrack.png",
+    "image": "/games/polytrack/polytrack.png",
     "url": "polytrack",
     "new": true
   },

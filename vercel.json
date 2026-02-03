@@ -1,0 +1,69 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/next"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/games/(?<game>[^/]+)/(?<path>.*)",
+      "dest": "/games/$game/$path"
+    },
+    {
+      "src": "/games/([^/]+)$",
+      "dest": "/games/$1"
+    },
+    {
+      "src": "/api/proxy/(.*)",
+      "dest": "/api/proxy/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
+    }
+  ],
+  "cors": {
+    "allowedOrigins": ["*"],
+    "allowedMethods": ["GET", "OPTIONS"],
+    "allowedHeaders": ["Content-Type", "Authorization"],
+    "maxAge": 86400
+  },
+  "headers": [
+    {
+      "source": "/games/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        },
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        }
+      ]
+    },
+    {
+      "source": "/api/proxy/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400, s-maxage=86400, stale-while-revalidate=3600"
+        },
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Access-Control-Allow-Methods",
+          "value": "GET, OPTIONS"
+        },
+        {
+          "key": "Access-Control-Allow-Headers",
+          "value": "Content-Type, Authorization"
+        }
+      ]
+    }
+  ]
+}

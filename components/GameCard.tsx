@@ -19,21 +19,51 @@ interface GameCardProps {
 
 export default function GameCard({ game }: GameCardProps) {
   const router = useRouter()
-  const serverUrl = "https://gms.parcoil.com"
   
-  // Validate image URL
-  const imageUrl = `${serverUrl}/${game.url}/${game.image}`
-  const isValidImageUrl = game.url && game.image && !imageUrl.includes('undefined')
+  // Determine if we're using a local game or external URL
+  const isLocalGame = !game.url.startsWith('http') && !game.url.includes('.')
+  
+  // Handle game images
+  let imageUrl = game.image;
+  
+  if (isLocalGame) {
+    // For local games, use direct path to game files in public/games
+    if (game.image.startsWith('http')) {
+      // Keep external URLs as is (shouldn't happen for local games)
+      imageUrl = game.image;
+    } else if (game.image.startsWith('/')) {
+      // Already has correct path
+      imageUrl = game.image;
+    } else {
+      // Prepend /games/ for local game assets
+      imageUrl = `/games/${game.url}/${game.image}`;
+    }
+  } else {
+    // For external games, use the full URL
+    imageUrl = game.image.startsWith('http') ? game.image : `${game.url}/${game.image}`;
+  }
   
   const handleGameClick = () => {
     try {
       startTransition(() => {
-        router.push(`/play?gameurl=${game.url}/`)
+        if (isLocalGame) {
+          // Use our new local game route
+          router.push(`/games/${game.url}`)
+        } else {
+          // Use proxy for external games
+          const encodedUrl = encodeURIComponent(game.url);
+          router.push(`/games/proxy?url=${encodedUrl}`);
+        }
       })
     } catch (error) {
       console.error('Navigation error:', error)
       // Fallback: try opening in new tab
-      window.open(`/play?gameurl=${game.url}/`, '_blank')
+      if (isLocalGame) {
+        window.open(`/games/${game.url}`, '_blank')
+      } else {
+        const encodedUrl = encodeURIComponent(game.url);
+        window.open(`/games/proxy?url=${encodedUrl}`, '_blank');
+      }
     }
   }
 
@@ -103,51 +133,19 @@ export default function GameCard({ game }: GameCardProps) {
         )}
         
         {/* Game Image */}
-        <div className="relative aspect-square overflow-hidden">
-          {isValidImageUrl ? (
-            <Image
-              src={imageUrl}
-              alt={game.name}
-              width={200}
-              height={200}
-              className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-              onError={(e) => {
-                const target = e.target as HTMLImageElement
-                
-                // Try local fallbacks first
-                const localFallbacks = [
-                  `/games/${game.url}/${game.image}`,
-                  `/games/${game.url}/logo.png`,
-                  `/games/${game.url}/icon.png`,
-                  `/games/${game.url}/splash.png`,
-                  `/games/${game.url}/thumbnail.png`
-                ]
-                
-                let tried = 0
-                
-                const tryAlternative = () => {
-                  if (tried < localFallbacks.length) {
-                    target.src = localFallbacks[tried]
-                    tried++
-                  } else {
-                    // Final fallback to SVG placeholder
-                    target.src = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='%231a1a1a'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23a1a1aa' font-family='Arial' font-size='14'%3E${game.name}%3C/text%3E%3C/svg%3E`
-                  }
-                }
-                
-                tryAlternative()
-              }}
-            />
-          ) : (
-            <div className="w-full h-full bg-surface/20 flex items-center justify-center">
-              <div className="text-center">
-                <div className="w-12 h-12 bg-neon-blue/20 rounded-full flex items-center justify-center mx-auto mb-2">
-                  <div className="w-6 h-6 bg-neon-blue/40 rounded-full"></div>
-                </div>
-                <p className="text-text-secondary text-xs">{game.name}</p>
-              </div>
-            </div>
-          )}
+        <div className="relative aspect-video w-full overflow-hidden rounded-t-lg bg-gray-100">
+          <Image
+            src={imageUrl}
+            alt={game.name}
+            fill
+            className="object-cover transition-transform duration-300 group-hover:scale-105"
+            unoptimized={imageUrl.startsWith('http')}
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              // Fallback to SVG placeholder if image fails to load
+              target.src = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='%23f3f4f6'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%239ca3af' font-family='Arial' font-size='14'%3E${encodeURIComponent(game.name)}%3C/text%3E%3C/svg%3E`;
+            }}
+          />
           
           {/* Hover Overlay */}
           <motion.div

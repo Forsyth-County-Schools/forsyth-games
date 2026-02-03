@@ -11,7 +11,7 @@ import gamesData from '@/config/games.json'
 
 function PlayPageContent() {
   const searchParams = useSearchParams()
-  const gameUrl = searchParams.get('gameurl')
+  const gameUrl = searchParams?.get('gameurl') || ''
   const [gameData, setGameData] = useState<{ name: string; image: string; url: string; new: boolean } | null>(null)
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(true)
