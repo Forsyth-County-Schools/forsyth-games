@@ -25,9 +25,12 @@ export async function OPTIONS() {
 // Handle GET requests to proxy game content
 export async function GET(
   request: NextRequest,
-  { params }: { params: { path: string[] } }
+  context: { params: Promise<{ path: string[] }> }
 ) {
   try {
+    // Await params in Next.js 15+
+    const params = await context.params;
+    
     // Get the path segments
     const pathSegments = params.path || [];
     const gamePath = pathSegments.join('/');
@@ -112,7 +115,62 @@ export async function GET(
         if (value) responseHeaders.set(header, value);
       });
 
-      // Get the content as array buffer to handle binary files
+      // For text-based content (HTML, CSS, JS), rewrite URLs to go through Vercel proxy
+      if (contentType.includes('text/html') || 
+          contentType.includes('text/css') || 
+          contentType.includes('application/javascript') ||
+          contentType.includes('text/javascript')) {
+        
+        let content = await response.text();
+        
+        // Get the base URL for this request
+        const requestUrl = new URL(request.url);
+        const vercelProxyBase = `${requestUrl.protocol}//${requestUrl.host}/api/game`;
+        
+        // Extract the game name from the path (first segment)
+        const gameId = pathSegments[0];
+        
+        // Rewrite various URL patterns to go through Vercel proxy
+        // Pattern 1: Absolute URLs to gms.parcoil.com
+        content = content.replace(
+          new RegExp(`https?://gms\\.parcoil\\.com/${gameId}/`, 'g'),
+          `${vercelProxyBase}/${gameId}/`
+        );
+        content = content.replace(
+          new RegExp(`https?://gms\\.parcoil\\.com/`, 'g'),
+          `${vercelProxyBase}/`
+        );
+        
+        // Pattern 2: Protocol-relative URLs
+        content = content.replace(
+          new RegExp(`//gms\\.parcoil\\.com/${gameId}/`, 'g'),
+          `${vercelProxyBase}/${gameId}/`
+        );
+        content = content.replace(
+          new RegExp(`//gms\\.parcoil\\.com/`, 'g'),
+          `${vercelProxyBase}/`
+        );
+        
+        // Pattern 3: Relative paths that might reference the root
+        // Make sure paths starting with / in the game context go through proxy
+        if (contentType.includes('text/html')) {
+          // In HTML, replace src and href attributes that point to absolute paths
+          content = content.replace(
+            /(<(?:script|link|img|source|iframe)[^>]*(?:src|href)=["'])\/(?!api\/game)/gi,
+            `$1${vercelProxyBase}/${gameId}/`
+          );
+        }
+        
+        // Remove content-length header as we modified the content
+        responseHeaders.delete('content-length');
+        
+        return new NextResponse(content, {
+          status: 200,
+          headers: Object.fromEntries(responseHeaders.entries())
+        });
+      }
+
+      // For binary content, pass through as-is
       const content = await response.arrayBuffer();
       
       return new NextResponse(content, {
