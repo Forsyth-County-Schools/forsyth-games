@@ -189,6 +189,11 @@ export async function GET(
         
         // Ensure proper content type for HTML
         responseHeaders.set('Content-Type', 'text/html; charset=utf-8');
+        responseHeaders.set('X-Content-Type-Options', 'nosniff');
+        
+        // Add headers to ensure proper rendering in iframe
+        responseHeaders.set('Content-Security-Policy', "frame-ancestors 'self' http://localhost:* https://*.vercel.app");
+        responseHeaders.set('Referrer-Policy', 'no-referrer-when-downgrade');
         
         return new NextResponse(content, {
           status: 200,
